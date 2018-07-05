@@ -1,4 +1,4 @@
-package com.example.howtodoinjava.alexa;
+package de.dotzinerd.mentalarithmetic;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -6,7 +6,7 @@ import java.util.Set;
 import com.amazon.speech.speechlet.Speechlet;
 import com.amazon.speech.speechlet.lambda.SpeechletRequestStreamHandler;
 
-public class SayHelloRequestStreamHandler extends SpeechletRequestStreamHandler {
+public class MentalArithmeticStreamHandler extends SpeechletRequestStreamHandler {
 	private static final Set<String> supportedApplicationIds;
 
 	static {
@@ -21,11 +21,11 @@ public class SayHelloRequestStreamHandler extends SpeechletRequestStreamHandler 
 		System.out.println("Supported app ids : " + supportedApplicationIds);
 	}
 
-	public SayHelloRequestStreamHandler() {
-		super(new SayHelloSpeechlet(), supportedApplicationIds);
+	public MentalArithmeticStreamHandler() {
+		super(new MentalArithmeticSpeechlet(), supportedApplicationIds);
 	}
 
-	public SayHelloRequestStreamHandler(Speechlet speechlet, Set<String> supportedApplicationIds) {
+	public MentalArithmeticStreamHandler(Speechlet speechlet, Set<String> supportedApplicationIds) {
 		super(speechlet, supportedApplicationIds);
 	}
 }

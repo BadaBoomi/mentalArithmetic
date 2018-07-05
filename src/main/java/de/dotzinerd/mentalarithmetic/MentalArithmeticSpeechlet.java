@@ -1,4 +1,4 @@
-package com.example.howtodoinjava.alexa;
+package de.dotzinerd.mentalarithmetic;
 
 import com.amazon.speech.slu.Intent;
 import com.amazon.speech.speechlet.IntentRequest;
@@ -13,7 +13,7 @@ import com.amazon.speech.ui.PlainTextOutputSpeech;
 import com.amazon.speech.ui.Reprompt;
 import com.amazon.speech.ui.SimpleCard;
 
-public class SayHelloSpeechlet implements Speechlet {
+public class MentalArithmeticSpeechlet implements Speechlet {
 	public SpeechletResponse onLaunch(final LaunchRequest request, final Session session) throws SpeechletException {
 		System.out.println(
 				"onLaunch requestId={}, sessionId={} " + request.getRequestId() + " - " + session.getSessionId());
