@@ -15,7 +15,7 @@ public class MentalArithmeticStreamHandler extends SpeechletRequestStreamHandler
 		 * the relevant Alexa Skill and put the relevant Application Ids in this Set.
 		 */
 		supportedApplicationIds = new HashSet<String>();
-		supportedApplicationIds.add("amzn1.ask.skill.a0133886-af65-4b67-97d4-8a1254823ded");
+		supportedApplicationIds.add("amzn1.ask.skill.9412c659-275e-43ff-9888-8a42ddab5f8b");
 		// supportedApplicationIds.add("[Add your Alexa Skill ID and then uncomment and
 		// ]";
 		System.out.println("Supported app ids : " + supportedApplicationIds);
