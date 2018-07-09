@@ -2,9 +2,10 @@ package de.dotzinerd.mentalarithmetic;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.amazon.speech.slu.Intent;
 import com.amazon.speech.speechlet.Directive;
@@ -31,11 +32,15 @@ public class MentalArithmeticSpeechlet implements Speechlet {
 	private static int ADD = 1;
 	private static int SUB = 2;
 	private static int DIV = 3;
+	private static String CURRENT_TURN = "TURN";
 	private static String SLOT_USER_RESPONSE = "numberResponse";
+	private static String MAX_TURN = "MAX_TURN";
+	private static String START_TIME_INTENT="START_TIME_INTENT";
+	
 
 	// Initialize the Log4j logger.
-	static final Logger logger = LogManager.getLogger(MentalArithmeticSpeechlet.class);
-	
+
+	static final Logger logger = LoggerFactory.getLogger(MentalArithmeticSpeechlet.class);
 
 	public SpeechletResponse onLaunch(final LaunchRequest request, final Session session) throws SpeechletException {
 		System.out.println(
@@ -68,40 +73,16 @@ public class MentalArithmeticSpeechlet implements Speechlet {
 
 	private SpeechletResponse simpleMultiplication(Intent intent, DialogState state, Session session) {
 		logger.info("simpleMultiplication:" + state.toString());
-		SpeechletResponse speechletResp = new SpeechletResponse();
-		PlainTextOutputSpeech speech = new PlainTextOutputSpeech();
 
+		SpeechletResponse speechletResp = null;
+		
 		if (state.equals(DialogState.STARTED)) {
 			System.out.println("bin hier A");
-			Integer op1 = (int) (Math.random() * 8) + 2;
-			Integer op2 = (int) (Math.random() * 8) + 2;
-			Integer result = op1 * op2;
-			String speechText = "Was macht " + op1 + " mal " + op2 + "?";
-			session.setAttribute(CURRENT_OPERATION, MULT);
-			session.setAttribute(OPERATOR_1, op1);
-			session.setAttribute(OPERATOR_2, op2);
-			session.setAttribute(EXPECTED_ANSWER, String.valueOf(result));
-			// Create the Simple card content.
-
-			SimpleCard card = new SimpleCard();
-			card.setTitle("Einmaleins Aufgabe");
-			card.setContent(speechText);
-			speech.setText(speechText);
-
-			// ask user for his result (value of slot)
-			ElicitSlotDirective directive = new ElicitSlotDirective();
-			directive.setSlotToElicit(SLOT_USER_RESPONSE);
-
-			List<Directive> directiveList = new ArrayList<>();
-			directiveList.add(directive);
-
-//			speechletResp.setCard(card);
-			speechletResp.setDirectives(directiveList);
-			speechletResp.setNullableShouldEndSession(false);
-			Reprompt reprompt = new Reprompt();
-			reprompt.setOutputSpeech(speech);
-			speechletResp.setReprompt(reprompt);
-			speechletResp.setOutputSpeech(speech);
+			session.setAttribute(MAX_TURN, 2);
+			session.setAttribute(CURRENT_TURN, 1);
+			session.setAttribute(START_TIME_INTENT, System.currentTimeMillis());
+			
+			speechletResp= createSpeechletResponseForUserFeedback(session, null);
 
 		} else {
 			System.out.println("bin hier B");
@@ -110,11 +91,60 @@ public class MentalArithmeticSpeechlet implements Speechlet {
 			String answer = (session.getAttribute(EXPECTED_ANSWER))
 					.equals(intent.getSlot(SLOT_USER_RESPONSE).getValue()) ? "Richtig!" : "Leider Falsch!";
 
-			speech.setText(answer);
-			speechletResp.setOutputSpeech(speech);
-			speechletResp.setNullableShouldEndSession(true);
+			if ((Integer) (session.getAttribute(MAX_TURN)) > (Integer) (session.getAttribute(CURRENT_TURN))) {
+				session.setAttribute(CURRENT_TURN, (Integer) (session.getAttribute(CURRENT_TURN)) + 1);
+				speechletResp= createSpeechletResponseForUserFeedback(session, answer);
+				speechletResp.setOutputSpeech(speechletResp.getOutputSpeech());
+				
+			} else {
+				PlainTextOutputSpeech speech = new PlainTextOutputSpeech();
+				Long timeUsed=TimeUnit.MILLISECONDS.toSeconds((System.currentTimeMillis()- (Long) (session.getAttribute(START_TIME_INTENT))));
+				answer+=". Gesamtdauer war " + String.valueOf(timeUsed.intValue()) + " Sekunden";
+				speech.setText(answer);
+				speechletResp = new SpeechletResponse();
+				speechletResp.setOutputSpeech(speech);
+				speechletResp.setNullableShouldEndSession(true);
+			}
 
 		}
+		return speechletResp;
+	}
+
+	private SpeechletResponse createSpeechletResponseForUserFeedback(Session session, String answer) {
+		PlainTextOutputSpeech speech = new PlainTextOutputSpeech();
+		SpeechletResponse speechletResp = new SpeechletResponse();
+
+		Integer op1 = (int) (Math.random() * 8) + 2;
+		Integer op2 = (int) (Math.random() * 8) + 2;
+		Integer result = op1 * op2;
+		String question="Was macht " + op1 + " mal " + op2 + "?";
+		String speechText = (answer==null) ?  question: answer+". "+ question;
+		session.setAttribute(CURRENT_OPERATION, MULT);
+		session.setAttribute(OPERATOR_1, op1);
+		session.setAttribute(OPERATOR_2, op2);
+		session.setAttribute(EXPECTED_ANSWER, String.valueOf(result));
+		
+		// Create the Simple card content.
+
+		SimpleCard card = new SimpleCard();
+		card.setTitle("Einmaleins Aufgabe");
+		card.setContent(speechText);
+		speech.setText(speechText);
+
+		// ask user for his result (value of slot)
+		ElicitSlotDirective directive = new ElicitSlotDirective();
+		directive.setSlotToElicit(SLOT_USER_RESPONSE);
+
+		List<Directive> directiveList = new ArrayList<>();
+		directiveList.add(directive);
+
+//			speechletResp.setCard(card);
+		speechletResp.setDirectives(directiveList);
+		speechletResp.setNullableShouldEndSession(false);
+		Reprompt reprompt = new Reprompt();
+		reprompt.setOutputSpeech(speech);
+		speechletResp.setReprompt(reprompt);
+		speechletResp.setOutputSpeech(speech);
 		return speechletResp;
 	}
 
