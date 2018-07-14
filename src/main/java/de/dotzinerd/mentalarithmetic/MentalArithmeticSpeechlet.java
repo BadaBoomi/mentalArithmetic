@@ -36,8 +36,8 @@ public class MentalArithmeticSpeechlet implements Speechlet {
 	private static String SLOT_USER_RESPONSE = "numberResponse";
 	private static String MAX_TURN = "MAX_TURN";
 	private static String START_TIME_INTENT = "START_TIME_INTENT";
-	private static String SLOT_QUEST_NAME="questName";
-	
+	private static String SLOT_QUEST_NAME = "questName";
+
 	private Quest currentQuest;
 
 	// Initialize the Log4j logger.
@@ -62,9 +62,13 @@ public class MentalArithmeticSpeechlet implements Speechlet {
 
 		System.out.println("intentName : " + intentName);
 		System.out.println("state: " + state);
-		if ("performQuest".equals(intentName))
+		if ("performQuest".equals(intentName)) {
+			System.out.println(SLOT_QUEST_NAME + ":" + intent.getSlot(SLOT_QUEST_NAME).getValue());
+			System.out.println(SLOT_QUEST_NAME + " ID:" + intent.getSlot(SLOT_QUEST_NAME).getResolutions()
+					.getResolutionsPerAuthority().get(0).getValueWrapperAtIndex(0).getValue().getId());
+
 			return getCurrentQuest(intent, state, session).performQuestIntent();
-		 else if ("SayHelloIntent".equals(intentName)) {
+		} else if ("SayHelloIntent".equals(intentName)) {
 			return getHelloResponse();
 		} else if ("AMAZON.HelpIntent".equals(intentName)) {
 			return getHelpResponse();
@@ -73,12 +77,11 @@ public class MentalArithmeticSpeechlet implements Speechlet {
 		}
 	}
 
-
 	private Quest getCurrentQuest(Intent intent, DialogState state, Session session) {
-		String questName=intent.getSlot(SLOT_QUEST_NAME).getValue();
-		System.out.println("questName :"+questName);
-		if (currentQuest==null) {
-			return new SimpleMultiplicationQuest();
+		String questName = intent.getSlot(SLOT_QUEST_NAME).getValue();
+		System.out.println("questName :" + questName);
+		if (currentQuest == null) {
+			return new SimpleMultiplicationQuest(intent, state, session);
 		} else {
 			return currentQuest;
 		}

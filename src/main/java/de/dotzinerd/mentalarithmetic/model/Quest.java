@@ -31,9 +31,11 @@ public abstract class Quest {
 
 	abstract String getAnswerString(boolean isAnswerCorrect);
 
-	Quest() {
+	Quest(Intent intent, DialogState state, Session session) {
+		this.intent = intent;
+		this.state = state;
+		this.session = session;
 		initialize();
-
 	}
 
 	public SpeechletResponse performQuestIntent() {

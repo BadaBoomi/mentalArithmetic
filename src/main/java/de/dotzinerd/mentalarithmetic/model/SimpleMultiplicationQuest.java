@@ -5,7 +5,9 @@ import java.util.List;
 
 import org.slf4j.LoggerFactory;
 
+import com.amazon.speech.slu.Intent;
 import com.amazon.speech.speechlet.Directive;
+import com.amazon.speech.speechlet.IntentRequest.DialogState;
 import com.amazon.speech.speechlet.Session;
 import com.amazon.speech.speechlet.SpeechletResponse;
 import com.amazon.speech.speechlet.dialog.directives.ElicitSlotDirective;
@@ -16,6 +18,10 @@ import com.amazon.speech.ui.SimpleCard;
 import de.dotzinerd.mentalarithmetic.MentalArithmeticSpeechlet;
 
 public class SimpleMultiplicationQuest extends Quest {
+
+	public SimpleMultiplicationQuest(Intent intent, DialogState state, Session session) {
+		super(intent, state, session);
+	}
 
 	@Override
 	void initialize() {
