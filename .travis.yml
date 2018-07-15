@@ -1,0 +1,9 @@
+deploy:
+  provider: lambda
+  function_name: mentalArithmetic
+  region: us-east-1
+  role: arn:aws:iam::578713470651:role/dotzi_aws_lambda
+  runtime: java8
+  handler_name: de.dotzinerd.mentalarithmetic.MentalArithmeticStreamHandler
+  secret_access_key:
+    secure: D3jBnTA9brzSdGDSCZBu6UFNH8ha6pMXzf96w5CXwp74DCQhWC16F/WIZg33fqRyahbBzh+0TD5q87a8HjYWeobJNJL2UPS6NqO3X2lHfAZdQMoCnUELGjwe5I/n9qoPZHG8uOThLR2Jj0Urpumfg01BYQ+kKH1yanJ7j9d6TwWAiOFBtLgD61v96yW1GPk9UL5l9HmIHSxcFlyQvYJ4O5gg7Ce6EvRK2OSohMMrwETT2k/JomXrOB08jnKyBvHK3B1+GcNbcHxTjMJY6b3MU4yK/DeWDs4+SRXYce7+S2Qp9Z+tD6qBDTbdBlUtgwyBDUNj0YNNkVoCmaDlcIU0C79C56qZB85hVHfkRQQrhONBviLx83mV7S3/ENyKEDcbd1uX+2GN95t30pXGowv+A9Bx00KQzMz7BPvyeruE994nhpD0xo0xWElzxVLsLkPs1kztoqN1YkD+lrLLY1PpJpG1Uesksr3qbtYf3OYVNMMzkwY1bpdGOU1AkzOhCgn+Ml5hV7aLAf9G7ZHzr0OEErpm8amDCX4OhG8m43wouMI6vdbVJZj/qA9gw79MzcjHoxIeO9DD+d0MyUgek4a3/ibRBi0qZyvYU9l8DmMFOX2JWG8Fa+PvkiDIlo96ZSBBmJyvySROed+sDxBfQsd9y/c0ny2fOqcIAJ/I2Re/EVM=
