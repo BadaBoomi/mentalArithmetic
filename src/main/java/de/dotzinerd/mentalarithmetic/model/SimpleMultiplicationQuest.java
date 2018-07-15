@@ -31,7 +31,7 @@ public class SimpleMultiplicationQuest extends Quest {
 
 	@Override
 	Integer getMaxTurn() {
-		return 2;
+		return 3;
 	}
 
 	@Override
