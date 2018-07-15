@@ -1,12 +1,11 @@
 language: java
 jdk:
-- oraclejdk8 
+- oraclejdk8
 os:
 - linux
-cache:       
+cache:
   directories:
-  - $HOME/.m2
-
+  - "$HOME/.m2"
 deploy:
   provider: lambda
   function_name: mentalArithmetic
@@ -14,5 +13,6 @@ deploy:
   role: arn:aws:iam::578713470651:role/dotzi_aws_lambda
   runtime: java8
   handler_name: de.dotzinerd.mentalarithmetic.MentalArithmeticStreamHandler
+  access_key_id: AKIAIOUK3MTMHVNSZJYA
   secret_access_key:
-    secure: D3jBnTA9brzSdGDSCZBu6UFNH8ha6pMXzf96w5CXwp74DCQhWC16F/WIZg33fqRyahbBzh+0TD5q87a8HjYWeobJNJL2UPS6NqO3X2lHfAZdQMoCnUELGjwe5I/n9qoPZHG8uOThLR2Jj0Urpumfg01BYQ+kKH1yanJ7j9d6TwWAiOFBtLgD61v96yW1GPk9UL5l9HmIHSxcFlyQvYJ4O5gg7Ce6EvRK2OSohMMrwETT2k/JomXrOB08jnKyBvHK3B1+GcNbcHxTjMJY6b3MU4yK/DeWDs4+SRXYce7+S2Qp9Z+tD6qBDTbdBlUtgwyBDUNj0YNNkVoCmaDlcIU0C79C56qZB85hVHfkRQQrhONBviLx83mV7S3/ENyKEDcbd1uX+2GN95t30pXGowv+A9Bx00KQzMz7BPvyeruE994nhpD0xo0xWElzxVLsLkPs1kztoqN1YkD+lrLLY1PpJpG1Uesksr3qbtYf3OYVNMMzkwY1bpdGOU1AkzOhCgn+Ml5hV7aLAf9G7ZHzr0OEErpm8amDCX4OhG8m43wouMI6vdbVJZj/qA9gw79MzcjHoxIeO9DD+d0MyUgek4a3/ibRBi0qZyvYU9l8DmMFOX2JWG8Fa+PvkiDIlo96ZSBBmJyvySROed+sDxBfQsd9y/c0ny2fOqcIAJ/I2Re/EVM=
+    secure: RJYXQyC5QF2yk5Nid1TzurSV9PNPwKhCNcwMtjnqX48F/2DF5qMXLPP3TclGkOgteVSLjWxTr/KECd5BQms5tOi6eA9cjPVhDN9P8R8uVlG1O1/ZVP/Pjw6giUaFEBbkdWvoHRa0QGi7jJNF9rgEeed3HlmHm2j1gpVY7+SZf44OxYbq3MdODz//mstRcPRb2SQv0rVBP2oE8DAzFIcjEurKIy3SRobkappAFpawq9x1M3ycDv5TCFbvq4niv32auA0IBZ/bLY+/on33EnGvquQs9EzO4PhGNpo3120rw2ORpwGD9wj8oSDHc83CPMOrxQIRzd+xoSdW3ouJGOWT73shtCWF3E/Z0hkviUCqSAMRzgeGXPKmeFSs2/Z/ydjFu+Ykr6YR77EjDG42t9Q7Zyh0Fx28k+HztwcpLtCFntiBfTeyP9833YaQAS6iA+vuJicF4QBM4FnZ3d24X9IcJ1flWKbezFaNDVSFw5Na4pCo1i2o8LMdx5WCYCoEpnoVBLVALYv0PK9zhdBhi0x5Q4KZ7BU3rkhSUTC6pPWIXCz5E6KYZEJ7Z8h8xkWhyDW13ffU0l3iPlkJ8YLDR4cxOWoCLq/BpsZ2RdZGbFizwIN9OzWQ7b7pvNO2dwm1sDwn+0UbhvyeUPih8qjPtiGE0008kHHJzDFO/y+9/n2XGZU=
