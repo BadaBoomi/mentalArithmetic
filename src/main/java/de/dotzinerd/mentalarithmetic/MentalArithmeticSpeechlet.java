@@ -64,8 +64,9 @@ public class MentalArithmeticSpeechlet implements Speechlet {
 		System.out.println("state: " + state);
 		if ("performQuest".equals(intentName)) {
 			System.out.println(SLOT_QUEST_NAME + ":" + intent.getSlot(SLOT_QUEST_NAME).getValue());
-			System.out.println(SLOT_QUEST_NAME + " ID:" + intent.getSlot(SLOT_QUEST_NAME).getResolutions()
-					.getResolutionsPerAuthority().get(0).getValueWrapperAtIndex(0).getValue().getId());
+			if (intent.getSlot(SLOT_QUEST_NAME).getValue() != null)
+				System.out.println(SLOT_QUEST_NAME + " ID:" + intent.getSlot(SLOT_QUEST_NAME).getResolutions()
+						.getResolutionsPerAuthority().get(0).getValueWrapperAtIndex(0).getValue().getId());
 
 			return getCurrentQuest(intent, state, session).performQuestIntent();
 		} else if ("SayHelloIntent".equals(intentName)) {
