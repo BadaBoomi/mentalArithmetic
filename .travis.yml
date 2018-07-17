@@ -14,6 +14,7 @@ deploy:
   runtime: java8
   module_name: "de.dotzinerd.mentalarithmetic"
   handler_name: "MentalArithmeticStreamHandler"
+  file: "mentalArithmetic-0.0.1-SNAPSHOT-jar-with-dependencies.jar"
 
 env:
   global:
