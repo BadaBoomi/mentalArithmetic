@@ -7,7 +7,6 @@ import java.util.concurrent.TimeUnit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.amazon.speech.slu.ConfirmationStatus;
 import com.amazon.speech.slu.Intent;
 import com.amazon.speech.speechlet.Directive;
 import com.amazon.speech.speechlet.IntentRequest;
@@ -19,7 +18,6 @@ import com.amazon.speech.speechlet.SessionStartedRequest;
 import com.amazon.speech.speechlet.Speechlet;
 import com.amazon.speech.speechlet.SpeechletException;
 import com.amazon.speech.speechlet.SpeechletResponse;
-import com.amazon.speech.speechlet.dialog.directives.DialogIntent;
 import com.amazon.speech.speechlet.dialog.directives.ElicitSlotDirective;
 import com.amazon.speech.ui.PlainTextOutputSpeech;
 import com.amazon.speech.ui.Reprompt;
