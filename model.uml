@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Model xmi:version="20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML" xmi:id="_Ev5icJNTEeibHPajbSl4Ag" name="model">
+  <packageImport xmi:type="uml:PackageImport" xmi:id="_E1UN8JNTEeibHPajbSl4Ag">
+    <importedPackage xmi:type="uml:Model" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#_0"/>
+  </packageImport>
+  <packagedElement xmi:type="uml:StateMachine" xmi:id="_Ev_pEJNTEeibHPajbSl4Ag" name="StateMachine1">
+    <region xmi:type="uml:Region" xmi:id="_EwIzAJNTEeibHPajbSl4Ag" name="Region1"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Activity" xmi:id="_EwNrgJNTEeibHPajbSl4Ag" name="Activity2"/>
+  <packagedElement xmi:type="uml:Package" xmi:id="_pomIgJNTEeibHPajbSl4Ag" name="MentalArithmetic Skill">
+    <packagedElement xmi:type="uml:UseCase" xmi:id="_vz1iwJNTEeibHPajbSl4Ag" name="Learn new mental skill"/>
+    <packagedElement xmi:type="uml:UseCase" xmi:id="_yTy-EJNTEeibHPajbSl4Ag" name="Practise dedicated mental skill"/>
+    <packagedElement xmi:type="uml:UseCase" xmi:id="_0PQlMJNTEeibHPajbSl4Ag" name="Ask for help about dedicated skill"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Actor" xmi:id="_t4hsoJNTEeibHPajbSl4Ag" name="Alexa User"/>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_FVVVUJNUEeibHPajbSl4Ag" client="_t4hsoJNTEeibHPajbSl4Ag" supplier="_vz1iwJNTEeibHPajbSl4Ag"/>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_GVRvYJNUEeibHPajbSl4Ag" client="_t4hsoJNTEeibHPajbSl4Ag" supplier="_yTy-EJNTEeibHPajbSl4Ag"/>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_HGZqUJNUEeibHPajbSl4Ag" client="_t4hsoJNTEeibHPajbSl4Ag" supplier="_0PQlMJNTEeibHPajbSl4Ag"/>
+</uml:Model>
