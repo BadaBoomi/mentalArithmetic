@@ -15,8 +15,7 @@ before_deploy:
   - rm mentalArithmetic-0.0.1-SNAPSHOT.jar
   - cd ..
   - ls -la lambda
-  
-package shade:shade
+
 deploy:
   provider: lambda
   function_name: mentalArithmetic
