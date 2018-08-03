@@ -7,7 +7,7 @@ cache:
   directories:
   - "$HOME/.m2"
   
- before_deploy:
+before_deploy:
   - mkdir lambda
   - mv target/mentalArithmetic-0.0.1-SNAPSHOT.jar lambda
   - cd lambda
