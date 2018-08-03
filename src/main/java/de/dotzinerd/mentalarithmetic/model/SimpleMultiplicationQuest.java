@@ -1,33 +1,24 @@
 package de.dotzinerd.mentalarithmetic.model;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-import com.amazon.speech.slu.Intent;
-import com.amazon.speech.speechlet.Directive;
-import com.amazon.speech.speechlet.IntentRequest.DialogState;
-import com.amazon.speech.speechlet.Session;
-import com.amazon.speech.speechlet.SpeechletResponse;
-import com.amazon.speech.speechlet.dialog.directives.ElicitSlotDirective;
-import com.amazon.speech.ui.PlainTextOutputSpeech;
-import com.amazon.speech.ui.Reprompt;
-import com.amazon.speech.ui.SimpleCard;
-
-import de.dotzinerd.mentalarithmetic.MentalArithmeticSpeechlet;
+import com.amazon.ask.dispatcher.request.handler.HandlerInput;
+import com.amazon.ask.model.DialogState;
+import com.amazon.ask.model.Intent;
+import com.amazon.ask.model.Response;
+import com.amazon.ask.model.Session;
 
 public class SimpleMultiplicationQuest extends Quest {
+	static final Logger logger = LogManager.getLogger(SimpleMultiplicationQuest.class);
 
-	public SimpleMultiplicationQuest(Intent intent, DialogState state, Session session) {
-		super(intent, state, session);
+	public SimpleMultiplicationQuest(HandlerInput input, Map<String, Object> sessionAttributes) {
+		super(input, sessionAttributes);
 	}
 
-	@Override
-	void initialize() {
-		logger = LoggerFactory.getLogger(SimpleMultiplicationQuest.class);
-
-	}
 
 	@Override
 	Integer getMaxTurn() {
@@ -35,39 +26,23 @@ public class SimpleMultiplicationQuest extends Quest {
 	}
 
 	@Override
-	SpeechletResponse performTurn(Session session, Boolean isAnswerCorrect) {
-		PlainTextOutputSpeech speech = new PlainTextOutputSpeech();
-		SpeechletResponse speechletResp = new SpeechletResponse();
-
+	Optional<Response> performTurn(Boolean isAnswerCorrect) {
+		logger.debug("perform turn...");
+			
 		Integer op1 = (int) (Math.random() * 8) + 2;
 		Integer op2 = (int) (Math.random() * 8) + 2;
 		Integer result = op1 * op2;
 		String question = "Was macht " + op1 + " mal " + op2 + "?";
 		String speechText = (isAnswerCorrect == null) ? question : getAnswerString(isAnswerCorrect) + ". " + question;
-		session.setAttribute(EXPECTED_ANSWER, String.valueOf(result));
+		this.sessionAttributes.put(EXPECTED_ANSWER, String.valueOf(result));
 
 		// Create the Simple card content.
 
-		SimpleCard card = new SimpleCard();
-		card.setTitle("Einmaleins Aufgabe");
-		card.setContent(speechText);
-		speech.setText(speechText);
+	
 
-		// ask user for his result (value of slot)
-		ElicitSlotDirective directive = new ElicitSlotDirective();
-		directive.setSlotToElicit(SLOT_USER_RESPONSE);
+		return input.getResponseBuilder().addElicitSlotDirective(SLOT_USER_RESPONSE, intent).withShouldEndSession(false)
+				.withReprompt(speechText).withSpeech(speechText).build();
 
-		List<Directive> directiveList = new ArrayList<>();
-		directiveList.add(directive);
-
-//			speechletResp.setCard(card);
-		speechletResp.setDirectives(directiveList);
-		speechletResp.setNullableShouldEndSession(false);
-		Reprompt reprompt = new Reprompt();
-		reprompt.setOutputSpeech(speech);
-		speechletResp.setReprompt(reprompt);
-		speechletResp.setOutputSpeech(speech);
-		return speechletResp;
 	}
 
 	@Override

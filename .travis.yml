@@ -6,14 +6,28 @@ os:
 cache:
   directories:
   - "$HOME/.m2"
+script:
+  - mvn package  
+  
+ before_deploy:
+  - mkdir lambda
+  - mv target/mentalArithmetic-0.0.1-SNAPSHOT.jar lambda
+  - cd lambda
+  - jar xf mentalArithmetic-0.0.1-SNAPSHOT.jar
+  - rm mentalArithmetic-0.0.1-SNAPSHOT.jar
+  - cd ..
+  - ls -la lambda
+  
+package shade:shade
 deploy:
   provider: lambda
   function_name: mentalArithmetic
   region: us-east-1
   role: arn:aws:iam::578713470651:role/dotzi_aws_lambda
   runtime: java8
+  zip: "lambda"
   module_name: "de.dotzinerd.mentalarithmetic"
-  handler_name: "MentalArithmeticStreamHandler"
+  handler_name: "StateMachineStreamHandler"
    
 env:
   global:
