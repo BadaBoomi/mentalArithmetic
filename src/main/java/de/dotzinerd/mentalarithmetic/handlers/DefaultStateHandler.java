@@ -25,7 +25,7 @@ public class DefaultStateHandler implements RequestHandler {
 	public Optional<Response> handle(HandlerInput handlerInput) {
 		logger.debug("handle");
 		return handlerInput.getResponseBuilder().withShouldEndSession(true)
-				.withSpeech("Da kommt noch was neues demn‰chst.").build();
+				.withSpeech("Da kommt noch was neues demn√§chst.").build();
 	}
 
 }

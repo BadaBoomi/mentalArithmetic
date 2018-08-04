@@ -26,6 +26,8 @@ deploy:
   module_name: "de.dotzinerd.mentalarithmetic"
   handler_name: "StateMachineStreamHandler"
   memory_size: 256
+  timeout: 10
+  description: "Deployed DotziNerd project build #{context.env['TRAVIS_BUILD_NUMBER']} to AWS Lambda via Travis CI"
    
 env:
   global:

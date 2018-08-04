@@ -18,8 +18,8 @@ import com.amazon.ask.model.Response;
 
 import de.dotzinerd.mentalarithmetic.manager.QuestManager;
 import de.dotzinerd.mentalarithmetic.model.Constants;
-import de.dotzinerd.mentalarithmetic.model.Introduction;
-import de.dotzinerd.mentalarithmetic.model.Quest;
+import de.dotzinerd.mentalarithmetic.model.questperformer.QuestPerformer;
+import de.dotzinerd.mentalarithmetic.model.responses.IntroductionResponse;
 
 public class InitialStateHandler implements RequestHandler {
 	static final Logger logger = LogManager.getLogger(InitialStateHandler.class);
@@ -41,7 +41,7 @@ public class InitialStateHandler implements RequestHandler {
 		 * LaunchRequest - skill is called without any intent!
 		 */
 		logger.debug("handle");
-		return new Introduction().getResponse(handlerInput);
+		return new IntroductionResponse().getResponse(handlerInput);
 
 	}
 

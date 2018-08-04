@@ -20,55 +20,73 @@ import com.amazon.ask.model.Response;
 
 import de.dotzinerd.mentalarithmetic.manager.QuestManager;
 import de.dotzinerd.mentalarithmetic.model.Constants;
-import de.dotzinerd.mentalarithmetic.model.Quest;
+import de.dotzinerd.mentalarithmetic.model.StatusEnum;
+import de.dotzinerd.mentalarithmetic.model.questperformer.QuestPerformer;
+import de.dotzinerd.mentalarithmetic.model.responses.IntroductionResponse;
 
 public class PerformQuestStateHandler implements RequestHandler {
+
 	static final Logger logger = LogManager.getLogger(PerformQuestStateHandler.class);
+	private StatusEnum statusID;
+	private Map<String, Object> sessionAttributes;
 
 	public PerformQuestStateHandler() {
 		super();
 		logger.debug("constructor called");
 	}
 
+	void initializeLocalVars(HandlerInput input) {
+		this.sessionAttributes = input.getAttributesManager().getSessionAttributes();
+		if (this.sessionAttributes == null) {
+			input.getAttributesManager().setSessionAttributes(new HashMap<String, Object>());
+			this.sessionAttributes = input.getAttributesManager().getSessionAttributes();
+		}
+
+		IntentRequest intentRequest = (IntentRequest) input.getRequestEnvelope().getRequest();
+		Intent intent = intentRequest.getIntent();
+
+		if (input.matches(intentName(Constants.PERFORM_QUEST_INTENT))) {
+			this.sessionAttributes.put(Constants.KEY_STATE, Constants.STATE_PERFORM_QUEST);
+			if (intent.getSlots().get(Constants.SLOT_QUEST_NAME).getValue() != null) {
+				logger.debug(Constants.SLOT_QUEST_NAME + " ID:" + intent.getSlots().get(Constants.SLOT_QUEST_NAME)
+						.getResolutions().getResolutionsPerAuthority().get(0).getValues().get(0).getValue().getId());
+				this.statusID = StatusEnum.getEnumByName(intent.getSlots().get(Constants.SLOT_QUEST_NAME)
+						.getResolutions().getResolutionsPerAuthority().get(0).getValues().get(0).getValue().getId());
+			}
+		} else if (input.matches(intentName(Constants.AMAZON_HELP_INTENT))) {
+			this.statusID = StatusEnum.HELP_INTENT;
+		} else {
+			this.statusID = StatusEnum.UNKNOWN;
+		}
+
+	}
+
 	public boolean canHandle(HandlerInput handlerInput) {
-		boolean yesIcan = handlerInput
-				.matches(intentName("performQuest")
-						.and(sessionAttribute(Constants.KEY_STATE, Constants.STATE_PERFORM_QUEST).negate()))
-				|| handlerInput.matches(intentName("AMAZON.StartOverIntent"))
-				|| handlerInput.matches(intentName("AMAZON.HelpIntent"));
+		boolean yesIcan = handlerInput.matches(intentName("performQuest"))
+				|| handlerInput.matches(intentName("AMAZON.StartOverIntent")
+						.and(sessionAttribute(Constants.KEY_STATE, Constants.STATE_PERFORM_QUEST)))
+				|| handlerInput.matches(intentName(Constants.AMAZON_HELP_INTENT)
+						.and(sessionAttribute(Constants.KEY_STATE, Constants.STATE_PERFORM_QUEST)));
 		logger.debug("canHandle: " + yesIcan);
 		return yesIcan;
 	}
 
 	public Optional<Response> handle(HandlerInput handlerInput) {
 		logger.debug("handle performQuest");
-		Map<String, Object> sessionAttributes = handlerInput.getAttributesManager().getSessionAttributes();
-		if (sessionAttributes == null) {
-			handlerInput.getAttributesManager().setSessionAttributes(new HashMap<String, Object>());
-			sessionAttributes = handlerInput.getAttributesManager().getSessionAttributes();
-		}
-		IntentRequest intentRequest = (IntentRequest) handlerInput.getRequestEnvelope().getRequest();
-		Intent intent = intentRequest.getIntent();
+		initializeLocalVars(handlerInput);
 
-		if (handlerInput.matches(intentName("performQuest"))) {
-			sessionAttributes.put(Constants.KEY_STATE, Constants.STATE_PERFORM_QUEST);
-			if (intent.getSlots().get(Constants.SLOT_QUEST_NAME).getValue() != null) {
-				logger.debug(Constants.SLOT_QUEST_NAME + " ID:" + intent.getSlots().get(Constants.SLOT_QUEST_NAME)
-						.getResolutions().getResolutionsPerAuthority().get(0).getValues().get(0).getValue().getId());
-			}
+		switch (this.statusID) {
+		case SV_SIMPLE_MULT:
+		case SV_SIMPLE_2Digit_SQUARES:
 			QuestManager questManager = new QuestManager();
-			Quest quest = questManager.getCurrentQuest(handlerInput, sessionAttributes);
-			return quest.performQuestIntent();
-		} else if (handlerInput.matches(intentName("SayHelloIntent"))) {
-			sessionAttributes.put(Constants.KEY_STATE, "SayHelloIntent");
-			return handlerInput.getResponseBuilder().withShouldEndSession(true).withSpeech("Hallo").build();
-		} else if (handlerInput.matches(intentName("AMAZON.HelpIntent"))) {
-			sessionAttributes.put(Constants.KEY_STATE, "AMAZON.HelpIntent");
-			return handlerInput.getResponseBuilder().withShouldEndSession(true).withSpeech("Hilfe").build();
-		} else {
-			sessionAttributes.put(Constants.KEY_STATE, "else...");
-			return handlerInput.getResponseBuilder().withShouldEndSession(true).withSpeech("Ansonsten sag ich nix")
-					.build();
+			QuestPerformer questPerformer = questManager.getCurrentQuest(handlerInput, sessionAttributes,
+					this.statusID);
+			return questPerformer.performQuestIntent();
+		case HELP_INTENT:
+			return new IntroductionResponse().getResponse(handlerInput);
+		default:
+			return new IntroductionResponse().getResponse(handlerInput);
 		}
+
 	}
 }
