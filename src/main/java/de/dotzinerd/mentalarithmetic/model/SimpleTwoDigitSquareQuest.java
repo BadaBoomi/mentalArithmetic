@@ -8,14 +8,6 @@ public class SimpleTwoDigitSquareQuest extends Quest {
 		this.question = "Was macht " + op1 + " zum Quadrat ?";
 	}
 
-	@Override
-	public String getQuestion() {
-		return this.question;
-	}
 
-	@Override
-	public Integer getAnswer() {
-		return this.answer;
-	}
 
 }

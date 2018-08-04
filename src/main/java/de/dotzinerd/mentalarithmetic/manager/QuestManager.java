@@ -10,6 +10,7 @@ import de.dotzinerd.mentalarithmetic.model.Constants;
 import de.dotzinerd.mentalarithmetic.model.StatusEnum;
 import de.dotzinerd.mentalarithmetic.model.questperformer.QuestPerformer;
 import de.dotzinerd.mentalarithmetic.model.questperformer.SimpleMultiplicationQuestPerformer;
+import de.dotzinerd.mentalarithmetic.model.questperformer.SimpleTwoDigitMultQuestPerformer;
 import de.dotzinerd.mentalarithmetic.model.questperformer.SimpleTwoDigitSquareQuestPerformer;
 
 public class QuestManager {
@@ -25,7 +26,9 @@ public class QuestManager {
 			case SV_SIMPLE_MULT:
 				return new SimpleMultiplicationQuestPerformer(input, sessionAttributes);
 			case SV_SIMPLE_2Digit_SQUARES:
-
+				return new SimpleTwoDigitSquareQuestPerformer(input, sessionAttributes);
+			case SV_SIMPLE_2Digit_Mult:
+				return new SimpleTwoDigitMultQuestPerformer(input, sessionAttributes);
 			default:
 				return new SimpleTwoDigitSquareQuestPerformer(input, sessionAttributes);
 			}

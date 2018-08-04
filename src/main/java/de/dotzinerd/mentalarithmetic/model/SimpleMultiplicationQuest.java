@@ -9,14 +9,6 @@ public class SimpleMultiplicationQuest extends Quest {
 		this.question = "Was macht " + op1 + " mal " + op2 + "?";
 	}
 
-	@Override
-	public String getQuestion() {
-		return this.question;
-	}
-
-	@Override
-	public Integer getAnswer() {
-		return this.answer;
-	}
+	
 
 }

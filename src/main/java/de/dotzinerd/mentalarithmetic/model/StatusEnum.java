@@ -4,7 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public enum StatusEnum {
-	SV_SIMPLE_MULT, SV_SIMPLE_2Digit_SQUARES, HELP_INTENT, TRAIN_INTENT, UNKNOWN;
+	SV_SIMPLE_MULT, SV_SIMPLE_2Digit_SQUARES, SV_SIMPLE_2Digit_Mult, HELP_INTENT, TRAIN_INTENT, UNKNOWN;
 	static final Logger logger = LogManager.getLogger(StatusEnum.class);
 
 	public static StatusEnum getEnumByName(String name) {

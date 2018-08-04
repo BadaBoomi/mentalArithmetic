@@ -34,7 +34,7 @@ public abstract class QuestPerformer {
 	abstract Optional<Response> performTurn(Boolean isAnswerCorrect);
 
 	String getAnswerString(boolean isAnswerCorrect) {
-		return (isAnswerCorrect) ? "Richtig!" : "Leider Falsch!";
+		return (isAnswerCorrect) ? "Richtig!" : "Leider Falsch!" + sessionAttributes.get(EXPECTED_ANSWER);
 	}
 
 	QuestPerformer(HandlerInput input, Map<String, Object> sessionAttributes) {
@@ -46,31 +46,31 @@ public abstract class QuestPerformer {
 	}
 
 	public Optional<Response> performQuestIntent() {
-		Optional<Response> optionalResponse;
+		Optional<Response> response;
 
 		if (state.equals(DialogState.STARTED)) {
 			logger.debug(sessionAttributes);
 			sessionAttributes.put(MAX_TURN, getMaxTurn());
 			sessionAttributes.put(CURRENT_TURN, 1);
 			sessionAttributes.put(START_TIME_INTENT, System.currentTimeMillis());
-			optionalResponse = performTurn(null);
+			response = performTurn(null);
 		} else {
 			boolean isAnswerCorrect = sessionAttributes.get(EXPECTED_ANSWER)
 					.equals(intent.getSlots().get(SLOT_USER_RESPONSE).getValue());
 			String answer = getAnswerString(isAnswerCorrect);
 			if ((Integer) (sessionAttributes.get(MAX_TURN)) > (Integer) (sessionAttributes.get(CURRENT_TURN))) {
 				sessionAttributes.put(CURRENT_TURN, (Integer) (sessionAttributes.get(CURRENT_TURN)) + 1);
-				optionalResponse = performTurn(isAnswerCorrect);
+				response = performTurn(isAnswerCorrect);
 
 			} else {
 				Long startTime = (Long) (sessionAttributes.get(START_TIME_INTENT));
 				answer += ". Gesamtdauer war " + String.valueOf(calculateTimeToAnswerAll(startTime)) + " Sekunden";
 
-				optionalResponse = input.getResponseBuilder().withShouldEndSession(true).withSpeech(answer).build();
+				response = input.getResponseBuilder().withShouldEndSession(true).withSpeech(answer).build();
 
 			}
 		}
-		return optionalResponse;
+		return response;
 	}
 
 	private int calculateTimeToAnswerAll(Long startTime) {
