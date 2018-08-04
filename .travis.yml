@@ -25,6 +25,7 @@ deploy:
   zip: "lambda"
   module_name: "de.dotzinerd.mentalarithmetic"
   handler_name: "StateMachineStreamHandler"
+  memory_size: 256
    
 env:
   global:
