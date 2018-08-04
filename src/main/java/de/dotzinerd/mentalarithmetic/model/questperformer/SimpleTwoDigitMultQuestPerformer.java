@@ -10,6 +10,7 @@ import com.amazon.ask.dispatcher.request.handler.HandlerInput;
 import com.amazon.ask.model.Response;
 
 import de.dotzinerd.mentalarithmetic.model.Quest;
+import de.dotzinerd.mentalarithmetic.model.SimpleTwoDigitMultQuest;
 import de.dotzinerd.mentalarithmetic.model.SimpleTwoDigitSquareQuest;
 
 public class SimpleTwoDigitMultQuestPerformer extends QuestPerformer {
@@ -28,7 +29,7 @@ public class SimpleTwoDigitMultQuestPerformer extends QuestPerformer {
 	Optional<Response> performTurn(Boolean isAnswerCorrect) {
 		logger.debug("perform turn...");
 
-		Quest quest = new SimpleTwoDigitSquareQuest();
+		Quest quest = new SimpleTwoDigitMultQuest();
 		String speechText = (isAnswerCorrect == null) ? quest.getQuestion()
 				: getAnswerString(isAnswerCorrect) + ". " + quest.getQuestion();
 		this.sessionAttributes.put(EXPECTED_ANSWER, String.valueOf(quest.getAnswer()));

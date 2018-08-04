@@ -34,7 +34,7 @@ public abstract class QuestPerformer {
 	abstract Optional<Response> performTurn(Boolean isAnswerCorrect);
 
 	String getAnswerString(boolean isAnswerCorrect) {
-		return (isAnswerCorrect) ? "Richtig!" : "Leider Falsch!" + sessionAttributes.get(EXPECTED_ANSWER);
+		return (isAnswerCorrect) ? "Richtig!" : "Leider Falsch! Es sind " + sessionAttributes.get(EXPECTED_ANSWER);
 	}
 
 	QuestPerformer(HandlerInput input, Map<String, Object> sessionAttributes) {
