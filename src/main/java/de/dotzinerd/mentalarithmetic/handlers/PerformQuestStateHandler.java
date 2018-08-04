@@ -78,6 +78,7 @@ public class PerformQuestStateHandler implements RequestHandler {
 		switch (this.statusID) {
 		case SV_SIMPLE_MULT:
 		case SV_SIMPLE_2Digit_SQUARES:
+		case SV_SIMPLE_2Digit_Mult:
 			QuestManager questManager = new QuestManager();
 			QuestPerformer questPerformer = questManager.getCurrentQuest(handlerInput, sessionAttributes,
 					this.statusID);
