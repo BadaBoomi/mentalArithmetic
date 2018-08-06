@@ -68,6 +68,7 @@ public class PerformQuestStateHandler implements RequestHandler {
 	public boolean canHandle(HandlerInput handlerInput) {
 		logger.debug("handlerInput.getRequestEnvelope().getRequest().getType(): "
 				+ handlerInput.getRequestEnvelope().getRequest().getType());
+		logger.debug(handlerInput.getRequestEnvelope().getRequest().toString());
 		boolean yesIcan = handlerInput.matches(intentName("performQuest"))
 				|| handlerInput.matches(intentName("AMAZON.StartOverIntent")
 						.and(sessionAttribute(Constants.KEY_STATE, Constants.STATE_PERFORM_QUEST)))
