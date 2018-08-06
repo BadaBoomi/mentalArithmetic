@@ -18,6 +18,7 @@ public class DefaultStateHandler implements RequestHandler {
 	}
 
 	public boolean canHandle(HandlerInput handlerInput) {
+		
 		logger.debug("handlerInput.getRequestEnvelope().getRequest().getType(): "
 				+ handlerInput.getRequestEnvelope().getRequest().getType());
 		logger.debug("canHandle: true");

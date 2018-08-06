@@ -17,6 +17,7 @@ import com.amazon.ask.model.Intent;
 import com.amazon.ask.model.IntentRequest;
 import com.amazon.ask.model.LaunchRequest;
 import com.amazon.ask.model.Response;
+import com.amazon.ask.model.SessionEndedRequest;
 
 import de.dotzinerd.mentalarithmetic.manager.QuestManager;
 import de.dotzinerd.mentalarithmetic.model.Constants;
@@ -62,10 +63,14 @@ public class PerformQuestStateHandler implements RequestHandler {
 	}
 
 	public boolean canHandle(HandlerInput handlerInput) {
+		logger.debug("handlerInput.getRequestEnvelope().getRequest().getType(): "
+				+ handlerInput.getRequestEnvelope().getRequest().getType());
 		boolean yesIcan = handlerInput.matches(intentName("performQuest"))
 				|| handlerInput.matches(intentName("AMAZON.StartOverIntent")
 						.and(sessionAttribute(Constants.KEY_STATE, Constants.STATE_PERFORM_QUEST)))
 				|| handlerInput.matches(intentName(Constants.AMAZON_HELP_INTENT)
+						.and(sessionAttribute(Constants.KEY_STATE, Constants.STATE_PERFORM_QUEST)))
+				|| handlerInput.matches(requestType(SessionEndedRequest.class)
 						.and(sessionAttribute(Constants.KEY_STATE, Constants.STATE_PERFORM_QUEST)));
 		logger.debug("canHandle: " + yesIcan);
 		return yesIcan;
