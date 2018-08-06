@@ -88,7 +88,7 @@ public abstract class QuestPerformer {
 
 	public Optional<Response> repeatQuestion() {
 		return input.getResponseBuilder().withShouldEndSession(false)
-				.withSpeech("Ich warte..." + sessionAttributes.get(CURRENT_QUESTION)).build();
+				.withSpeech("Ich warte..." ).build();
 	}
 
 }

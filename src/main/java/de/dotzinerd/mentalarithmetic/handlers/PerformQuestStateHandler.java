@@ -55,14 +55,39 @@ public class PerformQuestStateHandler implements RequestHandler {
 						.getResolutions().getResolutionsPerAuthority().get(0).getValues().get(0).getValue().getId());
 			}
 		} else if (input.matches(intentName(Constants.AMAZON_HELP_INTENT))) {
-			this.statusID = StatusEnum.HELP_INTENT;
-
+			this.statusID = StatusEnum.HelpIntent;
+		} else if (input.matches(intentName("AMAZON.CancelIntent"))) {
+			this.statusID = StatusEnum.CancelIntent;
+		} else if (input.matches(intentName("AMAZON.LoopOffIntent"))) {
+			this.statusID = StatusEnum.LoopOffIntent;
+		} else if (input.matches(intentName("AMAZON.LoopOnIntent"))) {
+			this.statusID = StatusEnum.LoopOnIntent;
+		} else if (input.matches(intentName("AMAZON.NextIntent"))) {
+			this.statusID = StatusEnum.NextIntent;
+		} else if (input.matches(intentName("AMAZON.NoIntent"))) {
+			this.statusID = StatusEnum.NoIntent;
+		} else if (input.matches(intentName("AMAZON.PauseIntent"))) {
+			this.statusID = StatusEnum.PauseIntent;
+		} else if (input.matches(intentName("AMAZON.PreviousIntent"))) {
+			this.statusID = StatusEnum.PreviousIntent;
+		} else if (input.matches(intentName("AMAZON.RepeatIntent"))) {
+			this.statusID = StatusEnum.RepeatIntent;
+		} else if (input.matches(intentName("AMAZON.ResumeIntent"))) {
+			this.statusID = StatusEnum.ResumeIntent;
+		} else if (input.matches(intentName("AMAZON.ShuffleOffIntent"))) {
+			this.statusID = StatusEnum.ShuffleOffIntent;
+		} else if (input.matches(intentName("AMAZON.ShuffleOnIntent"))) {
+			this.statusID = StatusEnum.ShuffleOnIntent;
+		} else if (input.matches(intentName("AMAZON.StopIntent"))) {
+			this.statusID = StatusEnum.StopIntent;
+		} else if (input.matches(intentName("AMAZON.YesIntent"))) {
+			this.statusID = StatusEnum.YesIntent;
 		} else if (input.matches(requestType(SessionEndedRequest.class))) {
 			this.statusID = StatusEnum.TIME_OUT;
 		} else {
 			this.statusID = StatusEnum.UNKNOWN;
 		}
-
+		logger.debug("status= " + this.statusID.toString());
 	}
 
 	public boolean canHandle(HandlerInput handlerInput) {
@@ -94,7 +119,7 @@ public class PerformQuestStateHandler implements RequestHandler {
 		case TIME_OUT:
 			questPerformer = getQuestPerformer(handlerInput);
 			return questPerformer.repeatQuestion();
-		case HELP_INTENT:
+		case HelpIntent:
 			return new IntroductionResponse().getResponse(handlerInput);
 		default:
 			return new IntroductionResponse().getResponse(handlerInput);
