@@ -31,6 +31,7 @@ public class SimpleMultiplicationQuestPerformer extends QuestPerformer {
 		Quest quest = new SimpleMultiplicationQuest();
 		String speechText = (isAnswerCorrect == null) ? quest.getQuestion()
 				: getAnswerString(isAnswerCorrect) + ". " + quest.getQuestion();
+		this.setQuestionAndAnswerInSession(quest.getQuestion(),String.valueOf(quest.getAnswer()));
 		this.sessionAttributes.put(EXPECTED_ANSWER, String.valueOf(quest.getAnswer()));
 
 		// Create the Simple card content.

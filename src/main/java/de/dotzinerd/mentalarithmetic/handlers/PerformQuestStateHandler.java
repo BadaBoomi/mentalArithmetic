@@ -81,17 +81,17 @@ public class PerformQuestStateHandler implements RequestHandler {
 
 	public Optional<Response> handle(HandlerInput handlerInput) {
 		logger.debug("handle performQuest");
+		QuestPerformer questPerformer;
 		initializeLocalVars(handlerInput);
 
 		switch (this.statusID) {
 		case SV_SIMPLE_MULT:
 		case SV_SIMPLE_2Digit_SQUARES:
 		case SV_SIMPLE_2Digit_Mult:
-			QuestManager questManager = new QuestManager();
-			QuestPerformer questPerformer = questManager.getCurrentQuest(handlerInput, sessionAttributes,
-					this.statusID);
+			questPerformer = getQuestPerformer(handlerInput);
 			return questPerformer.performQuestIntent();
 		case TIME_OUT:
+			questPerformer = getQuestPerformer(handlerInput);
 			return questPerformer.repeatQuestion();
 		case HELP_INTENT:
 			return new IntroductionResponse().getResponse(handlerInput);
@@ -99,5 +99,11 @@ public class PerformQuestStateHandler implements RequestHandler {
 			return new IntroductionResponse().getResponse(handlerInput);
 		}
 
+	}
+
+	private QuestPerformer getQuestPerformer(HandlerInput handlerInput) {
+		QuestManager questManager = new QuestManager();
+		QuestPerformer questPerformer = questManager.getCurrentQuest(handlerInput, sessionAttributes, this.statusID);
+		return questPerformer;
 	}
 }

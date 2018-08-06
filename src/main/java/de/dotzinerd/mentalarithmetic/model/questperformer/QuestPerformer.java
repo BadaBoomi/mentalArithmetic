@@ -19,6 +19,7 @@ import de.dotzinerd.mentalarithmetic.handlers.PerformQuestStateHandler;
 public abstract class QuestPerformer {
 	static final Logger logger = LogManager.getLogger(QuestPerformer.class);
 	protected static String EXPECTED_ANSWER = "EXPECTED_ANSWER";
+	protected static String CURRENT_QUESTION = "CURRENT_QUESTION";
 	protected static String CURRENT_TURN = "TURN";
 	protected static String SLOT_USER_RESPONSE = "numberResponse";
 	protected static String MAX_TURN = "MAX_TURN";
@@ -75,13 +76,19 @@ public abstract class QuestPerformer {
 		return response;
 	}
 
+	protected void setQuestionAndAnswerInSession(String question, String answer) {
+		sessionAttributes.put(EXPECTED_ANSWER, answer);
+		sessionAttributes.put(CURRENT_QUESTION, question);
+	}
+
 	private int calculateTimeToAnswerAll(Long startTime) {
 		Long timeUsed = TimeUnit.MILLISECONDS.toSeconds((System.currentTimeMillis() - startTime));
 		return timeUsed.intValue();
 	}
 
 	public Optional<Response> repeatQuestion() {
-		return input.getResponseBuilder().withShouldEndSession(false).withSpeech("Ich warte...").build();
+		return input.getResponseBuilder().withShouldEndSession(false)
+				.withSpeech("Ich warte..." + sessionAttributes.get(CURRENT_QUESTION)).build();
 	}
 
 }

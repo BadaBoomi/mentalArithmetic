@@ -18,9 +18,14 @@ public class QuestManager {
 
 	public QuestPerformer getCurrentQuest(HandlerInput input, Map<String, Object> sessionAttributes,
 			StatusEnum status) {
-		Intent intent = (Intent) ((IntentRequest) input.getRequestEnvelope().getRequest()).getIntent();
-		String questName = intent.getSlots().get(Constants.SLOT_QUEST_NAME).getValue();
-		System.out.println("questName :" + questName);
+		if (status == null) {
+			status = (StatusEnum) sessionAttributes.get(Constants.KEY_QUEST_TYPE);
+		} else {
+			Intent intent = (Intent) ((IntentRequest) input.getRequestEnvelope().getRequest()).getIntent();
+			String questName = intent.getSlots().get(Constants.SLOT_QUEST_NAME).getValue();
+			System.out.println("questName :" + questName);
+			sessionAttributes.put(Constants.KEY_QUEST_TYPE, status);
+		}
 		if (currentQuest == null) {
 			switch (status) {
 			case SV_SIMPLE_MULT:

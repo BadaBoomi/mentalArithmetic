@@ -32,7 +32,7 @@ public class SimpleTwoDigitMultQuestPerformer extends QuestPerformer {
 		Quest quest = new SimpleTwoDigitMultQuest();
 		String speechText = (isAnswerCorrect == null) ? quest.getQuestion()
 				: getAnswerString(isAnswerCorrect) + ". " + quest.getQuestion();
-		this.sessionAttributes.put(EXPECTED_ANSWER, String.valueOf(quest.getAnswer()));
+		this.setQuestionAndAnswerInSession(quest.getQuestion(),String.valueOf(quest.getAnswer()));
 
 		// Create the Simple card content.
 
