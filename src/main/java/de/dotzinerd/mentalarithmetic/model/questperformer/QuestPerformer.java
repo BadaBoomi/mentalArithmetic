@@ -34,7 +34,7 @@ public abstract class QuestPerformer {
 	abstract Optional<Response> performTurn(Boolean isAnswerCorrect);
 
 	String getAnswerString(boolean isAnswerCorrect) {
-		logger.debug("\r\n" + "String getAnswer - isAnswerCorrect: " + isAnswerCorrect);
+		logger.debug("isAnswerCorrect: " + isAnswerCorrect);
 		return (isAnswerCorrect) ? "Richtig!" : "Leider Falsch! Es sind " + sessionAttributes.get(EXPECTED_ANSWER);
 	}
 
@@ -78,6 +78,10 @@ public abstract class QuestPerformer {
 	private int calculateTimeToAnswerAll(Long startTime) {
 		Long timeUsed = TimeUnit.MILLISECONDS.toSeconds((System.currentTimeMillis() - startTime));
 		return timeUsed.intValue();
+	}
+
+	public Optional<Response> repeatQuestion() {
+		return input.getResponseBuilder().withShouldEndSession(false).withSpeech("Ich warte...").build();
 	}
 
 }

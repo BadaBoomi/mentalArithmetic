@@ -56,6 +56,9 @@ public class PerformQuestStateHandler implements RequestHandler {
 			}
 		} else if (input.matches(intentName(Constants.AMAZON_HELP_INTENT))) {
 			this.statusID = StatusEnum.HELP_INTENT;
+
+		} else if (input.matches(requestType(SessionEndedRequest.class))) {
+			this.statusID = StatusEnum.TIME_OUT;
 		} else {
 			this.statusID = StatusEnum.UNKNOWN;
 		}
@@ -88,6 +91,8 @@ public class PerformQuestStateHandler implements RequestHandler {
 			QuestPerformer questPerformer = questManager.getCurrentQuest(handlerInput, sessionAttributes,
 					this.statusID);
 			return questPerformer.performQuestIntent();
+		case TIME_OUT:
+			return questPerformer.repeatQuestion();
 		case HELP_INTENT:
 			return new IntroductionResponse().getResponse(handlerInput);
 		default:
