@@ -34,6 +34,7 @@ public abstract class QuestPerformer {
 	abstract Optional<Response> performTurn(Boolean isAnswerCorrect);
 
 	String getAnswerString(boolean isAnswerCorrect) {
+		logger.debug("\r\n" + "String getAnswer - isAnswerCorrect: " + isAnswerCorrect);
 		return (isAnswerCorrect) ? "Richtig!" : "Leider Falsch! Es sind " + sessionAttributes.get(EXPECTED_ANSWER);
 	}
 
@@ -58,6 +59,7 @@ public abstract class QuestPerformer {
 			boolean isAnswerCorrect = sessionAttributes.get(EXPECTED_ANSWER)
 					.equals(intent.getSlots().get(SLOT_USER_RESPONSE).getValue());
 			String answer = getAnswerString(isAnswerCorrect);
+			logger.debug("answer: " + answer);
 			if ((Integer) (sessionAttributes.get(MAX_TURN)) > (Integer) (sessionAttributes.get(CURRENT_TURN))) {
 				sessionAttributes.put(CURRENT_TURN, (Integer) (sessionAttributes.get(CURRENT_TURN)) + 1);
 				response = performTurn(isAnswerCorrect);

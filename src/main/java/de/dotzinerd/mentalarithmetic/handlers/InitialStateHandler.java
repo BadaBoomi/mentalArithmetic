@@ -1,9 +1,7 @@
 package de.dotzinerd.mentalarithmetic.handlers;
 
-import static com.amazon.ask.request.Predicates.intentName;
 import static com.amazon.ask.request.Predicates.requestType;
 
-import java.util.Map;
 import java.util.Optional;
 
 import org.apache.logging.log4j.LogManager;
@@ -11,14 +9,9 @@ import org.apache.logging.log4j.Logger;
 
 import com.amazon.ask.dispatcher.request.handler.HandlerInput;
 import com.amazon.ask.dispatcher.request.handler.RequestHandler;
-import com.amazon.ask.model.Intent;
-import com.amazon.ask.model.IntentRequest;
 import com.amazon.ask.model.LaunchRequest;
 import com.amazon.ask.model.Response;
 
-import de.dotzinerd.mentalarithmetic.manager.QuestManager;
-import de.dotzinerd.mentalarithmetic.model.Constants;
-import de.dotzinerd.mentalarithmetic.model.questperformer.QuestPerformer;
 import de.dotzinerd.mentalarithmetic.model.responses.IntroductionResponse;
 
 public class InitialStateHandler implements RequestHandler {

@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<uml:Model xmi:version="20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML" xmi:id="_Ev5icJNTEeibHPajbSl4Ag" name="model">
+<uml:Model xmi:version="20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML" xmi:id="_Ev5icJNTEeibHPajbSl4Ag" name="model">
   <packageImport xmi:type="uml:PackageImport" xmi:id="_E1UN8JNTEeibHPajbSl4Ag">
     <importedPackage xmi:type="uml:Model" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#_0"/>
   </packageImport>
-  <packagedElement xmi:type="uml:StateMachine" xmi:id="_Ev_pEJNTEeibHPajbSl4Ag" name="StateMachine1">
-    <region xmi:type="uml:Region" xmi:id="_EwIzAJNTEeibHPajbSl4Ag" name="Region1"/>
+  <packagedElement xmi:type="uml:StateMachine" xmi:id="_Ev_pEJNTEeibHPajbSl4Ag" name="Status">
+    <region xmi:type="uml:Region" xmi:id="_EwIzAJNTEeibHPajbSl4Ag" name="Region1">
+      <transition xmi:type="uml:Transition" xmi:id="_RZ0FcJmXEeiNGoQ_kYvG_A" name="Invoke_Skill" source="_5N2jUJh7EeiGVq9wceaFnw" target="_o_I5AJh7EeiGVq9wceaFnw"/>
+      <transition xmi:type="uml:Transition" xmi:id="_K__VQJmaEeiNGoQ_kYvG_A" name="CALL_QUEST &lt;xyz>" source="_o_I5AJh7EeiGVq9wceaFnw" target="_MiKFkJh8EeiGVq9wceaFnw"/>
+      <subvertex xmi:type="uml:State" xmi:id="_o_I5AJh7EeiGVq9wceaFnw" name="Introduction"/>
+      <subvertex xmi:type="uml:Pseudostate" xmi:id="_5N2jUJh7EeiGVq9wceaFnw" name="Skill inactive"/>
+      <subvertex xmi:type="uml:State" xmi:id="_MiKFkJh8EeiGVq9wceaFnw" name="PerformQuest &lt;xyz>"/>
+    </region>
   </packagedElement>
   <packagedElement xmi:type="uml:Activity" xmi:id="_EwNrgJNTEeibHPajbSl4Ag" name="Activity2"/>
   <packagedElement xmi:type="uml:Package" xmi:id="_pomIgJNTEeibHPajbSl4Ag" name="MentalArithmetic Skill">
@@ -16,4 +22,10 @@
   <packagedElement xmi:type="uml:Usage" xmi:id="_FVVVUJNUEeibHPajbSl4Ag" client="_t4hsoJNTEeibHPajbSl4Ag" supplier="_vz1iwJNTEeibHPajbSl4Ag"/>
   <packagedElement xmi:type="uml:Usage" xmi:id="_GVRvYJNUEeibHPajbSl4Ag" client="_t4hsoJNTEeibHPajbSl4Ag" supplier="_yTy-EJNTEeibHPajbSl4Ag"/>
   <packagedElement xmi:type="uml:Usage" xmi:id="_HGZqUJNUEeibHPajbSl4Ag" client="_t4hsoJNTEeibHPajbSl4Ag" supplier="_0PQlMJNTEeibHPajbSl4Ag"/>
+  <profileApplication xmi:type="uml:ProfileApplication" xmi:id="_H-d38Jh8EeiGVq9wceaFnw">
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_H-hiUJh8EeiGVq9wceaFnw" source="http://www.eclipse.org/uml2/2.0.0/UML">
+      <references xmi:type="ecore:EPackage" href="pathmap://PAPYRUS_ACTIONLANGUAGE_PROFILE/ActionLanguage-Profile.profile.uml#_Kv8EIKFXEeS_KNX0nfvIVQ"/>
+    </eAnnotations>
+    <appliedProfile xmi:type="uml:Profile" href="pathmap://PAPYRUS_ACTIONLANGUAGE_PROFILE/ActionLanguage-Profile.profile.uml#ActionLanguage"/>
+  </profileApplication>
 </uml:Model>

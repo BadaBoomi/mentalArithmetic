@@ -37,7 +37,7 @@ public class SimpleTwoDigitMultQuestPerformer extends QuestPerformer {
 		// Create the Simple card content.
 
 		return input.getResponseBuilder().addElicitSlotDirective(SLOT_USER_RESPONSE, intent).withShouldEndSession(false)
-				.withReprompt(speechText).withSpeech(speechText).build();
+				.withSpeech(speechText).build();
 
 	}
 
