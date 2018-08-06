@@ -99,6 +99,8 @@ public class PerformQuestStateHandler implements RequestHandler {
 						.and(sessionAttribute(Constants.KEY_STATE, Constants.STATE_PERFORM_QUEST)))
 				|| handlerInput.matches(intentName(Constants.AMAZON_HELP_INTENT)
 						.and(sessionAttribute(Constants.KEY_STATE, Constants.STATE_PERFORM_QUEST)))
+				|| handlerInput.matches(intentName(Constants.AMAZON_HELP_INTENT)
+						.and(sessionAttribute("AMAZON.StopIntent", Constants.STATE_PERFORM_QUEST)))
 				|| handlerInput.matches(requestType(SessionEndedRequest.class)
 						.and(sessionAttribute(Constants.KEY_STATE, Constants.STATE_PERFORM_QUEST)));
 		logger.debug("canHandle: " + yesIcan);
@@ -116,7 +118,7 @@ public class PerformQuestStateHandler implements RequestHandler {
 		case SV_SIMPLE_2Digit_Mult:
 			questPerformer = getQuestPerformer(handlerInput);
 			return questPerformer.performQuestIntent();
-		case TIME_OUT:
+		case StopIntent:
 			questPerformer = getQuestPerformer(handlerInput);
 			return questPerformer.repeatQuestion();
 		case HelpIntent:
