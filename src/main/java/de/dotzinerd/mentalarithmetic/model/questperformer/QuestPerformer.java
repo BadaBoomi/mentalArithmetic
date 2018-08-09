@@ -78,7 +78,7 @@ public abstract class QuestPerformer {
 				Long startTime = (Long) (sessionAttributes.get(START_TIME_INTENT));
 				answer += ". Gesamtdauer war " + String.valueOf(calculateTimeToAnswerAll(startTime)) + " Sekunden";
 				sessionAttributes.put(QUEST_STATE, STATE_NEW_QUEST);
-				response = input.getResponseBuilder().withShouldEndSession(true).withSpeech(answer).build();
+				response = input.getResponseBuilder().withShouldEndSession(false).withSpeech(answer).build();
 
 			}
 		}
