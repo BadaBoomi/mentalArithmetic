@@ -30,6 +30,7 @@ public class PerformQuestStateHandler implements RequestHandler {
 	static final Logger logger = LogManager.getLogger(PerformQuestStateHandler.class);
 	private IntentEnum intentID;
 	private Map<String, Object> sessionAttributes;
+	private Intent intent;
 
 	public PerformQuestStateHandler() {
 		super();
@@ -48,7 +49,7 @@ public class PerformQuestStateHandler implements RequestHandler {
 		}
 
 		IntentRequest intentRequest = (IntentRequest) input.getRequestEnvelope().getRequest();
-		Intent intent = intentRequest.getIntent();
+		this.intent = intentRequest.getIntent();
 		this.intentID = IntentEnum.getEnumByName(intent.getName());
 		logger.debug("intentID: " + intentID);
 

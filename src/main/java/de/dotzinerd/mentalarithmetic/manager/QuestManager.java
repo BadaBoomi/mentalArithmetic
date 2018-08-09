@@ -38,7 +38,7 @@ public class QuestManager {
 			case SimpleSquares:
 				return new SimpleTwoDigitMultQuestPerformer(input, sessionAttributes);
 			default:
-				return new SimpleTwoDigitSquareQuestPerformer(input, sessionAttributes);
+				return new SimpleMultiplicationQuestPerformer(input, sessionAttributes);
 			}
 
 		} else {

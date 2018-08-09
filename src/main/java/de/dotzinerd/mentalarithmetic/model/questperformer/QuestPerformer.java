@@ -8,13 +8,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.amazon.ask.dispatcher.request.handler.HandlerInput;
-import com.amazon.ask.model.DialogState;
 import com.amazon.ask.model.Intent;
-import com.amazon.ask.model.IntentRequest;
 import com.amazon.ask.model.Response;
-import com.amazon.ask.model.Session;
-
-import de.dotzinerd.mentalarithmetic.handlers.PerformQuestStateHandler;
+import com.amazon.ask.model.Slot;
 
 public abstract class QuestPerformer {
 	static final Logger logger = LogManager.getLogger(QuestPerformer.class);
@@ -29,9 +25,8 @@ public abstract class QuestPerformer {
 	protected static String STATE_WAIT_FOR_ANSWER = "WAITING FOR ANSWER";
 
 	HandlerInput input;
-	Intent intent;
-	DialogState state;
 	Map<String, Object> sessionAttributes;
+	Intent intent;
 
 	abstract Integer getMaxTurn();
 
@@ -42,10 +37,9 @@ public abstract class QuestPerformer {
 		return (isAnswerCorrect) ? "Richtig!" : "Leider Falsch! Es sind " + sessionAttributes.get(EXPECTED_ANSWER);
 	}
 
-	QuestPerformer(HandlerInput input, Map<String, Object> sessionAttributes) {
-		IntentRequest itr = (IntentRequest) input.getRequestEnvelope().getRequest();
-		this.intent = (Intent) itr.getIntent();
+	QuestPerformer(Intent intent, HandlerInput input, Map<String, Object> sessionAttributes) {
 		this.input = input;
+		this.intent = intent;
 		this.sessionAttributes = sessionAttributes;
 	}
 
@@ -56,6 +50,7 @@ public abstract class QuestPerformer {
 			state = STATE_NEXT_QUESTION;
 			sessionAttributes.put(QUEST_STATE, state);
 		}
+		logger.debug("state: " + state);
 		if (state.equals(STATE_NEXT_QUESTION)) {
 			logger.debug(sessionAttributes);
 			sessionAttributes.put(MAX_TURN, getMaxTurn());
@@ -64,8 +59,13 @@ public abstract class QuestPerformer {
 			sessionAttributes.put(QUEST_STATE, STATE_WAIT_FOR_ANSWER);
 			response = performTurn(null);
 		} else {
-			boolean isAnswerCorrect = sessionAttributes.get(EXPECTED_ANSWER)
-					.equals(intent.getSlots().get(SLOT_USER_RESPONSE).getValue());
+			logger.debug("check answer...");
+			Slot answerSlot = intent.getSlots().get(SLOT_USER_RESPONSE);
+			boolean isAnswerCorrect = false;
+			if (answerSlot != null) {
+				isAnswerCorrect = sessionAttributes.get(EXPECTED_ANSWER).equals(answerSlot.getValue());
+			}
+
 			String answer = getAnswerString(isAnswerCorrect);
 			logger.debug("answer: " + answer);
 			if ((Integer) (sessionAttributes.get(MAX_TURN)) > (Integer) (sessionAttributes.get(CURRENT_TURN))) {
