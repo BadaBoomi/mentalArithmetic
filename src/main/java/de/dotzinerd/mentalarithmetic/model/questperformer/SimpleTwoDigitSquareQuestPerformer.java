@@ -7,6 +7,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.amazon.ask.dispatcher.request.handler.HandlerInput;
+import com.amazon.ask.model.Intent;
 import com.amazon.ask.model.Response;
 
 import de.dotzinerd.mentalarithmetic.model.Quest;
@@ -15,8 +16,8 @@ import de.dotzinerd.mentalarithmetic.model.SimpleTwoDigitSquareQuest;
 public class SimpleTwoDigitSquareQuestPerformer extends QuestPerformer {
 	static final Logger logger = LogManager.getLogger(SimpleTwoDigitSquareQuestPerformer.class);
 
-	public SimpleTwoDigitSquareQuestPerformer(HandlerInput input, Map<String, Object> sessionAttributes) {
-		super(input, sessionAttributes);
+	public SimpleTwoDigitSquareQuestPerformer(Intent intent, HandlerInput input, Map<String, Object> sessionAttributes) {
+		super(intent, input, sessionAttributes);
 	}
 
 	@Override
