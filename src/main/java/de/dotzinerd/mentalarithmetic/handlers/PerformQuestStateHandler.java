@@ -30,7 +30,6 @@ public class PerformQuestStateHandler implements RequestHandler {
 	static final Logger logger = LogManager.getLogger(PerformQuestStateHandler.class);
 	private IntentEnum intentID;
 	private Map<String, Object> sessionAttributes;
-	
 
 	public PerformQuestStateHandler() {
 		super();
@@ -40,11 +39,11 @@ public class PerformQuestStateHandler implements RequestHandler {
 	void initializeLocalVars(HandlerInput input) {
 		this.sessionAttributes = input.getAttributesManager().getSessionAttributes();
 		logger.debug("sessionAttributes: " + sessionAttributes);
-				
+
 		if (this.sessionAttributes == null) {
 			input.getAttributesManager().setSessionAttributes(new HashMap<String, Object>());
 			this.sessionAttributes = input.getAttributesManager().getSessionAttributes();
-		} else if (!this.sessionAttributes.get(Constants.KEY_STATE).equals(Constants.STATE_PERFORM_QUEST)) {
+		} else if ((String) this.sessionAttributes.get(Constants.KEY_STATE) == null) {
 			this.sessionAttributes.put(Constants.KEY_STATE, Constants.STATE_PERFORM_QUEST);
 		}
 
@@ -52,7 +51,6 @@ public class PerformQuestStateHandler implements RequestHandler {
 		Intent intent = intentRequest.getIntent();
 		this.intentID = IntentEnum.getEnumByName(intent.getName());
 		logger.debug("intentID: " + intentID);
-
 
 //		for (IntentEnum en : IntentEnum.values()) {
 //			if (input.matches(intentName(en.getIntentName()))) {

@@ -35,8 +35,7 @@ public class SimpleTwoDigitSquareQuestPerformer extends QuestPerformer {
 
 		// Create the Simple card content.
 
-		return input.getResponseBuilder().addElicitSlotDirective(SLOT_USER_RESPONSE, intent).withShouldEndSession(false)
-				.withSpeech(speechText).build();
+		return input.getResponseBuilder().withSpeech(speechText).withShouldEndSession(false).build();
 
 	}
 
