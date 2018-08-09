@@ -21,13 +21,13 @@ public class QuestManager {
 	static final Logger logger = LogManager.getLogger(QuestManager.class);
 	QuestPerformer currentQuest = null;
 
-	public QuestPerformer getCurrentQuest(Intent intent, HandlerInput input, Map<String, Object> sessionAttributes) {
+	public QuestPerformer getCurrentQuest(Intent intent, IntentEnum intentID, HandlerInput input, Map<String, Object> sessionAttributes) {
 		logger.debug("intent: " + intent.getName());
 
 		sessionAttributes.put(Constants.KEY_QUEST_TYPE, intent.getName());
 
 		if (currentQuest == null) {
-			switch (IntentEnum.getEnumByName(intent.getName())) {
+			switch (intentID) {
 			case SimpleEinmalEins:
 				return new SimpleMultiplicationQuestPerformer(intent, input, sessionAttributes);
 			case SimpleMultiplication:

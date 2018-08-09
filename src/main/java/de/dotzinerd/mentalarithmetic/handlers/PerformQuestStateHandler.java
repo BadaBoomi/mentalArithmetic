@@ -44,14 +44,20 @@ public class PerformQuestStateHandler implements RequestHandler {
 		if (this.sessionAttributes == null) {
 			input.getAttributesManager().setSessionAttributes(new HashMap<String, Object>());
 			this.sessionAttributes = input.getAttributesManager().getSessionAttributes();
-		} else if ((String) this.sessionAttributes.get(Constants.KEY_STATE) == null) {
-			this.sessionAttributes.put(Constants.KEY_STATE, Constants.STATE_PERFORM_QUEST);
+		} else {
+			if ((String) this.sessionAttributes.get(Constants.KEY_STATE) == null) {
+				this.sessionAttributes.put(Constants.KEY_STATE, Constants.STATE_PERFORM_QUEST);
+			}
 		}
 
 		IntentRequest intentRequest = (IntentRequest) input.getRequestEnvelope().getRequest();
 		this.intent = intentRequest.getIntent();
-		this.intentID = IntentEnum.getEnumByName(intent.getName());
 		logger.debug("intentID: " + intentID);
+		if (this.sessionAttributes.containsKey(Constants.KEY_QUEST_TYPE)) {
+			this.intentID = IntentEnum.getEnumByName((String) sessionAttributes.get(Constants.KEY_QUEST_TYPE));
+		} else {
+			this.intentID = IntentEnum.getEnumByName(intent.getName());
+		}
 
 //		for (IntentEnum en : IntentEnum.values()) {
 //			if (input.matches(intentName(en.getIntentName()))) {
@@ -104,7 +110,7 @@ public class PerformQuestStateHandler implements RequestHandler {
 
 	private QuestPerformer getQuestPerformer(HandlerInput handlerInput) {
 		QuestManager questManager = new QuestManager();
-		QuestPerformer questPerformer = questManager.getCurrentQuest(this.intent, handlerInput, sessionAttributes);
+		QuestPerformer questPerformer = questManager.getCurrentQuest(this.intent, this.intentID, handlerInput, sessionAttributes);
 		return questPerformer;
 	}
 }
