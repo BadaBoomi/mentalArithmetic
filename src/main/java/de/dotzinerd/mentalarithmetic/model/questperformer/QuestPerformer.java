@@ -24,6 +24,9 @@ public abstract class QuestPerformer {
 	protected static String SLOT_USER_RESPONSE = "SLOT_NUMBER";
 	protected static String MAX_TURN = "MAX_TURN";
 	protected static String START_TIME_INTENT = "START_TIME_INTENT";
+	protected static String QUEST_STATE = "QUEST_STATE";
+	protected static String STATE_NEXT_QUESTION = "NEW QUESTION";
+	protected static String STATE_WAIT_FOR_ANSWER = "WAITING FOR ANSWER";
 
 	HandlerInput input;
 	Intent intent;
@@ -42,19 +45,23 @@ public abstract class QuestPerformer {
 	QuestPerformer(HandlerInput input, Map<String, Object> sessionAttributes) {
 		IntentRequest itr = (IntentRequest) input.getRequestEnvelope().getRequest();
 		this.intent = (Intent) itr.getIntent();
-		this.state = itr.getDialogState();
 		this.input = input;
 		this.sessionAttributes = sessionAttributes;
 	}
 
 	public Optional<Response> performQuestIntent() {
 		Optional<Response> response;
-
-		if (state.equals(DialogState.STARTED)) {
+		String state = (String) sessionAttributes.get(QUEST_STATE);
+		if (state == null) {
+			state = STATE_NEXT_QUESTION;
+			sessionAttributes.put(QUEST_STATE, state);
+		}
+		if (state.equals(STATE_NEXT_QUESTION)) {
 			logger.debug(sessionAttributes);
 			sessionAttributes.put(MAX_TURN, getMaxTurn());
 			sessionAttributes.put(CURRENT_TURN, 1);
 			sessionAttributes.put(START_TIME_INTENT, System.currentTimeMillis());
+			sessionAttributes.put(QUEST_STATE, STATE_WAIT_FOR_ANSWER);
 			response = performTurn(null);
 		} else {
 			boolean isAnswerCorrect = sessionAttributes.get(EXPECTED_ANSWER)
@@ -63,12 +70,13 @@ public abstract class QuestPerformer {
 			logger.debug("answer: " + answer);
 			if ((Integer) (sessionAttributes.get(MAX_TURN)) > (Integer) (sessionAttributes.get(CURRENT_TURN))) {
 				sessionAttributes.put(CURRENT_TURN, (Integer) (sessionAttributes.get(CURRENT_TURN)) + 1);
+				sessionAttributes.put(QUEST_STATE, STATE_NEXT_QUESTION);
 				response = performTurn(isAnswerCorrect);
 
 			} else {
 				Long startTime = (Long) (sessionAttributes.get(START_TIME_INTENT));
 				answer += ". Gesamtdauer war " + String.valueOf(calculateTimeToAnswerAll(startTime)) + " Sekunden";
-
+				sessionAttributes.remove(QUEST_STATEs);
 				response = input.getResponseBuilder().withShouldEndSession(true).withSpeech(answer).build();
 
 			}
@@ -87,8 +95,7 @@ public abstract class QuestPerformer {
 	}
 
 	public Optional<Response> repeatQuestion() {
-		return input.getResponseBuilder().withShouldEndSession(false)
-				.withSpeech("Ich warte..." ).build();
+		return input.getResponseBuilder().withShouldEndSession(false).withSpeech("Ich warte...").build();
 	}
 
 }
