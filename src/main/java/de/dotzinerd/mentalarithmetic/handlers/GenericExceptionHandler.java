@@ -20,7 +20,7 @@ public class GenericExceptionHandler implements ExceptionHandler {
 
 	@Override
 	public Optional<Response> handle(HandlerInput input, Throwable throwable) {
-		logger.error("Exception handled: " + throwable.getMessage());
+		throwable.printStackTrace();
 		logger.error("Exception caused: " + throwable.getCause().getMessage());
 		return input.getResponseBuilder().withSpeech(EXCEPTION_MESSAGE).build();
 	}

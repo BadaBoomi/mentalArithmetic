@@ -39,6 +39,8 @@ public class PerformQuestStateHandler implements RequestHandler {
 
 	void initializeLocalVars(HandlerInput input) {
 		this.sessionAttributes = input.getAttributesManager().getSessionAttributes();
+		logger.debug("sessionAttributes: " + sessionAttributes);
+				
 		if (this.sessionAttributes == null) {
 			input.getAttributesManager().setSessionAttributes(new HashMap<String, Object>());
 			this.sessionAttributes = input.getAttributesManager().getSessionAttributes();
@@ -49,6 +51,7 @@ public class PerformQuestStateHandler implements RequestHandler {
 		IntentRequest intentRequest = (IntentRequest) input.getRequestEnvelope().getRequest();
 		Intent intent = intentRequest.getIntent();
 		this.intentID = IntentEnum.getEnumByName(intent.getName());
+		logger.debug("intentID: " + intentID);
 
 
 //		for (IntentEnum en : IntentEnum.values()) {
@@ -82,14 +85,18 @@ public class PerformQuestStateHandler implements RequestHandler {
 		case SimpleEinmalEins:
 		case SimpleMultiplication:
 		case SimpleSquares:
+			logger.debug("quest intent");
 			questPerformer = getQuestPerformer(handlerInput);
 			return questPerformer.performQuestIntent();
 		case StopIntent:
+			logger.debug("StopIntent");
 			questPerformer = getQuestPerformer(handlerInput);
 			return questPerformer.repeatQuestion();
 		case HelpIntent:
+			logger.debug("HelpIntent");
 			return new IntroductionResponse().getResponse(handlerInput);
 		default:
+			logger.debug("default");
 			return new IntroductionResponse().getResponse(handlerInput);
 		}
 
