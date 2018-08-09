@@ -21,7 +21,8 @@ public abstract class QuestPerformer {
 	protected static String MAX_TURN = "MAX_TURN";
 	protected static String START_TIME_INTENT = "START_TIME_INTENT";
 	protected static String QUEST_STATE = "QUEST_STATE";
-	protected static String STATE_NEXT_QUESTION = "NEW QUESTION";
+	protected static String STATE_NEW_QUEST= "NEW QUEST";
+	protected static String STATE_NEXT_QUESTION= "NEXT_QUESTION";
 	protected static String STATE_WAIT_FOR_ANSWER = "WAITING FOR ANSWER";
 
 	HandlerInput input;
@@ -47,11 +48,11 @@ public abstract class QuestPerformer {
 		Optional<Response> response;
 		String state = (String) sessionAttributes.get(QUEST_STATE);
 		if (state == null) {
-			state = STATE_NEXT_QUESTION;
+			state = STATE_NEW_QUEST;
 			sessionAttributes.put(QUEST_STATE, state);
 		}
 		logger.debug("state: " + state);
-		if (state.equals(STATE_NEXT_QUESTION)) {
+		if (state.equals(STATE_NEW_QUEST)) {
 			logger.debug(sessionAttributes);
 			sessionAttributes.put(MAX_TURN, getMaxTurn());
 			sessionAttributes.put(CURRENT_TURN, 1);
@@ -76,7 +77,7 @@ public abstract class QuestPerformer {
 			} else {
 				Long startTime = (Long) (sessionAttributes.get(START_TIME_INTENT));
 				answer += ". Gesamtdauer war " + String.valueOf(calculateTimeToAnswerAll(startTime)) + " Sekunden";
-				sessionAttributes.remove(QUEST_STATE);
+				sessionAttributes.put(QUEST_STATE, STATE_NEW_QUEST);
 				response = input.getResponseBuilder().withShouldEndSession(true).withSpeech(answer).build();
 
 			}
