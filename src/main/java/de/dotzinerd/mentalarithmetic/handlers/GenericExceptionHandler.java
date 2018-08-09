@@ -11,7 +11,7 @@ import com.amazon.ask.model.Response;
 
 public class GenericExceptionHandler implements ExceptionHandler {
 	static final Logger logger = LogManager.getLogger(GenericExceptionHandler.class);
-	private static final String EXCEPTION_MESSAGE = "Oh je, leider ist hier gerade ein unerwarteter Fehler aufgetreten. Tut mir echt leid, aber ich fürchte, da muss nochmal ein Entwickler draufschauen.";
+	private static final String EXCEPTION_MESSAGE = "Oh je, leider ist hier gerade ein unerwarteter Fehler aufgetreten. Tut mir echt leid, aber ich fürchte, da muss nochmal Heiko draufschauen.";
 
 	@Override
 	public boolean canHandle(HandlerInput input, Throwable throwable) {
@@ -20,7 +20,8 @@ public class GenericExceptionHandler implements ExceptionHandler {
 
 	@Override
 	public Optional<Response> handle(HandlerInput input, Throwable throwable) {
-		logger.error("Exception handled: " + throwable.getStackTrace());
+		logger.error("Exception handled: " + throwable.getMessage());
+		logger.error("Exception caused: " + throwable.getCause().getMessage());
 		return input.getResponseBuilder().withSpeech(EXCEPTION_MESSAGE).build();
 	}
 
