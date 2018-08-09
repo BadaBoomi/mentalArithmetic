@@ -21,7 +21,7 @@ public abstract class QuestPerformer {
 	protected static String EXPECTED_ANSWER = "EXPECTED_ANSWER";
 	protected static String CURRENT_QUESTION = "CURRENT_QUESTION";
 	protected static String CURRENT_TURN = "TURN";
-	protected static String SLOT_USER_RESPONSE = "numberResponse";
+	protected static String SLOT_USER_RESPONSE = "SLOT_NUMBER";
 	protected static String MAX_TURN = "MAX_TURN";
 	protected static String START_TIME_INTENT = "START_TIME_INTENT";
 

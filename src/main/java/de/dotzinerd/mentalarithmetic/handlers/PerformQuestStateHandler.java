@@ -21,15 +21,16 @@ import com.amazon.ask.model.SessionEndedRequest;
 
 import de.dotzinerd.mentalarithmetic.manager.QuestManager;
 import de.dotzinerd.mentalarithmetic.model.Constants;
-import de.dotzinerd.mentalarithmetic.model.StatusEnum;
+import de.dotzinerd.mentalarithmetic.model.IntentEnum;
 import de.dotzinerd.mentalarithmetic.model.questperformer.QuestPerformer;
 import de.dotzinerd.mentalarithmetic.model.responses.IntroductionResponse;
 
 public class PerformQuestStateHandler implements RequestHandler {
 
 	static final Logger logger = LogManager.getLogger(PerformQuestStateHandler.class);
-	private StatusEnum statusID;
+	private IntentEnum intentID;
 	private Map<String, Object> sessionAttributes;
+	
 
 	public PerformQuestStateHandler() {
 		super();
@@ -41,68 +42,33 @@ public class PerformQuestStateHandler implements RequestHandler {
 		if (this.sessionAttributes == null) {
 			input.getAttributesManager().setSessionAttributes(new HashMap<String, Object>());
 			this.sessionAttributes = input.getAttributesManager().getSessionAttributes();
+		} else if (!this.sessionAttributes.get(Constants.KEY_STATE).equals(Constants.STATE_PERFORM_QUEST)) {
+			this.sessionAttributes.put(Constants.KEY_STATE, Constants.STATE_PERFORM_QUEST);
 		}
 
 		IntentRequest intentRequest = (IntentRequest) input.getRequestEnvelope().getRequest();
 		Intent intent = intentRequest.getIntent();
+		this.intentID = IntentEnum.getEnumByName(intent.getName());
 
-		if (input.matches(intentName(Constants.PERFORM_QUEST_INTENT))) {
-			this.sessionAttributes.put(Constants.KEY_STATE, Constants.STATE_PERFORM_QUEST);
-			if (intent.getSlots().get(Constants.SLOT_QUEST_NAME).getValue() != null) {
-				logger.debug(Constants.SLOT_QUEST_NAME + " ID:" + intent.getSlots().get(Constants.SLOT_QUEST_NAME)
-						.getResolutions().getResolutionsPerAuthority().get(0).getValues().get(0).getValue().getId());
-				this.statusID = StatusEnum.getEnumByName(intent.getSlots().get(Constants.SLOT_QUEST_NAME)
-						.getResolutions().getResolutionsPerAuthority().get(0).getValues().get(0).getValue().getId());
-			}
-		} else if (input.matches(intentName(Constants.AMAZON_HELP_INTENT))) {
-			this.statusID = StatusEnum.HelpIntent;
-		} else if (input.matches(intentName("AMAZON.CancelIntent"))) {
-			this.statusID = StatusEnum.CancelIntent;
-		} else if (input.matches(intentName("AMAZON.LoopOffIntent"))) {
-			this.statusID = StatusEnum.LoopOffIntent;
-		} else if (input.matches(intentName("AMAZON.LoopOnIntent"))) {
-			this.statusID = StatusEnum.LoopOnIntent;
-		} else if (input.matches(intentName("AMAZON.NextIntent"))) {
-			this.statusID = StatusEnum.NextIntent;
-		} else if (input.matches(intentName("AMAZON.NoIntent"))) {
-			this.statusID = StatusEnum.NoIntent;
-		} else if (input.matches(intentName("AMAZON.PauseIntent"))) {
-			this.statusID = StatusEnum.PauseIntent;
-		} else if (input.matches(intentName("AMAZON.PreviousIntent"))) {
-			this.statusID = StatusEnum.PreviousIntent;
-		} else if (input.matches(intentName("AMAZON.RepeatIntent"))) {
-			this.statusID = StatusEnum.RepeatIntent;
-		} else if (input.matches(intentName("AMAZON.ResumeIntent"))) {
-			this.statusID = StatusEnum.ResumeIntent;
-		} else if (input.matches(intentName("AMAZON.ShuffleOffIntent"))) {
-			this.statusID = StatusEnum.ShuffleOffIntent;
-		} else if (input.matches(intentName("AMAZON.ShuffleOnIntent"))) {
-			this.statusID = StatusEnum.ShuffleOnIntent;
-		} else if (input.matches(intentName("AMAZON.StopIntent"))) {
-			this.statusID = StatusEnum.StopIntent;
-		} else if (input.matches(intentName("AMAZON.YesIntent"))) {
-			this.statusID = StatusEnum.YesIntent;
-		} else if (input.matches(requestType(SessionEndedRequest.class))) {
-			this.statusID = StatusEnum.TIME_OUT;
-		} else {
-			this.statusID = StatusEnum.UNKNOWN;
-		}
-		logger.debug("status= " + this.statusID.toString());
+
+//		for (IntentEnum en : IntentEnum.values()) {
+//			if (input.matches(intentName(en.getIntentName()))) {
+//				this.statusID = en;
+//			}
+//		}
+
 	}
 
 	public boolean canHandle(HandlerInput handlerInput) {
 		logger.debug("handlerInput.getRequestEnvelope().getRequest().getType(): "
 				+ handlerInput.getRequestEnvelope().getRequest().getType());
 		logger.debug(handlerInput.getRequestEnvelope().getRequest().toString());
-		boolean yesIcan = handlerInput.matches(intentName("performQuest"))
-				|| handlerInput.matches(intentName("AMAZON.StartOverIntent")
+		boolean yesIcan = handlerInput
+				.matches(requestType(IntentRequest.class)
 						.and(sessionAttribute(Constants.KEY_STATE, Constants.STATE_PERFORM_QUEST)))
-				|| handlerInput.matches(intentName(Constants.AMAZON_HELP_INTENT)
-						.and(sessionAttribute(Constants.KEY_STATE, Constants.STATE_PERFORM_QUEST)))
-				|| handlerInput.matches(intentName(Constants.AMAZON_HELP_INTENT)
-						.and(sessionAttribute("AMAZON.StopIntent", Constants.STATE_PERFORM_QUEST)))
-				|| handlerInput.matches(requestType(SessionEndedRequest.class)
-						.and(sessionAttribute(Constants.KEY_STATE, Constants.STATE_PERFORM_QUEST)));
+				|| handlerInput.matches(intentName("SimpleEinmalEins"))
+				|| handlerInput.matches(intentName("SimpleMultiplication"))
+				|| handlerInput.matches(intentName("SimpleSquares"));
 		logger.debug("canHandle: " + yesIcan);
 		return yesIcan;
 	}
@@ -112,10 +78,10 @@ public class PerformQuestStateHandler implements RequestHandler {
 		QuestPerformer questPerformer;
 		initializeLocalVars(handlerInput);
 
-		switch (this.statusID) {
-		case SV_SIMPLE_MULT:
-		case SV_SIMPLE_2Digit_SQUARES:
-		case SV_SIMPLE_2Digit_Mult:
+		switch (this.intentID) {
+		case SimpleEinmalEins:
+		case SimpleMultiplication:
+		case SimpleSquares:
 			questPerformer = getQuestPerformer(handlerInput);
 			return questPerformer.performQuestIntent();
 		case StopIntent:
@@ -131,7 +97,7 @@ public class PerformQuestStateHandler implements RequestHandler {
 
 	private QuestPerformer getQuestPerformer(HandlerInput handlerInput) {
 		QuestManager questManager = new QuestManager();
-		QuestPerformer questPerformer = questManager.getCurrentQuest(handlerInput, sessionAttributes, this.statusID);
+		QuestPerformer questPerformer = questManager.getCurrentQuest(handlerInput, sessionAttributes, this.intentID);
 		return questPerformer;
 	}
 }
