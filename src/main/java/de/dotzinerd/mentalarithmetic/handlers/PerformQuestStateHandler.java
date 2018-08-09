@@ -104,7 +104,7 @@ public class PerformQuestStateHandler implements RequestHandler {
 
 	private QuestPerformer getQuestPerformer(HandlerInput handlerInput) {
 		QuestManager questManager = new QuestManager();
-		QuestPerformer questPerformer = questManager.getCurrentQuest(handlerInput, sessionAttributes, this.intentID);
+		QuestPerformer questPerformer = questManager.getCurrentQuest(this.intent, handlerInput, sessionAttributes);
 		return questPerformer;
 	}
 }

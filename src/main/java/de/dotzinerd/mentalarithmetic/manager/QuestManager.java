@@ -21,24 +21,21 @@ public class QuestManager {
 	static final Logger logger = LogManager.getLogger(QuestManager.class);
 	QuestPerformer currentQuest = null;
 
-	public QuestPerformer getCurrentQuest(HandlerInput input, Map<String, Object> sessionAttributes,
-			IntentEnum intentID) {
-		logger.debug("intentID: " +intentID);
-		if (intentID == null) {
-			intentID = IntentEnum.getEnumByName((String) sessionAttributes.get(Constants.KEY_QUEST_TYPE));
-		} else {
-			sessionAttributes.put(Constants.KEY_QUEST_TYPE, intentID.getIntentName());
-		}
+	public QuestPerformer getCurrentQuest(Intent intent, HandlerInput input, Map<String, Object> sessionAttributes) {
+		logger.debug("intent: " + intent.getName());
+
+		sessionAttributes.put(Constants.KEY_QUEST_TYPE, intent.getName());
+
 		if (currentQuest == null) {
-			switch (intentID) {
+			switch (IntentEnum.getEnumByName(intent.getName())) {
 			case SimpleEinmalEins:
-				return new SimpleMultiplicationQuestPerformer(input, sessionAttributes);
+				return new SimpleMultiplicationQuestPerformer(intent, input, sessionAttributes);
 			case SimpleMultiplication:
-				return new SimpleTwoDigitSquareQuestPerformer(input, sessionAttributes);
+				return new SimpleTwoDigitSquareQuestPerformer(intent, input, sessionAttributes);
 			case SimpleSquares:
-				return new SimpleTwoDigitMultQuestPerformer(input, sessionAttributes);
+				return new SimpleTwoDigitMultQuestPerformer(intent, input, sessionAttributes);
 			default:
-				return new SimpleMultiplicationQuestPerformer(input, sessionAttributes);
+				return new SimpleMultiplicationQuestPerformer(intent, input, sessionAttributes);
 			}
 
 		} else {
