@@ -83,6 +83,7 @@ public class PerformQuestStateHandler implements RequestHandler {
 		case SimpleEinmalEins:
 		case SimpleMultiplication:
 		case SimpleSquares:
+		case NumberAnswered:
 			logger.debug("quest intent");
 			questPerformer = getQuestPerformer(handlerInput);
 			return questPerformer.performQuestIntent();
