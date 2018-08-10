@@ -55,8 +55,7 @@ public class PerformQuestStateHandler implements RequestHandler {
 			this.sessionAttributes.put(KEY_INTENT, intent.getName());
 			this.intentID = IntentEnum.getEnumByName(intent.getName());
 		} else if (sessionAttributes.containsKey(Constants.KEY_STATE)
-				&& (sessionAttributes.get(Constants.KEY_STATE).equals(Constants.STATE_PERFORM_QUEST)
-						|| sessionAttributes.get(Constants.KEY_STATE).equals(Constants.STATE_TRAIN))) {
+				&& (!sessionAttributes.get(Constants.KEY_STATE).equals(Constants.STATE_NEXT_INTENT))) {
 			this.intentID = IntentEnum.getEnumByName((String) sessionAttributes.get(KEY_INTENT));
 		} else {
 			this.intentID = IntentEnum.getEnumByName(intent.getName());
