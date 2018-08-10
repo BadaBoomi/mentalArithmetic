@@ -19,25 +19,21 @@ import de.dotzinerd.mentalarithmetic.model.questperformer.SimpleTwoDigitSquareQu
 
 public class QuestManager {
 	static final Logger logger = LogManager.getLogger(QuestManager.class);
-	QuestPerformer currentQuest = null;
 
-	public QuestPerformer getCurrentQuest(Intent intent, IntentEnum intentID, HandlerInput input, Map<String, Object> sessionAttributes) {
+	public QuestPerformer getCurrentQuest(Intent intent, IntentEnum intentID, HandlerInput input,
+			Map<String, Object> sessionAttributes) {
 		logger.debug("intent: " + intent.getName());
 
-		if (currentQuest == null) {
-			switch (intentID) {
-			case SimpleEinmalEins:
-				return new SimpleMultiplicationQuestPerformer(intent, input, sessionAttributes);
-			case SimpleMultiplication:
-				return new SimpleTwoDigitSquareQuestPerformer(intent, input, sessionAttributes);
-			case SimpleSquares:
-				return new SimpleTwoDigitMultQuestPerformer(intent, input, sessionAttributes);
-			default:
-				return new SimpleMultiplicationQuestPerformer(intent, input, sessionAttributes);
-			}
-
-		} else {
-			return currentQuest;
+		switch (intentID) {
+		case SimpleEinmalEins:
+			return new SimpleMultiplicationQuestPerformer(intent, input, sessionAttributes);
+		case SimpleMultiplication:
+			return new SimpleTwoDigitMultQuestPerformer(intent, input, sessionAttributes);
+		case SimpleSquares:
+			return new SimpleTwoDigitSquareQuestPerformer(intent, input, sessionAttributes);
+		default:
+			return new SimpleMultiplicationQuestPerformer(intent, input, sessionAttributes);
 		}
+
 	}
 }
