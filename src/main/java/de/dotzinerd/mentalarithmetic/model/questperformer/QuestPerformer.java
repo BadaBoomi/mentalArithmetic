@@ -22,7 +22,6 @@ public abstract class QuestPerformer {
 	protected static String SLOT_USER_RESPONSE = "SLOT_NUMBER";
 	protected static String MAX_TURN = "MAX_TURN";
 	protected static String START_TIME_INTENT = "START_TIME_INTENT";
-	
 
 	HandlerInput input;
 	Map<String, Object> sessionAttributes;
@@ -46,7 +45,7 @@ public abstract class QuestPerformer {
 	public Optional<Response> performQuestIntent() {
 		Optional<Response> response;
 		String state = (String) sessionAttributes.get(Constants.KEY_STATE);
-		if (state == null) {
+		if (state == null || state.equals(Constants.STATE_NEXT_INTENT)) {
 			state = Constants.STATE_NEW_QUEST;
 			sessionAttributes.put(Constants.KEY_STATE, state);
 		}
