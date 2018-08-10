@@ -66,6 +66,10 @@ public abstract class QuestPerformer {
 					"answerSlot.getConfirmationStatus().getValue(): " + answerSlot.getConfirmationStatus().getValue());
 			logger.debug("answerSlot.getValue(): " + answerSlot.getValue());
 
+			if (answerSlot.getValue() == null) {
+				return input.getResponseBuilder().withShouldEndSession(false).withSpeech("konnte ich nicht verstehen")
+						.build();
+			}
 			boolean isAnswerCorrect = false;
 			if (answerSlot != null) {
 				isAnswerCorrect = sessionAttributes.get(EXPECTED_ANSWER).equals(answerSlot.getValue());
@@ -82,7 +86,8 @@ public abstract class QuestPerformer {
 				Long startTime = (Long) (sessionAttributes.get(START_TIME_INTENT));
 				answer += ". Gesamtdauer war " + String.valueOf(calculateTimeToAnswerAll(startTime)) + " Sekunden";
 				sessionAttributes.put(QUEST_STATE, STATE_NEW_QUEST);
-				response = input.getResponseBuilder().withShouldEndSession(false).withSpeech(answer).build();
+				response = input.getResponseBuilder().withShouldEndSession(false).withSpeech(answer)
+						.withReprompt("wie?").build();
 
 			}
 		}
