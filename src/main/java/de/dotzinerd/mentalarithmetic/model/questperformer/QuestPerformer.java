@@ -21,8 +21,8 @@ public abstract class QuestPerformer {
 	protected static String MAX_TURN = "MAX_TURN";
 	protected static String START_TIME_INTENT = "START_TIME_INTENT";
 	protected static String QUEST_STATE = "QUEST_STATE";
-	protected static String STATE_NEW_QUEST= "NEW QUEST";
-	protected static String STATE_NEXT_QUESTION= "NEXT_QUESTION";
+	protected static String STATE_NEW_QUEST = "NEW QUEST";
+	protected static String STATE_NEXT_QUESTION = "NEXT_QUESTION";
 	protected static String STATE_WAIT_FOR_ANSWER = "WAITING FOR ANSWER";
 
 	HandlerInput input;
@@ -62,6 +62,10 @@ public abstract class QuestPerformer {
 		} else {
 			logger.debug("check answer...");
 			Slot answerSlot = intent.getSlots().get(SLOT_USER_RESPONSE);
+			logger.debug(
+					"answerSlot.getConfirmationStatus().getValue(): " + answerSlot.getConfirmationStatus().getValue());
+			logger.debug("answerSlot.getValue(): " + answerSlot.getValue());
+
 			boolean isAnswerCorrect = false;
 			if (answerSlot != null) {
 				isAnswerCorrect = sessionAttributes.get(EXPECTED_ANSWER).equals(answerSlot.getValue());

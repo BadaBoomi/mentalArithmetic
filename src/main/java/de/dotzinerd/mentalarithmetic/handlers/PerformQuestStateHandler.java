@@ -73,7 +73,8 @@ public class PerformQuestStateHandler implements RequestHandler {
 						.and(sessionAttribute(Constants.KEY_STATE, Constants.STATE_PERFORM_QUEST)))
 				|| handlerInput.matches(intentName("SimpleEinmalEins"))
 				|| handlerInput.matches(intentName("SimpleMultiplication"))
-				|| handlerInput.matches(intentName("SimpleSquares"));
+				|| handlerInput.matches(intentName("SimpleSquares"))
+				|| handlerInput.matches(intentName("NumberAnswered"));
 		logger.debug("canHandle: " + yesIcan);
 		return yesIcan;
 	}
