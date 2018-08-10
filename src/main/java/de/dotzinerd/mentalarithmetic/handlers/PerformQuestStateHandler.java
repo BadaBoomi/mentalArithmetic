@@ -31,6 +31,7 @@ public class PerformQuestStateHandler implements RequestHandler {
 	private IntentEnum intentID;
 	private Map<String, Object> sessionAttributes;
 	private Intent intent;
+	private static String KEY_INTENT = "INTENT";
 
 	public PerformQuestStateHandler() {
 		super();
@@ -38,32 +39,28 @@ public class PerformQuestStateHandler implements RequestHandler {
 	}
 
 	void initializeLocalVars(HandlerInput input) {
+		IntentRequest intentRequest = (IntentRequest) input.getRequestEnvelope().getRequest();
+		this.intent = intentRequest.getIntent();
+		logger.debug("intent: " + intent.getName());
+
 		this.sessionAttributes = input.getAttributesManager().getSessionAttributes();
 		logger.debug("sessionAttributes: " + sessionAttributes);
 
 		if (this.sessionAttributes == null) {
 			input.getAttributesManager().setSessionAttributes(new HashMap<String, Object>());
 			this.sessionAttributes = input.getAttributesManager().getSessionAttributes();
-		} else {
-			if ((String) this.sessionAttributes.get(Constants.KEY_STATE) == null) {
-				this.sessionAttributes.put(Constants.KEY_STATE, Constants.STATE_PERFORM_QUEST);
-			}
 		}
 
-		IntentRequest intentRequest = (IntentRequest) input.getRequestEnvelope().getRequest();
-		this.intent = intentRequest.getIntent();
-		logger.debug("intentID: " + intentID);
-		if (this.sessionAttributes.containsKey(Constants.KEY_QUEST_TYPE)) {
-			this.intentID = IntentEnum.getEnumByName((String) sessionAttributes.get(Constants.KEY_QUEST_TYPE));
+		if ((String) this.sessionAttributes.get(KEY_INTENT) == null) {
+			this.sessionAttributes.put(KEY_INTENT, intent.getName());
+			this.intentID = IntentEnum.getEnumByName(intent.getName());
+		} else if (sessionAttributes.containsKey(Constants.KEY_STATE)
+				&& (sessionAttributes.get(Constants.KEY_STATE).equals(Constants.STATE_PERFORM_QUEST)
+						|| sessionAttributes.get(Constants.KEY_STATE).equals(Constants.STATE_TRAIN))) {
+			this.intentID = IntentEnum.getEnumByName((String) sessionAttributes.get(KEY_INTENT));
 		} else {
 			this.intentID = IntentEnum.getEnumByName(intent.getName());
 		}
-
-//		for (IntentEnum en : IntentEnum.values()) {
-//			if (input.matches(intentName(en.getIntentName()))) {
-//				this.statusID = en;
-//			}
-//		}
 
 	}
 
@@ -110,7 +107,8 @@ public class PerformQuestStateHandler implements RequestHandler {
 
 	private QuestPerformer getQuestPerformer(HandlerInput handlerInput) {
 		QuestManager questManager = new QuestManager();
-		QuestPerformer questPerformer = questManager.getCurrentQuest(this.intent, this.intentID, handlerInput, sessionAttributes);
+		QuestPerformer questPerformer = questManager.getCurrentQuest(this.intent, this.intentID, handlerInput,
+				sessionAttributes);
 		return questPerformer;
 	}
 }

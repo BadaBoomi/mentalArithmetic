@@ -24,8 +24,6 @@ public class QuestManager {
 	public QuestPerformer getCurrentQuest(Intent intent, IntentEnum intentID, HandlerInput input, Map<String, Object> sessionAttributes) {
 		logger.debug("intent: " + intent.getName());
 
-		sessionAttributes.put(Constants.KEY_QUEST_TYPE, intent.getName());
-
 		if (currentQuest == null) {
 			switch (intentID) {
 			case SimpleEinmalEins:
