@@ -15,14 +15,11 @@ import com.amazon.ask.dispatcher.request.handler.HandlerInput;
 import com.amazon.ask.dispatcher.request.handler.RequestHandler;
 import com.amazon.ask.model.Intent;
 import com.amazon.ask.model.IntentRequest;
-import com.amazon.ask.model.LaunchRequest;
 import com.amazon.ask.model.Response;
-import com.amazon.ask.model.SessionEndedRequest;
 
-import de.dotzinerd.mentalarithmetic.manager.QuestManager;
 import de.dotzinerd.mentalarithmetic.model.Constants;
 import de.dotzinerd.mentalarithmetic.model.IntentEnum;
-import de.dotzinerd.mentalarithmetic.model.questperformer.QuestPerformer;
+import de.dotzinerd.mentalarithmetic.model.QuestPerformer;
 import de.dotzinerd.mentalarithmetic.model.responses.IntroductionResponse;
 
 public class PerformQuestStateHandler implements RequestHandler {
@@ -93,8 +90,7 @@ public class PerformQuestStateHandler implements RequestHandler {
 			return questPerformer.performQuestIntent();
 		case StopIntent:
 			logger.debug("StopIntent");
-			questPerformer = getQuestPerformer(handlerInput);
-			return questPerformer.repeatQuestion();
+			
 		case HelpIntent:
 			logger.debug("HelpIntent");
 			return new IntroductionResponse().getResponse(handlerInput);
@@ -106,8 +102,7 @@ public class PerformQuestStateHandler implements RequestHandler {
 	}
 
 	private QuestPerformer getQuestPerformer(HandlerInput handlerInput) {
-		QuestManager questManager = new QuestManager();
-		QuestPerformer questPerformer = questManager.getCurrentQuest(this.intent, this.intentID, handlerInput,
+		QuestPerformer questPerformer = new QuestPerformer(this.intentID, this.intent, handlerInput,
 				sessionAttributes);
 		return questPerformer;
 	}

@@ -1,4 +1,4 @@
-package de.dotzinerd.mentalarithmetic.model.questperformer;
+package de.dotzinerd.mentalarithmetic.model;
 
 import java.util.Map;
 import java.util.Optional;
@@ -12,9 +12,7 @@ import com.amazon.ask.model.Intent;
 import com.amazon.ask.model.Response;
 import com.amazon.ask.model.Slot;
 
-import de.dotzinerd.mentalarithmetic.model.Constants;
-
-public abstract class QuestPerformer {
+public class QuestPerformer {
 	static final Logger logger = LogManager.getLogger(QuestPerformer.class);
 	protected static String EXPECTED_ANSWER = "EXPECTED_ANSWER";
 	protected static String CURRENT_QUESTION = "CURRENT_QUESTION";
@@ -26,20 +24,49 @@ public abstract class QuestPerformer {
 	HandlerInput input;
 	Map<String, Object> sessionAttributes;
 	Intent intent;
+	IntentEnum intentID;
 
-	abstract Integer getMaxTurn();
+	Integer getMaxTurn() {
+		return 4;
+	};
 
-	abstract Optional<Response> performTurn(Boolean isAnswerCorrect);
+	Optional<Response> performTurn(Boolean isAnswerCorrect) {
+		logger.debug("perform turn...");
+		Quest quest = null;
+		switch (intentID) {
+		case SimpleEinmalEins:
+			quest = new SimpleTwoDigitSquareQuest();
+			break;
+		case SimpleMultiplication:
+			quest = new SimpleMultiplicationQuest();
+			break;
+		case SimpleSquares:
+			quest = new SimpleTwoDigitSquareQuest();
+		default:
+			break;
+		}
+		String speechText = (isAnswerCorrect == null) ? quest.getQuestion()
+				: getAnswerString(isAnswerCorrect) + ". " + quest.getQuestion();
+		this.setQuestionAndAnswerInSession(quest.getQuestion(), String.valueOf(quest.getAnswer()));
+
+		// Create the Simple card content.
+
+		return input.getResponseBuilder().withSpeech(speechText).withShouldEndSession(false).withReprompt("ich warte")
+				.build();
+
+	}
 
 	String getAnswerString(boolean isAnswerCorrect) {
 		logger.debug("isAnswerCorrect: " + isAnswerCorrect);
-		return (isAnswerCorrect) ? "Richtig!" : "Leider Falsch! Es sind " + sessionAttributes.get(EXPECTED_ANSWER);
+		return (isAnswerCorrect) ? "Richtig!"
+				: "Leider Falsch! Es sind " + sessionAttributes.get(EXPECTED_ANSWER) + ", ";
 	}
 
-	QuestPerformer(Intent intent, HandlerInput input, Map<String, Object> sessionAttributes) {
+	public QuestPerformer(IntentEnum intentID, Intent intent, HandlerInput input, Map<String, Object> sessionAttributes) {
 		this.input = input;
 		this.intent = intent;
 		this.sessionAttributes = sessionAttributes;
+		this.intentID = intentID;
 	}
 
 	public Optional<Response> performQuestIntent() {
