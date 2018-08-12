@@ -29,7 +29,7 @@ public class QuestPerformer {
 	IntentEnum intentID;
 
 	Integer getMaxTurn() {
-		return 2;
+		return 3;
 	};
 
 	Optional<Response> performTurn(Boolean isAnswerCorrect) {
@@ -116,7 +116,9 @@ public class QuestPerformer {
 				answer += ". Gesamtdauer war " + String.valueOf(calculateTimeToAnswerAll(startTime)) + " Sekunden";
 				sessionAttributes.clear();
 				sessionAttributes.put(Constants.KEY_STATE, Constants.STATE_NEXT_INTENT);
-				response = input.getResponseBuilder().withShouldEndSession(false).withSpeech(answer).build();
+				response = input.getResponseBuilder().withShouldEndSession(false).withSpeech(answer)
+						.withReprompt("Falls Du noch weitermachen möchtest, musst Du mir das sagen.")
+						.build();
 
 			}
 		}
