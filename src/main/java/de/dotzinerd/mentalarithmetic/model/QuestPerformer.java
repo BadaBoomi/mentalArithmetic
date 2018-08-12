@@ -53,10 +53,9 @@ public class QuestPerformer {
 
 		// Create the Simple card content.
 		logger.debug("quest, performTurn: " + speechText);
-		return input.getResponseBuilder().withSpeech(speechText).withReprompt("ich warte").withShouldEndSession(false)
-				.addAudioPlayerPlayDirective(PlayBehavior.REPLACE_ALL, 0L, "", "",
-						"https://s3.amazonaws.com/ask-soundlibrary/ui/gameshow/amzn_ui_sfx_gameshow_waiting_loop_30s_01.mp3")
-				.build();
+		return input.getResponseBuilder().withSpeech(speechText
+				+ "<audio src='https://s3.amazonaws.com/ask-soundlibrary/ui/gameshow/amzn_ui_sfx_gameshow_waiting_loop_30s_01.mp3'/>")
+				.withReprompt("ich warte").withShouldEndSession(false).build();
 
 	}
 
