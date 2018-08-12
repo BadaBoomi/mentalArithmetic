@@ -4,6 +4,7 @@ import static com.amazon.ask.request.Predicates.intentName;
 import static com.amazon.ask.request.Predicates.requestType;
 import static com.amazon.ask.request.Predicates.sessionAttribute;
 
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -29,6 +30,8 @@ public class PerformQuestStateHandler implements RequestHandler {
 	private Map<String, Object> sessionAttributes;
 	private Intent intent;
 	private static String KEY_INTENT = "INTENT";
+	private EnumSet<IntentEnum> questIntents = EnumSet.of(IntentEnum.SimpleEinmalEins, IntentEnum.SimpleMultiplication,
+			IntentEnum.SimpleSquares);
 
 	public PerformQuestStateHandler() {
 		super();
@@ -81,20 +84,22 @@ public class PerformQuestStateHandler implements RequestHandler {
 		initializeLocalVars(handlerInput);
 
 		questPerformer = getQuestPerformer(handlerInput);
-		
+
 		switch (this.intentID) {
 		case SimpleEinmalEins:
 		case SimpleMultiplication:
 		case SimpleSquares:
-		case NumberAnswered:
 			logger.debug("quest intent");
 			return questPerformer.performQuestIntent();
 		case StopIntent:
 			logger.debug("StopIntent");
-			
+
 		case HelpIntent:
 			logger.debug("HelpIntent");
 			return questPerformer.performContextHelp();
+		case NumberAnswered:
+			logger.debug("NumberAnswered but no previous quest");
+			return new IntroductionResponse().getResponse(handlerInput);
 		default:
 			logger.debug("default");
 			return new IntroductionResponse().getResponse(handlerInput);
@@ -103,8 +108,7 @@ public class PerformQuestStateHandler implements RequestHandler {
 	}
 
 	private QuestPerformer getQuestPerformer(HandlerInput handlerInput) {
-		QuestPerformer questPerformer = new QuestPerformer(this.intentID, this.intent, handlerInput,
-				sessionAttributes);
+		QuestPerformer questPerformer = new QuestPerformer(this.intentID, this.intent, handlerInput, sessionAttributes);
 		return questPerformer;
 	}
 }
