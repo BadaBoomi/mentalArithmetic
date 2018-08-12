@@ -4,6 +4,7 @@ public abstract class Quest {
 
 	Integer answer;
 	String question;
+	String explanation;
 	Integer level = 1;
 
 	public String getQuestion() {
@@ -12,5 +13,9 @@ public abstract class Quest {
 
 	public Integer getAnswer() {
 		return this.answer;
+	}
+
+	public String getExplanation() {
+		return this.explanation;
 	}
 }

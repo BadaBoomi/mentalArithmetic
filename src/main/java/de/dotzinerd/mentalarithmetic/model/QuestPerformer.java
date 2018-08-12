@@ -20,14 +20,15 @@ public class QuestPerformer {
 	protected static String SLOT_USER_RESPONSE = "SLOT_NUMBER";
 	protected static String MAX_TURN = "MAX_TURN";
 	protected static String START_TIME_INTENT = "START_TIME_INTENT";
+	protected static String EXPLANATION = "EXPLANATION";
 
 	HandlerInput input;
 	Map<String, Object> sessionAttributes;
 	Intent intent;
 	IntentEnum intentID;
 
-	Integer getMaxTurn() {
-		return 4;
+	Integer getMaxTurn() { 
+		return 2;
 	};
 
 	Optional<Response> performTurn(Boolean isAnswerCorrect) {
@@ -38,7 +39,7 @@ public class QuestPerformer {
 			quest = new SimpleTwoDigitSquareQuest();
 			break;
 		case SimpleMultiplication:
-			quest = new SimpleMultiplicationQuest();
+			quest = new SimpleTwoDigitMultQuest();
 			break;
 		case SimpleSquares:
 			quest = new SimpleTwoDigitSquareQuest();
@@ -50,8 +51,8 @@ public class QuestPerformer {
 		this.setQuestionAndAnswerInSession(quest.getQuestion(), String.valueOf(quest.getAnswer()));
 
 		// Create the Simple card content.
-
-		return input.getResponseBuilder().withSpeech(speechText).withShouldEndSession(false).withReprompt("ich warte")
+		logger.debug("quest, performTurn: " + speechText);
+		return input.getResponseBuilder().withSpeech(speechText).withReprompt("ich warte").withShouldEndSession(false)
 				.build();
 
 	}
@@ -62,7 +63,8 @@ public class QuestPerformer {
 				: "Leider Falsch! Es sind " + sessionAttributes.get(EXPECTED_ANSWER) + ", ";
 	}
 
-	public QuestPerformer(IntentEnum intentID, Intent intent, HandlerInput input, Map<String, Object> sessionAttributes) {
+	public QuestPerformer(IntentEnum intentID, Intent intent, HandlerInput input,
+			Map<String, Object> sessionAttributes) {
 		this.input = input;
 		this.intent = intent;
 		this.sessionAttributes = sessionAttributes;
@@ -131,6 +133,15 @@ public class QuestPerformer {
 
 	public Optional<Response> repeatQuestion() {
 		return input.getResponseBuilder().withShouldEndSession(false).withSpeech("Ich warte...").build();
+	}
+
+	public Optional<Response> performContextHelp() {
+		logger.debug("give help");
+		String explanation = (String) sessionAttributes.get(EXPLANATION);
+		// Create the Simple card content.
+
+		return input.getResponseBuilder().withSpeech(explanation).withShouldEndSession(false).build();
+
 	}
 
 }

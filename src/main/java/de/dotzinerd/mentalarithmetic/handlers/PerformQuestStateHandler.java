@@ -80,20 +80,21 @@ public class PerformQuestStateHandler implements RequestHandler {
 		QuestPerformer questPerformer;
 		initializeLocalVars(handlerInput);
 
+		questPerformer = getQuestPerformer(handlerInput);
+		
 		switch (this.intentID) {
 		case SimpleEinmalEins:
 		case SimpleMultiplication:
 		case SimpleSquares:
 		case NumberAnswered:
 			logger.debug("quest intent");
-			questPerformer = getQuestPerformer(handlerInput);
 			return questPerformer.performQuestIntent();
 		case StopIntent:
 			logger.debug("StopIntent");
 			
 		case HelpIntent:
 			logger.debug("HelpIntent");
-			return new IntroductionResponse().getResponse(handlerInput);
+			return questPerformer.performContextHelp();
 		default:
 			logger.debug("default");
 			return new IntroductionResponse().getResponse(handlerInput);
