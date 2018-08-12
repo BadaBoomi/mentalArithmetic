@@ -37,7 +37,7 @@ public class QuestPerformer {
 		Quest quest = null;
 		switch (intentID) {
 		case SimpleEinmalEins:
-			quest = new SimpleTwoDigitSquareQuest();
+			quest = new SimpleMultiplicationQuest();
 			break;
 		case SimpleMultiplication:
 			quest = new SimpleTwoDigitMultQuest();
