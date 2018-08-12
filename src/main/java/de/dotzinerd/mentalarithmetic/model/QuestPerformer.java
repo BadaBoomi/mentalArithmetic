@@ -11,6 +11,7 @@ import com.amazon.ask.dispatcher.request.handler.HandlerInput;
 import com.amazon.ask.model.Intent;
 import com.amazon.ask.model.Response;
 import com.amazon.ask.model.Slot;
+import com.amazon.ask.model.interfaces.audioplayer.PlayBehavior;
 
 public class QuestPerformer {
 	static final Logger logger = LogManager.getLogger(QuestPerformer.class);
@@ -27,7 +28,7 @@ public class QuestPerformer {
 	Intent intent;
 	IntentEnum intentID;
 
-	Integer getMaxTurn() { 
+	Integer getMaxTurn() {
 		return 2;
 	};
 
@@ -53,6 +54,8 @@ public class QuestPerformer {
 		// Create the Simple card content.
 		logger.debug("quest, performTurn: " + speechText);
 		return input.getResponseBuilder().withSpeech(speechText).withReprompt("ich warte").withShouldEndSession(false)
+				.addAudioPlayerPlayDirective(PlayBehavior.REPLACE_ALL, 0L, null, null,
+						"https://s3.amazonaws.com/ask-soundlibrary/ui/gameshow/amzn_ui_sfx_gameshow_waiting_loop_30s_01.mp3")
 				.build();
 
 	}
