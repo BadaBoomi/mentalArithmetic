@@ -98,7 +98,7 @@ public class QuestPerformer {
 
 			if (answerSlot.getValue() == null) {
 				return input.getResponseBuilder().withShouldEndSession(false).withSpeech("konnte ich nicht verstehen")
-						.build();
+						.withReprompt(REPROMPT_SPEECH).build();
 			}
 			boolean isAnswerCorrect = false;
 			if (answerSlot != null) {
