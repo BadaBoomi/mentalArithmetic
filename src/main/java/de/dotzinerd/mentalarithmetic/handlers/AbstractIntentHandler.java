@@ -22,7 +22,7 @@ public abstract class AbstractIntentHandler implements RequestHandler {
 
 	protected StateEnum getQuestState() {
 		if (sessionAttributes.containsKey(Constants.KEY_STATE))
-			return (StateEnum) sessionAttributes.get(Constants.KEY_STATE);
+			return StateEnum.getEnumByName((String) sessionAttributes.get(Constants.KEY_STATE));
 		else
 			return StateEnum.UNKNOWN;
 	}
