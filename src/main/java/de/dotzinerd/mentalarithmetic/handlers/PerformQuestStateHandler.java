@@ -64,6 +64,7 @@ public class PerformQuestStateHandler implements RequestHandler {
 	}
 
 	public boolean canHandle(HandlerInput handlerInput) {
+//		was soll der Quatsch? Für alle Amazon.Events einen eigenen Handler! Dann spart man sich auch die Enum
 		logger.debug("handlerInput.getRequestEnvelope().getRequest().getType(): "
 				+ handlerInput.getRequestEnvelope().getRequest().getType());
 		logger.debug(handlerInput.getRequestEnvelope().getRequest().toString());

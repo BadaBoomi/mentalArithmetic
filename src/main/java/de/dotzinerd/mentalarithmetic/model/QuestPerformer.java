@@ -74,6 +74,11 @@ public class QuestPerformer {
 		this.intentID = intentID;
 	}
 
+	public QuestPerformer(HandlerInput input, Map<String, Object> sessionAttributes) {
+		this.input = input;
+		this.sessionAttributes = sessionAttributes;
+	}
+
 	public Optional<Response> performQuestIntent() {
 		Optional<Response> response;
 		String state = (String) sessionAttributes.get(Constants.KEY_STATE);
