@@ -86,11 +86,8 @@ public class PerformQuestStateHandler implements RequestHandler {
 		questPerformer = getQuestPerformer(handlerInput);
 
 		switch (this.intentID) {
-		case SimpleEinmalEins:
-		case SimpleMultiplication:
-		case SimpleSquares:
-			logger.debug("quest intent");
-			return questPerformer.performQuestIntent();
+		case RepeatIntent:
+			questPerformer.repeatQuestion();
 		case StopIntent:
 			logger.debug("StopIntent");
 
@@ -100,6 +97,13 @@ public class PerformQuestStateHandler implements RequestHandler {
 		case NumberAnswered:
 			logger.debug("NumberAnswered but no previous quest");
 			return new IntroductionResponse().getResponse(handlerInput);
+		case SimpleEinmalEins:
+		case SimpleMultiplication:
+		case SimpleSquares:
+		
+			logger.debug("quest intent");
+			return questPerformer.performQuestIntent();
+		
 		default:
 			logger.debug("default");
 			return new IntroductionResponse().getResponse(handlerInput);

@@ -14,6 +14,8 @@ import com.amazon.ask.model.Slot;
 import com.amazon.ask.model.interfaces.audioplayer.PlayBehavior;
 
 public class QuestPerformer {
+	private static final String AUDIO_WAITINGLOOP = "<audio src='https://s3.amazonaws.com/ask-soundlibrary/ui/gameshow/amzn_ui_sfx_gameshow_waiting_loop_30s_01.mp3'/>";
+	private static final String REPROMPT_SPEECH = "ich warte" + AUDIO_WAITINGLOOP;
 	static final Logger logger = LogManager.getLogger(QuestPerformer.class);
 	protected static String EXPECTED_ANSWER = "EXPECTED_ANSWER";
 	protected static String CURRENT_QUESTION = "CURRENT_QUESTION";
@@ -53,8 +55,7 @@ public class QuestPerformer {
 
 		// Create the Simple card content.
 		logger.debug("quest, performTurn: " + speechText);
-		return input.getResponseBuilder().withSpeech(speechText).withReprompt("ich warte"
-				+ "<audio src='https://s3.amazonaws.com/ask-soundlibrary/ui/gameshow/amzn_ui_sfx_gameshow_waiting_loop_30s_01.mp3'/>")
+		return input.getResponseBuilder().withSpeech(speechText).withReprompt(REPROMPT_SPEECH)
 				.withShouldEndSession(false).build();
 
 	}
@@ -117,8 +118,7 @@ public class QuestPerformer {
 				sessionAttributes.clear();
 				sessionAttributes.put(Constants.KEY_STATE, Constants.STATE_NEXT_INTENT);
 				response = input.getResponseBuilder().withShouldEndSession(false).withSpeech(answer)
-						.withReprompt("Falls Du noch weitermachen möchtest, musst Du mir das sagen.")
-						.build();
+						.withReprompt("Falls Du noch weitermachen möchtest, musst Du mir das sagen.").build();
 
 			}
 		}
@@ -136,7 +136,8 @@ public class QuestPerformer {
 	}
 
 	public Optional<Response> repeatQuestion() {
-		return input.getResponseBuilder().withShouldEndSession(false).withSpeech("Ich warte...").build();
+		return input.getResponseBuilder().withShouldEndSession(false)
+				.withSpeech((String) sessionAttributes.get(CURRENT_QUESTION)).withReprompt(REPROMPT_SPEECH).build();
 	}
 
 	public Optional<Response> performContextHelp() {
