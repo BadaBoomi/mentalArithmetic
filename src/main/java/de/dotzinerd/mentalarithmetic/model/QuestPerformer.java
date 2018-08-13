@@ -71,7 +71,7 @@ public class QuestPerformer {
 		this.intent = intent;
 		this.sessionAttributes = sessionAttributes;
 		if (sessionAttributes.containsKey(Constants.KEY_STATE)
-				&& (!sessionAttributes.get(Constants.KEY_STATE).equals(StateEnum.STATE_NEXT_INTENT))) {
+				&& (!sessionAttributes.get(Constants.KEY_STATE).equals(Constants.STATE_NEXT_INTENT))) {
 			this.intentID = IntentEnum.getEnumByName((String) sessionAttributes.get(Constants.KEY_INTENT));
 		} else {
 			this.intentID = IntentEnum.getEnumByName(intent.getName());
@@ -85,18 +85,18 @@ public class QuestPerformer {
 
 	public Optional<Response> performQuestIntent() {
 		Optional<Response> response;
-		StateEnum state = (StateEnum) sessionAttributes.get(Constants.KEY_STATE);
-		if (state == null || state.equals(StateEnum.STATE_NEXT_INTENT)) {
-			state = StateEnum.STATE_NEW_QUEST;
+		String state = (String) sessionAttributes.get(Constants.KEY_STATE);
+		if (state == null || state.equals(Constants.STATE_NEXT_INTENT)) {
+			state = Constants.STATE_NEW_QUEST;
 			sessionAttributes.put(Constants.KEY_STATE, state);
 		}
 		logger.debug("state: " + state);
-		if (state.equals(StateEnum.STATE_NEW_QUEST)) {
+		if (state.equals(Constants.STATE_NEW_QUEST)) {
 			logger.debug(sessionAttributes);
 			sessionAttributes.put(MAX_TURN, getMaxTurn());
 			sessionAttributes.put(CURRENT_TURN, 1);
 			sessionAttributes.put(START_TIME_INTENT, System.currentTimeMillis());
-			sessionAttributes.put(Constants.KEY_STATE, StateEnum.STATE_WAIT_FOR_ANSWER);
+			sessionAttributes.put(Constants.KEY_STATE, Constants.STATE_WAIT_FOR_ANSWER);
 			response = performTurn(null);
 		} else {
 			logger.debug("check answer...");
@@ -118,14 +118,14 @@ public class QuestPerformer {
 			logger.debug("answer: " + answer);
 			if ((Integer) (sessionAttributes.get(MAX_TURN)) > (Integer) (sessionAttributes.get(CURRENT_TURN))) {
 				sessionAttributes.put(CURRENT_TURN, (Integer) (sessionAttributes.get(CURRENT_TURN)) + 1);
-				sessionAttributes.put(Constants.KEY_STATE, StateEnum.STATE_NEXT_QUESTION);
+				sessionAttributes.put(Constants.KEY_STATE, Constants.STATE_NEXT_QUESTION);
 				response = performTurn(isAnswerCorrect);
 
 			} else {
 				Long startTime = (Long) (sessionAttributes.get(START_TIME_INTENT));
 				answer += ". Gesamtdauer war " + String.valueOf(calculateTimeToAnswerAll(startTime)) + " Sekunden";
 				sessionAttributes.clear();
-				sessionAttributes.put(Constants.KEY_STATE, StateEnum.STATE_NEXT_INTENT);
+				sessionAttributes.put(Constants.KEY_STATE, Constants.STATE_NEXT_INTENT);
 				response = input.getResponseBuilder().withShouldEndSession(false).withSpeech(answer)
 						.withReprompt("Falls Du noch weitermachen möchtest, musst Du mir das sagen.").build();
 
