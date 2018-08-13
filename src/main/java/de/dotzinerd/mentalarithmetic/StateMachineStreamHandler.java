@@ -10,6 +10,7 @@ import de.dotzinerd.mentalarithmetic.handlers.DefaultStateHandler;
 import de.dotzinerd.mentalarithmetic.handlers.GenericExceptionHandler;
 import de.dotzinerd.mentalarithmetic.handlers.InitialStateHandler;
 import de.dotzinerd.mentalarithmetic.handlers.PerformQuestStateHandler;
+import de.dotzinerd.mentalarithmetic.handlers.RepeatIntentHandler;
 
 public class StateMachineStreamHandler extends SkillStreamHandler {
 	private static final String supportedApplicationId = "amzn1.ask.skill.9412c659-275e-43ff-9888-8a42ddab5f8b";
@@ -22,8 +23,8 @@ public class StateMachineStreamHandler extends SkillStreamHandler {
 	public StateMachineStreamHandler() {
 		super(Skills.standard()
 				.addRequestHandlers(new InitialStateHandler(), new PerformQuestStateHandler(),
-						new DefaultStateHandler()).addExceptionHandler(new GenericExceptionHandler())
-				.withSkillId(supportedApplicationId).build());
+						new RepeatIntentHandler(), new DefaultStateHandler())
+				.addExceptionHandler(new GenericExceptionHandler()).withSkillId(supportedApplicationId).build());
 
 	}
 

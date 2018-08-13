@@ -1,10 +1,7 @@
 package de.dotzinerd.mentalarithmetic.handlers;
 
 import static com.amazon.ask.request.Predicates.intentName;
-import static com.amazon.ask.request.Predicates.requestType;
-import static com.amazon.ask.request.Predicates.sessionAttribute;
 
-import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -13,7 +10,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.amazon.ask.dispatcher.request.handler.HandlerInput;
-import com.amazon.ask.dispatcher.request.handler.RequestHandler;
 import com.amazon.ask.model.Intent;
 import com.amazon.ask.model.IntentRequest;
 import com.amazon.ask.model.Response;
@@ -21,22 +17,17 @@ import com.amazon.ask.model.Response;
 import de.dotzinerd.mentalarithmetic.model.Constants;
 import de.dotzinerd.mentalarithmetic.model.IntentEnum;
 import de.dotzinerd.mentalarithmetic.model.QuestPerformer;
-import de.dotzinerd.mentalarithmetic.model.responses.IntroductionResponse;
 
-public class PerformQuestStateHandler implements RequestHandler {
+public class PerformQuestStateHandler extends AbstractIntentHandler {
+
+	PerformQuestStateHandler(HandlerInput input) {
+		super(input);
+	}
 
 	static final Logger logger = LogManager.getLogger(PerformQuestStateHandler.class);
 	private IntentEnum intentID;
 	private Map<String, Object> sessionAttributes;
 	private Intent intent;
-	private static String KEY_INTENT = "INTENT";
-	private EnumSet<IntentEnum> questIntents = EnumSet.of(IntentEnum.SimpleEinmalEins, IntentEnum.SimpleMultiplication,
-			IntentEnum.SimpleSquares);
-
-	public PerformQuestStateHandler() {
-		super();
-		logger.debug("constructor called");
-	}
 
 	void initializeLocalVars(HandlerInput input) {
 		IntentRequest intentRequest = (IntentRequest) input.getRequestEnvelope().getRequest();
@@ -51,12 +42,12 @@ public class PerformQuestStateHandler implements RequestHandler {
 			this.sessionAttributes = input.getAttributesManager().getSessionAttributes();
 		}
 
-		if ((String) this.sessionAttributes.get(KEY_INTENT) == null) {
-			this.sessionAttributes.put(KEY_INTENT, intent.getName());
+		if ((String) this.sessionAttributes.get(Constants.KEY_INTENT) == null) {
+			this.sessionAttributes.put(Constants.KEY_INTENT, intent.getName());
 			this.intentID = IntentEnum.getEnumByName(intent.getName());
 		} else if (sessionAttributes.containsKey(Constants.KEY_STATE)
 				&& (!sessionAttributes.get(Constants.KEY_STATE).equals(Constants.STATE_NEXT_INTENT))) {
-			this.intentID = IntentEnum.getEnumByName((String) sessionAttributes.get(KEY_INTENT));
+			this.intentID = IntentEnum.getEnumByName((String) sessionAttributes.get(Constants.KEY_INTENT));
 		} else {
 			this.intentID = IntentEnum.getEnumByName(intent.getName());
 		}
@@ -64,19 +55,10 @@ public class PerformQuestStateHandler implements RequestHandler {
 	}
 
 	public boolean canHandle(HandlerInput handlerInput) {
-//		was soll der Quatsch? Für alle Amazon.Events einen eigenen Handler! Dann spart man sich auch die Enum
-		logger.debug("handlerInput.getRequestEnvelope().getRequest().getType(): "
-				+ handlerInput.getRequestEnvelope().getRequest().getType());
-		logger.debug(handlerInput.getRequestEnvelope().getRequest().toString());
-		boolean yesIcan = handlerInput
-				.matches(requestType(IntentRequest.class)
-						.and(sessionAttribute(Constants.KEY_STATE, Constants.STATE_PERFORM_QUEST)))
-				|| handlerInput.matches(intentName("SimpleEinmalEins"))
+		return handlerInput.matches(intentName("SimpleEinmalEins"))
 				|| handlerInput.matches(intentName("SimpleMultiplication"))
 				|| handlerInput.matches(intentName("SimpleSquares"))
 				|| handlerInput.matches(intentName("NumberAnswered"));
-		logger.debug("canHandle: " + yesIcan);
-		return yesIcan;
 	}
 
 	public Optional<Response> handle(HandlerInput handlerInput) {
@@ -86,34 +68,12 @@ public class PerformQuestStateHandler implements RequestHandler {
 
 		questPerformer = getQuestPerformer(handlerInput);
 
-		switch (this.intentID) {
-		case RepeatIntent:
-			questPerformer.repeatQuestion();
-		case StopIntent:
-			logger.debug("StopIntent");
-
-		case HelpIntent:
-			logger.debug("HelpIntent");
-			return questPerformer.performContextHelp();
-		case NumberAnswered:
-			logger.debug("NumberAnswered but no previous quest");
-			return new IntroductionResponse().getResponse(handlerInput);
-		case SimpleEinmalEins:
-		case SimpleMultiplication:
-		case SimpleSquares:
-		
-			logger.debug("quest intent");
-			return questPerformer.performQuestIntent();
-		
-		default:
-			logger.debug("default");
-			return new IntroductionResponse().getResponse(handlerInput);
-		}
+		return questPerformer.performQuestIntent();
 
 	}
 
 	private QuestPerformer getQuestPerformer(HandlerInput handlerInput) {
-		QuestPerformer questPerformer = new QuestPerformer(this.intentID, this.intent, handlerInput, sessionAttributes);
+		QuestPerformer questPerformer = new QuestPerformer(this.intent, handlerInput, sessionAttributes);
 		return questPerformer;
 	}
 }

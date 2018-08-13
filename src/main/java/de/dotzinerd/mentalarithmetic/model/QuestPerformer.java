@@ -66,12 +66,16 @@ public class QuestPerformer {
 				: "Leider Falsch! Es sind " + sessionAttributes.get(EXPECTED_ANSWER) + ", ";
 	}
 
-	public QuestPerformer(IntentEnum intentID, Intent intent, HandlerInput input,
-			Map<String, Object> sessionAttributes) {
+	public QuestPerformer(Intent intent, HandlerInput input, Map<String, Object> sessionAttributes) {
 		this.input = input;
 		this.intent = intent;
 		this.sessionAttributes = sessionAttributes;
-		this.intentID = intentID;
+		if (sessionAttributes.containsKey(Constants.KEY_STATE)
+				&& (!sessionAttributes.get(Constants.KEY_STATE).equals(Constants.STATE_NEXT_INTENT))) {
+			this.intentID = IntentEnum.getEnumByName((String) sessionAttributes.get(Constants.KEY_INTENT));
+		} else {
+			this.intentID = IntentEnum.getEnumByName(intent.getName());
+		}
 	}
 
 	public QuestPerformer(HandlerInput input, Map<String, Object> sessionAttributes) {
