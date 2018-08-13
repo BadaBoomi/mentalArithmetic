@@ -15,7 +15,6 @@ import com.amazon.ask.model.IntentRequest;
 import com.amazon.ask.model.Response;
 
 import de.dotzinerd.mentalarithmetic.model.Constants;
-import de.dotzinerd.mentalarithmetic.model.IntentEnum;
 import de.dotzinerd.mentalarithmetic.model.QuestPerformer;
 
 public class PerformQuestStateHandler extends AbstractIntentHandler {
@@ -47,8 +46,7 @@ public class PerformQuestStateHandler extends AbstractIntentHandler {
 	public boolean canHandle(HandlerInput handlerInput) {
 		return handlerInput.matches(intentName("SimpleEinmalEins"))
 				|| handlerInput.matches(intentName("SimpleMultiplication"))
-				|| handlerInput.matches(intentName("SimpleSquares"))
-				|| handlerInput.matches(intentName("NumberAnswered"));
+				|| handlerInput.matches(intentName("SimpleSquares"));
 	}
 
 	public Optional<Response> handle(HandlerInput handlerInput) {

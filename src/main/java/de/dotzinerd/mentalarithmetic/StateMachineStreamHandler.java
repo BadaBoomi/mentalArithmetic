@@ -9,6 +9,7 @@ import com.amazon.ask.Skills;
 import de.dotzinerd.mentalarithmetic.handlers.DefaultStateHandler;
 import de.dotzinerd.mentalarithmetic.handlers.GenericExceptionHandler;
 import de.dotzinerd.mentalarithmetic.handlers.InitialStateHandler;
+import de.dotzinerd.mentalarithmetic.handlers.NumberAnsweredHandler;
 import de.dotzinerd.mentalarithmetic.handlers.PerformQuestStateHandler;
 import de.dotzinerd.mentalarithmetic.handlers.RepeatIntentHandler;
 
@@ -23,7 +24,7 @@ public class StateMachineStreamHandler extends SkillStreamHandler {
 	public StateMachineStreamHandler() {
 		super(Skills.standard()
 				.addRequestHandlers(new InitialStateHandler(), new PerformQuestStateHandler(),
-						new RepeatIntentHandler(), new DefaultStateHandler())
+						new NumberAnsweredHandler(), new RepeatIntentHandler(), new DefaultStateHandler())
 				.addExceptionHandler(new GenericExceptionHandler()).withSkillId(supportedApplicationId).build());
 
 	}
