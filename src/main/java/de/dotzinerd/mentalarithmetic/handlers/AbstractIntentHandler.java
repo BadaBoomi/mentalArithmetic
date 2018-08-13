@@ -14,7 +14,7 @@ public abstract class AbstractIntentHandler implements RequestHandler {
 	Map<String, Object> sessionAttributes;
 	HandlerInput input;
 
-	AbstractIntentHandler(HandlerInput input) {
+	void initialize(HandlerInput input) {
 		this.sessionAttributes = input.getAttributesManager().getSessionAttributes();
 		this.input = input;
 	}

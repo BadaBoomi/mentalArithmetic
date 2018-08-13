@@ -10,10 +10,7 @@ import com.amazon.ask.model.Response;
 
 public class NumberAnsweredHandler extends AbstractIntentHandler {
 
-	NumberAnsweredHandler(HandlerInput input) {
-		super(input);
-	}
-
+	
 	@Override
 	public boolean canHandle(HandlerInput input) {
 		return input.matches(intentName("NumberAnswered"));
@@ -22,6 +19,7 @@ public class NumberAnsweredHandler extends AbstractIntentHandler {
 
 	@Override
 	public Optional<Response> handle(HandlerInput input) {
+		initialize(input);
 		if (isRunningQuest()) {
 			return getQuestPerformer().performQuestIntent();
 		}

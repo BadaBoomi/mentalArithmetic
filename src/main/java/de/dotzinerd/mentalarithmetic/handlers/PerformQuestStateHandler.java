@@ -20,16 +20,12 @@ import de.dotzinerd.mentalarithmetic.model.QuestPerformer;
 
 public class PerformQuestStateHandler extends AbstractIntentHandler {
 
-	PerformQuestStateHandler(HandlerInput input) {
-		super(input);
-	}
-
 	static final Logger logger = LogManager.getLogger(PerformQuestStateHandler.class);
-	private IntentEnum intentID;
 	private Map<String, Object> sessionAttributes;
 	private Intent intent;
 
 	void initializeLocalVars(HandlerInput input) {
+		initialize(input);
 		IntentRequest intentRequest = (IntentRequest) input.getRequestEnvelope().getRequest();
 		this.intent = intentRequest.getIntent();
 		logger.debug("intent: " + intent.getName());
@@ -44,12 +40,6 @@ public class PerformQuestStateHandler extends AbstractIntentHandler {
 
 		if ((String) this.sessionAttributes.get(Constants.KEY_INTENT) == null) {
 			this.sessionAttributes.put(Constants.KEY_INTENT, intent.getName());
-			this.intentID = IntentEnum.getEnumByName(intent.getName());
-		} else if (sessionAttributes.containsKey(Constants.KEY_STATE)
-				&& (!sessionAttributes.get(Constants.KEY_STATE).equals(Constants.STATE_NEXT_INTENT))) {
-			this.intentID = IntentEnum.getEnumByName((String) sessionAttributes.get(Constants.KEY_INTENT));
-		} else {
-			this.intentID = IntentEnum.getEnumByName(intent.getName());
 		}
 
 	}

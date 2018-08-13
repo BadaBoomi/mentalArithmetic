@@ -13,16 +13,13 @@ import com.amazon.ask.model.Response;
 public class RepeatIntentHandler extends AbstractIntentHandler {
 	static final Logger logger = LogManager.getLogger(RepeatIntentHandler.class);
 
-	RepeatIntentHandler(HandlerInput input) {
-		super(input);
-	}
 
 	public boolean canHandle(HandlerInput input) {
 		return input.matches(intentName("AMAZON.RepeatIntent"));
 	}
 
 	public Optional<Response> handle(HandlerInput input) {
-
+		initialize(input);
 		if (isRunningQuest()) {
 			return getQuestPerformer().repeatQuestion();
 		}
