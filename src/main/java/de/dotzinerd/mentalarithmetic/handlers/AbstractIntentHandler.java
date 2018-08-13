@@ -9,6 +9,7 @@ import com.amazon.ask.model.Response;
 
 import de.dotzinerd.mentalarithmetic.model.Constants;
 import de.dotzinerd.mentalarithmetic.model.QuestPerformer;
+import de.dotzinerd.mentalarithmetic.model.StateEnum;
 
 public abstract class AbstractIntentHandler implements RequestHandler {
 	Map<String, Object> sessionAttributes;
@@ -19,9 +20,11 @@ public abstract class AbstractIntentHandler implements RequestHandler {
 		this.input = input;
 	}
 
-	protected boolean isRunningQuest() {
-		return (sessionAttributes.containsKey(Constants.KEY_STATE)
-				&& sessionAttributes.get(Constants.KEY_STATE).equals(Constants.STATE_PERFORM_QUEST));
+	protected StateEnum getQuestState() {
+		if (sessionAttributes.containsKey(Constants.KEY_STATE))
+			return (StateEnum) sessionAttributes.get(Constants.KEY_STATE);
+		else
+			return StateEnum.UNKNOWN;
 	}
 
 	protected QuestPerformer getQuestPerformer() {
