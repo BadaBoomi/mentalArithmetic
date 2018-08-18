@@ -1,0 +1,1 @@
+C:\Users\Heiko\MagentaCLOUD\apps\JDK64\jre\bin\java.exe -jar C:\Users\Heiko\MagentaCLOUD\apps\GitHubDesktopPortable\Data\workspace\alexa-skills-kit-tester-java\target\alexa-skills-kit-tester-java-1.1.0.jar -f C:\Users\Heiko\MagentaCLOUD\apps\EclipsePortable\Data\workspace\mentalArithmetic\test\yaml\test.yml

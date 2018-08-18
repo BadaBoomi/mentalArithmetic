@@ -1,0 +1,18 @@
+configuration:
+  endpoint:
+    type:     InvocationApi 
+    skillId: amzn1.ask.skill.9412c659-275e-43ff-9888-8a42ddab5f8b
+    region:   EU
+    locale:   de-DE
+
+StopIt: &Exit
+  - intent: AMAZON.StopIntent
+  - response.shouldEndSession == true
+  
+SimpleEinmalEins: &SimpleEinmalEins
+  - intent: SimpleEinmalEins
+  - response.outputSpeech.ssml =~ /.*Great. That’s it.*/i : *Exit
+      
+Launch:
+  - response.shouldEndSession == false
+  - *SimpleEinmalEins

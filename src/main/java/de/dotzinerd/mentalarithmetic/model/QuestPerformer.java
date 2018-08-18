@@ -99,19 +99,22 @@ public class QuestPerformer {
 			sessionAttributes.put(Constants.KEY_STATE, Constants.STATE_WAIT_FOR_ANSWER);
 			response = performTurn(null);
 		} else {
+			Slot answerSlot = null;
 			logger.debug("check answer...");
-			Slot answerSlot = intent.getSlots().get(SLOT_USER_RESPONSE);
-			logger.debug(
-					"answerSlot.getConfirmationStatus().getValue(): " + answerSlot.getConfirmationStatus().getValue());
-			logger.debug("answerSlot.getValue(): " + answerSlot.getValue());
+			if (intent.getSlots() != null) {
+				answerSlot = intent.getSlots().get(SLOT_USER_RESPONSE);
+			}
 
-			if (answerSlot.getValue() == null) {
+			if (answerSlot == null || answerSlot.getValue() == null) {
 				return input.getResponseBuilder().withShouldEndSession(false).withSpeech("konnte ich nicht verstehen")
 						.withReprompt(REPROMPT_SPEECH).build();
 			}
 			boolean isAnswerCorrect = false;
-			if (answerSlot != null) {
-				isAnswerCorrect = sessionAttributes.get(EXPECTED_ANSWER).equals(answerSlot.getValue());
+
+			isAnswerCorrect = sessionAttributes.get(EXPECTED_ANSWER).equals(answerSlot.getValue());
+			if (!isAnswerCorrect) {
+				logger.debug("answer understood: " + answerSlot.getValue() + ", correct answer: "
+						+ sessionAttributes.get(EXPECTED_ANSWER));
 			}
 
 			String answer = getAnswerString(isAnswerCorrect);

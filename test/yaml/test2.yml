@@ -1,0 +1,8 @@
+configuration:
+  endpoint:
+    type:     InvocationApi 
+    region:   EU
+    locale:   de-DE
+
+Launch:
+  - response.shouldEndSession == false

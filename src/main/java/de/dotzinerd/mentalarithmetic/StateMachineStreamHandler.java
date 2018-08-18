@@ -18,7 +18,7 @@ public class StateMachineStreamHandler extends SkillStreamHandler {
 	static final Logger logger = LogManager.getLogger(StateMachineStreamHandler.class);
 
 	static {
-		logger.info("Supported app id : " + supportedApplicationId);
+		logger.info("Supported app id : " + supportedApplicationId); 
 	}
 
 	public StateMachineStreamHandler() {
