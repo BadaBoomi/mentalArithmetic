@@ -5,10 +5,14 @@ import static com.amazon.ask.request.Predicates.intentName;
 import java.util.Map;
 import java.util.Optional;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.amazon.ask.dispatcher.request.handler.HandlerInput;
 import com.amazon.ask.model.Response;
 
 public class SaveIntentHandler extends AbstractIntentHandler {
+	static final Logger logger = LogManager.getLogger(SaveIntentHandler.class);
 
 	@Override
 	public boolean canHandle(HandlerInput handlerInput) {
@@ -19,6 +23,7 @@ public class SaveIntentHandler extends AbstractIntentHandler {
 
 	@Override
 	public Optional<Response> handle(HandlerInput handlerInput) {
+		logger.debug("saving session...");
 		Map<String, Object> persistentAttributes = handlerInput.getAttributesManager().getPersistentAttributes();
 		persistentAttributes.put("foo", "baz");
 		return Optional.empty();
