@@ -28,7 +28,9 @@ public class StateMachineStreamHandler extends SkillStreamHandler {
 				.addRequestHandlers(new InitialStateHandler(), new PerformQuestStateHandler(),
 						new NumberAnsweredHandler(), new RepeatIntentHandler(), new DefaultStateHandler())
 				.addExceptionHandler(new GenericExceptionHandler()).withSkillId(supportedApplicationId)
-				.withTableName(Constants.TABLE_PERSISTANT_USERDATATA).withAutoCreateTable(true).build());
+				.withPersistenceAdapter(DynamoDbPersistenceAdapter.builder()
+						.withTableName(Constants.TABLE_PERSISTANT_USERDATATA).withAutoCreateTable(true).build())
+				.build());
 
 	}
 
