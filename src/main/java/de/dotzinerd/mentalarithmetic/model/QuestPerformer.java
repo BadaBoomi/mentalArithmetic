@@ -13,6 +13,11 @@ import com.amazon.ask.model.Response;
 import com.amazon.ask.model.Slot;
 import com.amazon.ask.model.interfaces.audioplayer.PlayBehavior;
 
+import de.dotzinerd.mentalarithmetic.model.quests.Quest;
+import de.dotzinerd.mentalarithmetic.model.quests.SimpleMultiplicationQuest;
+import de.dotzinerd.mentalarithmetic.model.quests.SimpleTwoDigitMultQuest;
+import de.dotzinerd.mentalarithmetic.model.quests.SimpleTwoDigitSquareQuest;
+
 public class QuestPerformer {
 	private static final String AUDIO_WAITINGLOOP = "<audio src='https://s3.amazonaws.com/ask-soundlibrary/ui/gameshow/amzn_ui_sfx_gameshow_waiting_loop_30s_01.mp3'/>";
 	private static final String REPROMPT_SPEECH = "ich warte" + AUDIO_WAITINGLOOP;
@@ -42,7 +47,9 @@ public class QuestPerformer {
 			quest = new SimpleMultiplicationQuest();
 			break;
 		case SimpleMultiplication:
-			quest = new SimpleTwoDigitMultQuest();
+
+			quest = new SimpleTwoDigitMultQuest(SimpleTwoDigitMultQuest.Level
+					.getRandomLevelBelow(SimpleTwoDigitMultQuest.Level.LVL_MULT_BY_11_ADVANCED));
 			break;
 		case SimpleSquares:
 			quest = new SimpleTwoDigitSquareQuest();

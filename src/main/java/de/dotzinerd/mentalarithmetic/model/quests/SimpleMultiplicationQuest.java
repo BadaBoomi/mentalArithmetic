@@ -1,4 +1,4 @@
-package de.dotzinerd.mentalarithmetic.model;
+package de.dotzinerd.mentalarithmetic.model.quests;
 
 public class SimpleMultiplicationQuest extends Quest {
 
