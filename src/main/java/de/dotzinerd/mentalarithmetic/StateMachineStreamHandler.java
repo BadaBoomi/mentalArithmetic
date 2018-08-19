@@ -24,7 +24,7 @@ public class StateMachineStreamHandler extends SkillStreamHandler {
 	}
 
 	public StateMachineStreamHandler() {
-		super(Skills.standard()
+		super(Skills.custom()
 				.addRequestHandlers(new InitialStateHandler(), new PerformQuestStateHandler(),
 						new NumberAnsweredHandler(), new RepeatIntentHandler(), new DefaultStateHandler())
 				.addExceptionHandler(new GenericExceptionHandler()).withSkillId(supportedApplicationId)
