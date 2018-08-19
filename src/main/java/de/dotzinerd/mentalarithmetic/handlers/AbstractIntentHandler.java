@@ -34,7 +34,7 @@ public abstract class AbstractIntentHandler implements RequestHandler {
 	}
 
 	protected QuestPerformer getQuestPerformer() {
-		return new QuestPerformer(input, sessionAttributes);
+		return new QuestPerformer(intent, input, sessionAttributes);
 	}
 
 	abstract public boolean canHandle(HandlerInput input);

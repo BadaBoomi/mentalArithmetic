@@ -78,10 +78,10 @@ public class QuestPerformer {
 		}
 	}
 
-	public QuestPerformer(HandlerInput input, Map<String, Object> sessionAttributes) {
-		this.input = input;
-		this.sessionAttributes = sessionAttributes;
-	}
+//	public QuestPerformer(HandlerInput input, Map<String, Object> sessionAttributes) {
+//		this.input = input;
+//		this.sessionAttributes = sessionAttributes;
+//	}
 
 	public Optional<Response> performQuestIntent() {
 		Optional<Response> response;
