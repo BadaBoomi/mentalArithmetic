@@ -121,7 +121,7 @@ public class QuestPerformer {
 			logger.debug("answer: " + answer);
 			if ((Integer) (sessionAttributes.get(MAX_TURN)) > (Integer) (sessionAttributes.get(CURRENT_TURN))) {
 				sessionAttributes.put(CURRENT_TURN, (Integer) (sessionAttributes.get(CURRENT_TURN)) + 1);
-				sessionAttributes.put(Constants.KEY_STATE, Constants.STATE_NEXT_QUESTION);
+				sessionAttributes.put(Constants.KEY_STATE, Constants.STATE_WAIT_FOR_ANSWER);
 				response = performTurn(isAnswerCorrect);
 
 			} else {
