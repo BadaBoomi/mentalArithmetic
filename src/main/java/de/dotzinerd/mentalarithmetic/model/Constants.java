@@ -11,5 +11,6 @@ public class Constants {
 	public static final String STATE_PERFORM_QUEST = "PerformingQuest";
 
 	public static final String TABLE_PERSISTANT_USERDATATA="MENTAL_TRAINER_USERDATATA";
+	public static final String PERSISTANT_STATE_RETRIEVED = "PERSISTANT_STATE_RETRIEVED";
 
 };

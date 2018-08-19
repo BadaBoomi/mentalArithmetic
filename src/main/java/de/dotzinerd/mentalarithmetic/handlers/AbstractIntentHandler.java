@@ -22,8 +22,17 @@ public abstract class AbstractIntentHandler implements RequestHandler {
 		IntentRequest intentRequest = (IntentRequest) input.getRequestEnvelope().getRequest();
 		this.intent = intentRequest.getIntent();
 		this.sessionAttributes = input.getAttributesManager().getSessionAttributes();
+		checkAndRetrievePersistedAttributes();
 		this.sessionAttributes.put("ORIGINAL_INTENT", this.intent.getName());
 		this.input = input;
+	}
+
+	private void checkAndRetrievePersistedAttributes() {
+		if (!sessionAttributes.containsKey(Constants.PERSISTANT_STATE_RETRIEVED)) {
+			sessionAttributes.putAll(input.getAttributesManager().getPersistentAttributes());
+			sessionAttributes.put(Constants.PERSISTANT_STATE_RETRIEVED, true);
+		}
+
 	}
 
 	protected StateEnum getQuestState() {

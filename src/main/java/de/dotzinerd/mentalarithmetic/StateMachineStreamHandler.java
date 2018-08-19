@@ -1,10 +1,11 @@
-package de.dotzinerd.mentalarithmetic; 
+package de.dotzinerd.mentalarithmetic;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.amazon.ask.SkillStreamHandler;
 import com.amazon.ask.Skills;
+import com.amazon.ask.attributes.persistence.impl.DynamoDbPersistenceAdapter;
 
 import de.dotzinerd.mentalarithmetic.handlers.DefaultStateHandler;
 import de.dotzinerd.mentalarithmetic.handlers.GenericExceptionHandler;
@@ -26,7 +27,10 @@ public class StateMachineStreamHandler extends SkillStreamHandler {
 		super(Skills.standard()
 				.addRequestHandlers(new InitialStateHandler(), new PerformQuestStateHandler(),
 						new NumberAnsweredHandler(), new RepeatIntentHandler(), new DefaultStateHandler())
-				.addExceptionHandler(new GenericExceptionHandler()).withSkillId(supportedApplicationId).build());
+				.addExceptionHandler(new GenericExceptionHandler()).withSkillId(supportedApplicationId)
+				.withPersistenceAdapter(DynamoDbPersistenceAdapter.builder().withAutoCreateTable(true)
+						.withTableName(Constants.TABLE_PERSISTANT_USERDATATA).build())
+				.build());
 
 	}
 
