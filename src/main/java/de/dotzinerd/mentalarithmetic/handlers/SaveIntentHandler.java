@@ -26,6 +26,7 @@ public class SaveIntentHandler extends AbstractIntentHandler {
 		logger.debug("saving session...");
 		Map<String, Object> persistentAttributes = handlerInput.getAttributesManager().getPersistentAttributes();
 		persistentAttributes.put("foo", "baz");
+		handlerInput.getAttributesManager().savePersistentAttributes();
 		return handlerInput.getResponseBuilder().withShouldEndSession(true).withSpeech("Dann bis zum nächsten mal")
 				.build();
 	}
