@@ -10,7 +10,7 @@ public class SimpleTwoDigitMultQuest extends Quest {
 		LVL_MULT_2DIGIT_SUM_IS_10, LVL_MULT_BY_11_SIMPLE, LVL_MULT_BY_11_ADVANCED;
 
 		public static Level getRandomLevelBelow(Level level) {
-			int rLevel = (int) (Math.random() * level.ordinal()) + 1;
+			int rLevel = (int) (Math.random() * level.ordinal());
 			return Level.values()[rLevel];
 		}
 
