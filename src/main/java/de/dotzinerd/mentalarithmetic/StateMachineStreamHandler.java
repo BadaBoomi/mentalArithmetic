@@ -1,4 +1,4 @@
-package de.dotzinerd.mentalarithmetic;
+package de.dotzinerd.mentalarithmetic; 
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -12,13 +12,14 @@ import de.dotzinerd.mentalarithmetic.handlers.InitialStateHandler;
 import de.dotzinerd.mentalarithmetic.handlers.NumberAnsweredHandler;
 import de.dotzinerd.mentalarithmetic.handlers.PerformQuestStateHandler;
 import de.dotzinerd.mentalarithmetic.handlers.RepeatIntentHandler;
+import de.dotzinerd.mentalarithmetic.model.Constants;
 
 public class StateMachineStreamHandler extends SkillStreamHandler {
 	private static final String supportedApplicationId = "amzn1.ask.skill.9412c659-275e-43ff-9888-8a42ddab5f8b";
 	static final Logger logger = LogManager.getLogger(StateMachineStreamHandler.class);
 
 	static {
-		logger.info("Supported app id : " + supportedApplicationId); 
+		logger.info("Supported app id : " + supportedApplicationId);
 	}
 
 	public StateMachineStreamHandler() {

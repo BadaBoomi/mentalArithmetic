@@ -9,6 +9,7 @@ public class Constants {
 	public static final String STATE_NEXT_INTENT = "Next Intent";
 	public static final String STATE_WAIT_FOR_ANSWER = "Waiting for answer";
 	public static final String STATE_PERFORM_QUEST = "PerformingQuest";
-	public static final String STATE_NEXT_QUESTION = "Next question";
+
+	public static final String TABLE_PERSISTANT_USERDATATA="MENTAL_TRAINER_USERDATATA";
 
 };
