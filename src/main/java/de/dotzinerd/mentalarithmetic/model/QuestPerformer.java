@@ -17,6 +17,7 @@ import de.dotzinerd.mentalarithmetic.model.quests.Quest;
 import de.dotzinerd.mentalarithmetic.model.quests.SimpleMultiplicationQuest;
 import de.dotzinerd.mentalarithmetic.model.quests.SimpleTwoDigitMultQuest;
 import de.dotzinerd.mentalarithmetic.model.quests.SimpleTwoDigitSquareQuest;
+import de.dotzinerd.mentalarithmetic.model.quests.SimpleTwoDigitMultQuest.Level;
 
 public class QuestPerformer {
 	private static final String AUDIO_WAITINGLOOP = "<audio src='https://s3.amazonaws.com/ask-soundlibrary/ui/gameshow/amzn_ui_sfx_gameshow_waiting_loop_30s_01.mp3'/>";
@@ -48,8 +49,9 @@ public class QuestPerformer {
 			break;
 		case SimpleMultiplication:
 
-			quest = new SimpleTwoDigitMultQuest(SimpleTwoDigitMultQuest.Level
-					.getRandomLevelBelow(SimpleTwoDigitMultQuest.Level.LVL_MULT_BY_11_ADVANCED));
+//			quest = new SimpleTwoDigitMultQuest(SimpleTwoDigitMultQuest.Level
+//					.getRandomLevelBelow(SimpleTwoDigitMultQuest.Level.LVL_MULT_BY_11_ADVANCED));
+			quest = new SimpleTwoDigitMultQuest(Level.LVL_MULT_BY_11_SIMPLE);
 			break;
 		case SimpleSquares:
 			quest = new SimpleTwoDigitSquareQuest();

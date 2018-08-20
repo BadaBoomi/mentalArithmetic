@@ -9,6 +9,7 @@ import com.amazon.ask.attributes.persistence.impl.DynamoDbPersistenceAdapter;
 
 import de.dotzinerd.mentalarithmetic.handlers.DefaultStateHandler;
 import de.dotzinerd.mentalarithmetic.handlers.GenericExceptionHandler;
+import de.dotzinerd.mentalarithmetic.handlers.HelpIntentHandler;
 import de.dotzinerd.mentalarithmetic.handlers.InitialStateHandler;
 import de.dotzinerd.mentalarithmetic.handlers.NumberAnsweredHandler;
 import de.dotzinerd.mentalarithmetic.handlers.PerformQuestStateHandler;
@@ -27,8 +28,8 @@ public class StateMachineStreamHandler extends SkillStreamHandler {
 	public StateMachineStreamHandler() {
 		super(Skills.custom()
 				.addRequestHandlers(new InitialStateHandler(), new PerformQuestStateHandler(),
-						new NumberAnsweredHandler(), new RepeatIntentHandler(), new SaveIntentHandler(),
-						new DefaultStateHandler())
+						new NumberAnsweredHandler(), new RepeatIntentHandler(), new HelpIntentHandler(),
+						new SaveIntentHandler(), new DefaultStateHandler())
 				.addExceptionHandler(new GenericExceptionHandler()).withSkillId(supportedApplicationId)
 				.withPersistenceAdapter(DynamoDbPersistenceAdapter.builder()
 						.withTableName(Constants.TABLE_PERSISTANT_USERDATATA).withAutoCreateTable(true).build())
