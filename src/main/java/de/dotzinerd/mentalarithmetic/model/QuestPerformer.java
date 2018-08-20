@@ -60,7 +60,7 @@ public class QuestPerformer {
 		}
 		String speechText = (isAnswerCorrect == null) ? quest.getQuestion()
 				: getAnswerString(isAnswerCorrect) + ". " + quest.getQuestion();
-		this.setQuestionAndAnswerInSession(quest.getQuestion(), String.valueOf(quest.getAnswer()));
+		this.setQuestionAndAnswerInSession(quest.getQuestion(), String.valueOf(quest.getAnswer()), quest.getExplanation());
 
 		// Create the Simple card content.
 		logger.debug("quest, performTurn: " + speechText);
@@ -146,9 +146,10 @@ public class QuestPerformer {
 		return response;
 	}
 
-	protected void setQuestionAndAnswerInSession(String question, String answer) {
+	protected void setQuestionAndAnswerInSession(String question, String answer, String explanation) {
 		sessionAttributes.put(EXPECTED_ANSWER, answer);
 		sessionAttributes.put(CURRENT_QUESTION, question);
+		sessionAttributes.put(EXPLANATION, explanation);
 	}
 
 	private int calculateTimeToAnswerAll(Long startTime) {
