@@ -49,9 +49,9 @@ public class QuestPerformer {
 			break;
 		case SimpleMultiplication:
 
-//			quest = new SimpleTwoDigitMultQuest(SimpleTwoDigitMultQuest.Level
-//					.getRandomLevelBelow(SimpleTwoDigitMultQuest.Level.LVL_MULT_BY_11_ADVANCED));
-			quest = new SimpleTwoDigitMultQuest(Level.LVL_MULT_BY_11_SIMPLE);
+			quest = new SimpleTwoDigitMultQuest(SimpleTwoDigitMultQuest.Level
+					.getRandomLevelBelow(SimpleTwoDigitMultQuest.Level.LVL_MULT_BY_11_ADVANCED));
+//			quest = new SimpleTwoDigitMultQuest(Level.LVL_MULT_BY_11_SIMPLE);
 			break;
 		case SimpleSquares:
 			quest = new SimpleTwoDigitSquareQuest();
