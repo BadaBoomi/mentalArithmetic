@@ -38,6 +38,8 @@ public class QuestPerformer extends Performer {
 
 	public QuestPerformer(Intent intent, HandlerInput input, Map<String, Object> sessionAttributes) {
 		super(intent, input, sessionAttributes);
+		logger.debug("sessionAttributes: "+sessionAttributes);
+		
 		if (!getState().equals(QuestState.STATE_NEXT_INTENT)) {
 			this.intentID = IntentId.getIntentIdByName((String) sessionAttributes.get(Constants.KEY_INTENT));
 		} else {
