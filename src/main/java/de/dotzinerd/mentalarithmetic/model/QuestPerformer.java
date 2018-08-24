@@ -31,8 +31,8 @@ public class QuestPerformer extends Performer {
 	protected static String MAX_TURN = "MAX_TURN";
 	protected static String START_TIME_INTENT = "START_TIME_INTENT";
 	protected static String EXPLANATION = "EXPLANATION";
-	Level level;
-	Quest quest;
+	Level level = null;
+	Quest quest = null;
 
 	IntentId intentID;
 
@@ -190,12 +190,12 @@ public class QuestPerformer extends Performer {
 	}
 
 	private void setQuestInSession() {
-		sessionAttributes.put(Constants.QUEST_ID, level.name() + "$" + quest.getId());
+		sessionAttributes.put(Constants.QUEST_ID, level.name() + ";" + quest.getId());
 	}
 
 	private Quest getQuestFromSession() {
 		String id = (String) sessionAttributes.get(Constants.QUEST_ID);
-		String[] ops = id.split("$");
+		String[] ops = id.split(";");
 		Level level = Level.getLevelByName(ops[0]);
 		Quest quest = Level.getQuest(level);
 		quest.setId(ops[1]);
