@@ -2,7 +2,7 @@ package de.dotzinerd.mentalarithmetic.model.quests;
 
 public abstract class Quest {
 	protected String id, question;
-	
+
 	public abstract String getQuestion();
 
 	public abstract String getAnswer();
@@ -14,6 +14,8 @@ public abstract class Quest {
 	public abstract String getTrainByAlexa();
 
 	public abstract String getId();
+
+	public abstract void setId(String id);
 
 	public abstract boolean isCorrectAnswer(String answer);
 }

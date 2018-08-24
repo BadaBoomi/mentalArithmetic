@@ -13,6 +13,7 @@ import com.amazon.ask.model.Response;
 import com.amazon.ask.model.Slot;
 
 import de.dotzinerd.mentalarithmetic.enums.IntentId;
+import de.dotzinerd.mentalarithmetic.enums.Level;
 import de.dotzinerd.mentalarithmetic.enums.QuestState;
 import de.dotzinerd.mentalarithmetic.model.quests.AdvancedMultby11Quest;
 import de.dotzinerd.mentalarithmetic.model.quests.Quest;
@@ -30,6 +31,8 @@ public class QuestPerformer extends Performer {
 	protected static String MAX_TURN = "MAX_TURN";
 	protected static String START_TIME_INTENT = "START_TIME_INTENT";
 	protected static String EXPLANATION = "EXPLANATION";
+	Level level;
+	Quest quest;
 
 	HandlerInput input;
 	Map<String, Object> sessionAttributes;
@@ -38,8 +41,8 @@ public class QuestPerformer extends Performer {
 
 	public QuestPerformer(Intent intent, HandlerInput input, Map<String, Object> sessionAttributes) {
 		super(intent, input, sessionAttributes);
-		logger.debug("sessionAttributes: "+sessionAttributes);
-		
+		logger.debug("sessionAttributes: " + sessionAttributes);
+
 		if (!getState().equals(QuestState.STATE_NEXT_INTENT)) {
 			this.intentID = IntentId.getIntentIdByName((String) sessionAttributes.get(Constants.KEY_INTENT));
 		} else {
@@ -80,7 +83,7 @@ public class QuestPerformer extends Performer {
 			response = performTurn(null);
 			break;
 		case STATE_WAIT_FOR_ANSWER:
-
+			this.quest = getQuestFromSession();
 			Slot answerSlot = null;
 			logger.debug("check answer...");
 			if (intent.getSlots() != null) {
@@ -93,10 +96,10 @@ public class QuestPerformer extends Performer {
 			}
 			boolean isAnswerCorrect = false;
 
-			isAnswerCorrect = sessionAttributes.get(EXPECTED_ANSWER).equals(answerSlot.getValue());
+			isAnswerCorrect = quest.isCorrectAnswer(answerSlot.getValue());
 			if (!isAnswerCorrect) {
 				logger.debug("answer understood: " + answerSlot.getValue() + ", correct answer: "
-						+ sessionAttributes.get(EXPECTED_ANSWER));
+						+ quest.getAnswer());
 			}
 
 			String answer = getAnswerString(isAnswerCorrect);
@@ -107,7 +110,7 @@ public class QuestPerformer extends Performer {
 
 			} else {
 				Long startTime = (Long) (sessionAttributes.get(START_TIME_INTENT));
-				answer += ". Gesamtdauer war " + String.valueOf(calculateTimeToAnswerAll(startTime)) + " Sekunden";
+//				answer += ". Gesamtdauer war " + String.valueOf(calculateTimeToAnswerAll(startTime)) + " Sekunden";
 				sessionAttributes.clear();
 				setState(QuestState.STATE_NEXT_INTENT);
 				response = input.getResponseBuilder().withShouldEndSession(false).withSpeech(answer)
@@ -124,12 +127,6 @@ public class QuestPerformer extends Performer {
 		}
 
 		return response;
-	}
-
-	protected void setQuestionAndAnswerInSession(String question, String answer, String explanation) {
-		sessionAttributes.put(EXPECTED_ANSWER, answer);
-		sessionAttributes.put(CURRENT_QUESTION, question);
-		sessionAttributes.put(EXPLANATION, explanation);
 	}
 
 	private int calculateTimeToAnswerAll(Long startTime) {
@@ -153,9 +150,9 @@ public class QuestPerformer extends Performer {
 
 	Optional<Response> performTurn(Boolean isAnswerCorrect) {
 		logger.debug("perform turn...");
-		Quest quest = null;
 		switch (intentID) {
 		case SimpleEinmalEins:
+			level = Level.LVL_SIMPLE_MULTIPLICATION;
 			quest = new SimpleMultiplicationQuest();
 			break;
 		case SimpleMultiplication:
@@ -163,29 +160,45 @@ public class QuestPerformer extends Performer {
 			int lvl = (int) (Math.random() * 3 + 1);
 			switch (lvl) {
 			case 1:
-				quest = new SimpleMultby11Quest();
+				this.level = Level.LVL_MULT_BY_11_SIMPLE;
+				this.quest = new SimpleMultby11Quest();
 				break;
 			case 2:
-				quest = new AdvancedMultby11Quest();
+				this.level = Level.LVL_MULT_BY_11_ADVANCED;
+				this.quest = new AdvancedMultby11Quest();
 			default:
-				quest = new AdvancedMultby11Quest();
+				this.level = Level.LVL_MULT_BY_11_ADVANCED;
+				this.quest = new AdvancedMultby11Quest();
 			}
 			break;
 		case SimpleSquares:
-			quest = new SimpleTwoDigitSquareQuest();
+			this.level = Level.LVL_2DIGIT_SQUARE;
+			this.quest = new SimpleTwoDigitSquareQuest();
 		default:
 			break;
 		}
 		String speechText = (isAnswerCorrect == null) ? quest.getQuestion()
 				: getAnswerString(isAnswerCorrect) + ". " + quest.getQuestion();
-		this.setQuestionAndAnswerInSession(quest.getQuestion(), String.valueOf(quest.getAnswer()),
-				quest.getExplanation());
+		setQuestInSession();
 
 		// Create the Simple card content.
 		logger.debug("quest, performTurn: " + speechText);
 		return input.getResponseBuilder().withSpeech(speechText).withReprompt(REPROMPT_SPEECH)
 				.withShouldEndSession(false).build();
 
+	}
+
+	private void setQuestInSession() {
+		sessionAttributes.put(Constants.QUEST_ID, level.name() + "$" + quest.getId());
+	}
+
+	private Quest getQuestFromSession() {
+		String id = (String) sessionAttributes.get(Constants.QUEST_ID);
+		String[] ops = id.split("$");
+		Level level = Level.getLevelByName(ops[0]);
+		Quest quest = Level.getQuest(level);
+		quest.setId(ops[1]);
+		return quest;
 	}
 
 	private void setState(QuestState state) {

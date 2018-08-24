@@ -49,4 +49,10 @@ public class SimpleTwoDigitSquareQuest extends Quest {
 		return answer.equals(getAnswer());
 	}
 
+	@Override
+	public void setId(String id) {
+		op = Integer.valueOf(id);
+		
+	}
+
 }

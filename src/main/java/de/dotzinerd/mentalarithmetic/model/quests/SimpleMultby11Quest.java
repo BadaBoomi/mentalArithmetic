@@ -13,11 +13,15 @@ public class SimpleMultby11Quest extends Quest {
 	}
 
 	public SimpleMultby11Quest(String id) {
+		setVals(id);
+
+	}
+
+	private void setVals(String id) {
 		String[] ops = id.split("x");
 		dig1 = Integer.valueOf(ops[0]);
 		dig2 = Integer.valueOf(ops[1]);
 		op1 = dig1 * 10 + dig2;
-
 	}
 
 	@Override
@@ -56,6 +60,12 @@ public class SimpleMultby11Quest extends Quest {
 	@Override
 	public boolean isCorrectAnswer(String answer) {
 		return answer.equals(getAnswer());
+	}
+
+	@Override
+	public void setId(String id) {
+		setVals(id);
+		
 	}
 
 }

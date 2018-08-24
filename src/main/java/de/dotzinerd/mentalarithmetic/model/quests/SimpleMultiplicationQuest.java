@@ -14,10 +14,14 @@ public class SimpleMultiplicationQuest extends Quest {
 	}
 	
 	public SimpleMultiplicationQuest(String id) {
+		setVals(id);
+
+	}
+
+	private void setVals(String id) {
 		String[]ops=id.split("x");
 		op1 = Integer.valueOf(ops[0]);
 		op2 =  Integer.valueOf(ops[1]);
-
 	}
 
 	@Override
@@ -55,6 +59,12 @@ public class SimpleMultiplicationQuest extends Quest {
 	@Override
 	public boolean isCorrectAnswer(String answer) {
 		return answer.equals(getAnswer());
+	}
+
+	@Override
+	public void setId(String id) {
+		setVals(id);
+		
 	}
 
 }

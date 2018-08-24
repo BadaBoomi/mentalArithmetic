@@ -4,6 +4,7 @@ public class Constants {
 	public static final String KEY_QUEST_STATE = "QUEST_STATE";
 	public static final String KEY_QUEST_TYPE = "QUEST_TYPE";
 	public static final String KEY_INTENT = "RUNNING_INTENT";
+	public static final String QUEST_ID="QUEST_ID";
 	
 	public static final String KEY_TRAINING_STATE = "TRAINING_STATE";
 

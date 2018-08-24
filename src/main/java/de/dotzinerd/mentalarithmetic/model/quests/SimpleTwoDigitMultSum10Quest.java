@@ -16,6 +16,10 @@ public class SimpleTwoDigitMultSum10Quest extends Quest {
 	}
 
 	public SimpleTwoDigitMultSum10Quest(String id) {
+		setVals(id);
+	}
+
+	private void setVals(String id) {
 		String[] ops = id.split("x");
 		dig1 = Integer.valueOf(ops[0]);
 		dig2 = Integer.valueOf(ops[1]);
@@ -67,6 +71,12 @@ public class SimpleTwoDigitMultSum10Quest extends Quest {
 	@Override
 	public boolean isCorrectAnswer(String answer) {
 		return answer.equals(getAnswer());
+	}
+
+	@Override
+	public void setId(String id) {
+		setVals(id);
+		
 	}
 
 }
