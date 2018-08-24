@@ -63,7 +63,7 @@ public class QuestPerformer extends Performer {
 	public Optional<Response> performQuestIntent() {
 		Optional<Response> response;
 		QuestState state = getState();
-		if (state == null) {
+		if (state == QuestState.UNKNOWN) {
 			state = QuestState.STATE_NEW_QUEST;
 			setState(state);
 		}
@@ -191,7 +191,11 @@ public class QuestPerformer extends Performer {
 	}
 
 	private QuestState getState() {
-		String stateName = (String) sessionAttributes.get(Constants.KEY_QUEST_STATE);
-		return QuestState.getStateByName(stateName);
+		if (sessionAttributes.containsKey(Constants.KEY_QUEST_STATE)) {
+			String stateName = (String) sessionAttributes.get(Constants.KEY_QUEST_STATE);
+			return QuestState.getStateByName(stateName);
+		} else
+			return QuestState.UNKNOWN;
+
 	}
 }
