@@ -57,8 +57,7 @@ public class QuestPerformer extends Performer {
 
 	String getAnswerString(boolean isAnswerCorrect) {
 		logger.debug("isAnswerCorrect: " + isAnswerCorrect);
-		return (isAnswerCorrect) ? "Richtig!"
-				: "Leider Falsch! Es sind " + sessionAttributes.get(EXPECTED_ANSWER) + ", ";
+		return (isAnswerCorrect) ? "Richtig!" : "Leider Falsch! Es sind " + this.quest.getAnswer() + ", ";
 	}
 
 //	public QuestPerformer(HandlerInput input, Map<String, Object> sessionAttributes) {
@@ -124,9 +123,9 @@ public class QuestPerformer extends Performer {
 					.withSpeech("Jetzt bin ich wohl etwas ins Schleudern geraten")
 					.withReprompt("Falls Du noch weitermachen möchtest, musst Du mir sagen, was Du gerne tun möchtest.")
 					.build();
-			break;
-		}
 
+		}
+		logger.debug("response:" + response);
 		return response;
 	}
 
