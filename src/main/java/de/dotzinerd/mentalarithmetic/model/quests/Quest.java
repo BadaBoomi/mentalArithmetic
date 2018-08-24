@@ -1,21 +1,19 @@
 package de.dotzinerd.mentalarithmetic.model.quests;
 
 public abstract class Quest {
+	protected String id, question;
+	
+	public abstract String getQuestion();
 
-	Integer answer;
-	String question;
-	String explanation;
-	Integer level = 1;
+	public abstract String getAnswer();
 
-	public String getQuestion() {
-		return this.question;
-	}
+	public abstract String getExplanation();
 
-	public Integer getAnswer() {
-		return this.answer;
-	}
+	public abstract String getTrainByMaster();
 
-	public String getExplanation() {
-		return this.explanation;
-	}
+	public abstract String getTrainByAlexa();
+
+	public abstract String getId();
+
+	public abstract boolean isCorrectAnswer(String answer);
 }

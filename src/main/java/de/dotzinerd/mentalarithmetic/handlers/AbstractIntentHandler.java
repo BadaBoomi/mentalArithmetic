@@ -12,10 +12,9 @@ import com.amazon.ask.model.Intent;
 import com.amazon.ask.model.IntentRequest;
 import com.amazon.ask.model.Response;
 
-import de.dotzinerd.mentalarithmetic.StateMachineStreamHandler;
+import de.dotzinerd.mentalarithmetic.enums.QuestState;
 import de.dotzinerd.mentalarithmetic.model.Constants;
 import de.dotzinerd.mentalarithmetic.model.QuestPerformer;
-import de.dotzinerd.mentalarithmetic.model.StateEnum;
 
 public abstract class AbstractIntentHandler implements RequestHandler {
 	static final Logger logger = LogManager.getLogger(AbstractIntentHandler.class);
@@ -30,7 +29,7 @@ public abstract class AbstractIntentHandler implements RequestHandler {
 		this.sessionAttributes = input.getAttributesManager().getSessionAttributes();
 		checkAndRetrievePersistedAttributes();
 		this.sessionAttributes.put("ORIGINAL_INTENT", this.intent.getName());
-		
+
 	}
 
 	private void checkAndRetrievePersistedAttributes() {
@@ -44,11 +43,9 @@ public abstract class AbstractIntentHandler implements RequestHandler {
 
 	}
 
-	protected StateEnum getQuestState() {
-		if (sessionAttributes.containsKey(Constants.KEY_STATE))
-			return StateEnum.getEnumByName((String) sessionAttributes.get(Constants.KEY_STATE));
-		else
-			return StateEnum.UNKNOWN;
+	protected QuestState getQuestState() {
+		String stateName = (String) sessionAttributes.get(Constants.KEY_QUEST_STATE);
+		return QuestState.getStateByName(stateName);
 	}
 
 	protected QuestPerformer getQuestPerformer() {

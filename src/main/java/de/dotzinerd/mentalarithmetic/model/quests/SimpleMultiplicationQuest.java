@@ -1,14 +1,60 @@
 package de.dotzinerd.mentalarithmetic.model.quests;
 
 public class SimpleMultiplicationQuest extends Quest {
+	Integer op1, op2;
+
+	private String[] explanations = { "Beim kleinen Einmaleins hilft nur üben, üben, üben. ",
+			"Hier gibt es leider keinen speziellen Kniff. Du must einfach weiter üben. Das wird schon noch!",
+			"Die Übung macht hier den Meister." };;
 
 	public SimpleMultiplicationQuest() {
-		Integer op1 = (int) (Math.random() * 8) + 2;
-		Integer op2 = (int) (Math.random() * 8) + 2;
-		this.answer = op1 * op2;
-		this.question = "Was macht " + op1 + " mal " + op2 + "?";
+		op1 = (int) (Math.random() * 8) + 2;
+		op2 = (int) (Math.random() * 8) + 2;
+
+	}
+	
+	public SimpleMultiplicationQuest(String id) {
+		String[]ops=id.split("x");
+		op1 = Integer.valueOf(ops[0]);
+		op2 =  Integer.valueOf(ops[1]);
+
 	}
 
-	
+	@Override
+	public String getQuestion() {
+		return "Was macht " + op1 + " mal " + op2 + "?";
+	}
+
+	@Override
+	public String getAnswer() {
+		return String.valueOf(op1 * op2);
+	}
+
+	@Override
+	public String getExplanation() {
+		return explanations[(int) Math.random() * explanations.length + 1];
+	}
+
+	@Override
+	public String getTrainByMaster() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getTrainByAlexa() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getId() {
+		return String.join("x", String.valueOf(op1), String.valueOf(op2));
+	}
+
+	@Override
+	public boolean isCorrectAnswer(String answer) {
+		return answer.equals(getAnswer());
+	}
 
 }

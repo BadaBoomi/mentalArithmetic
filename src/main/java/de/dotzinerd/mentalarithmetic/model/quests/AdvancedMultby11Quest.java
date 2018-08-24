@@ -1,24 +1,34 @@
 package de.dotzinerd.mentalarithmetic.model.quests;
 
-public class SimpleTwoDigitSquareQuest extends Quest {
-	Integer op;
+public class AdvancedMultby11Quest extends Quest {
+	int dig1;
+	int dig2;
+	Integer op1;
 
-	public SimpleTwoDigitSquareQuest() {
-		op = ((int) (Math.random() * 9) + 1) * 10 + 5;
+	public AdvancedMultby11Quest() {
+		dig1 = ((int) (Math.random() * 9) + 1);
+		dig2 = Math.max(10-dig1, ((int) (Math.random() * 9) + 1));
+
+		op1 = dig1 * 10 + dig2;
+
 	}
 
-	public SimpleTwoDigitSquareQuest(String id) {
-		op = Integer.valueOf(id);
+	public AdvancedMultby11Quest(String id) {
+		String[] ops = id.split("x");
+		dig1 = Integer.valueOf(ops[0]);
+		dig2 = Integer.valueOf(ops[1]);
+		op1 = dig1 * 10 + dig2;
+
 	}
 
 	@Override
 	public String getQuestion() {
-		return "Was macht " + op + ". zum Quadrat?";
+		return "Was macht " + op1 + " mal 11 ?";
 	}
 
 	@Override
 	public String getAnswer() {
-		return String.valueOf(op * op);
+		return String.valueOf(op1 * 11);
 	}
 
 	@Override
@@ -41,7 +51,7 @@ public class SimpleTwoDigitSquareQuest extends Quest {
 
 	@Override
 	public String getId() {
-		return String.valueOf(op);
+		return String.join("x", String.valueOf(dig1), String.valueOf(dig2));
 	}
 
 	@Override

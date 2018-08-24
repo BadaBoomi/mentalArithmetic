@@ -1,9 +1,9 @@
-package de.dotzinerd.mentalarithmetic.model;
+package de.dotzinerd.mentalarithmetic.enums;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public enum IntentEnum {
+public enum IntentId {
 	UNKNOWN("UNKNOWN"), YesIntent("AMAZON.YesIntent"), StopIntent("AMAZON.StopIntent"),
 	StartOverIntent("AMAZON.StartOverIntent"), ShuffleOnIntent("AMAZON.ShuffleOnIntent"),
 	ShuffleOffIntent("AMAZON.ShuffleOffIntent"), ResumeIntent("AMAZON.ResumeIntent"),
@@ -15,16 +15,16 @@ public enum IntentEnum {
 
 	private final String saveValue;
 
-	private IntentEnum(String saveAs) {
+	private IntentId(String saveAs) {
 		this.saveValue = saveAs;
 	}
 
-	static final Logger logger = LogManager.getLogger(IntentEnum.class);
+	static final Logger logger = LogManager.getLogger(IntentId.class);
 
-	public static IntentEnum getEnumByName(String name) {
+	public static IntentId getIntentIdByName(String name) {
 		logger.debug("searching: " + name);
 
-		for (IntentEnum en : IntentEnum.values()) {
+		for (IntentId en : IntentId.values()) {
 			if (en.saveValue.equals(name)) {
 				return en;
 			}
