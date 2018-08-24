@@ -117,7 +117,7 @@ public class QuestPerformer extends Performer {
 						.withReprompt("Falls Du noch weitermachen möchtest, musst Du mir das sagen.").build();
 
 			}
-
+			break;
 		default:
 			response = input.getResponseBuilder().withShouldEndSession(false)
 					.withSpeech("Jetzt bin ich wohl etwas ins Schleudern geraten")
