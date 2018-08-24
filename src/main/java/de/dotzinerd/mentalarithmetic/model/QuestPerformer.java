@@ -34,14 +34,12 @@ public class QuestPerformer extends Performer {
 	Level level;
 	Quest quest;
 
-	HandlerInput input;
-	Map<String, Object> sessionAttributes;
-	Intent intent;
 	IntentId intentID;
 
 	public QuestPerformer(Intent intent, HandlerInput input, Map<String, Object> sessionAttributes) {
 		super(intent, input, sessionAttributes);
-		logger.debug("sessionAttributes: " + sessionAttributes);
+
+		setIntentID(intent);
 
 	}
 
@@ -71,7 +69,6 @@ public class QuestPerformer extends Performer {
 	public Optional<Response> performQuestIntent() {
 		Optional<Response> response;
 
-		setIntentID(intent);
 		QuestState state = getState();
 		if (state == QuestState.UNKNOWN) {
 			state = QuestState.STATE_NEW_QUEST;
@@ -210,7 +207,8 @@ public class QuestPerformer extends Performer {
 	}
 
 	private QuestState getState() {
-		if (sessionAttributes.containsKey(Constants.KEY_QUEST_STATE)) {
+		logger.debug("sessionAttributes: " + sessionAttributes);
+		if (this.sessionAttributes.containsKey(Constants.KEY_QUEST_STATE)) {
 			String stateName = (String) sessionAttributes.get(Constants.KEY_QUEST_STATE);
 			return QuestState.getStateByName(stateName);
 		} else
