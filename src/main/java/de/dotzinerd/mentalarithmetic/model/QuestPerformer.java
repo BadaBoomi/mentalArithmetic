@@ -43,6 +43,9 @@ public class QuestPerformer extends Performer {
 		super(intent, input, sessionAttributes);
 		logger.debug("sessionAttributes: " + sessionAttributes);
 
+	}
+
+	private void setIntentID(Intent intent) {
 		if (!getState().equals(QuestState.STATE_NEXT_INTENT)) {
 			this.intentID = IntentId.getIntentIdByName((String) sessionAttributes.get(Constants.KEY_INTENT));
 		} else {
@@ -67,6 +70,8 @@ public class QuestPerformer extends Performer {
 
 	public Optional<Response> performQuestIntent() {
 		Optional<Response> response;
+
+		setIntentID(intent);
 		QuestState state = getState();
 		if (state == QuestState.UNKNOWN) {
 			state = QuestState.STATE_NEW_QUEST;
@@ -98,8 +103,7 @@ public class QuestPerformer extends Performer {
 
 			isAnswerCorrect = quest.isCorrectAnswer(answerSlot.getValue());
 			if (!isAnswerCorrect) {
-				logger.debug("answer understood: " + answerSlot.getValue() + ", correct answer: "
-						+ quest.getAnswer());
+				logger.debug("answer understood: " + answerSlot.getValue() + ", correct answer: " + quest.getAnswer());
 			}
 
 			String answer = getAnswerString(isAnswerCorrect);
@@ -129,10 +133,10 @@ public class QuestPerformer extends Performer {
 		return response;
 	}
 
-	private int calculateTimeToAnswerAll(Long startTime) {
-		Long timeUsed = TimeUnit.MILLISECONDS.toSeconds((System.currentTimeMillis() - startTime));
-		return timeUsed.intValue();
-	}
+//	private int calculateTimeToAnswerAll(Long startTime) {
+//		Long timeUsed = TimeUnit.MILLISECONDS.toSeconds((System.currentTimeMillis() - startTime));
+//		return timeUsed.intValue();
+//	}
 
 	public Optional<Response> repeatQuestion() {
 		return input.getResponseBuilder().withShouldEndSession(false)
