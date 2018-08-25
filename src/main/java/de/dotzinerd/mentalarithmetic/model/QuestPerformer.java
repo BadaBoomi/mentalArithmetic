@@ -41,7 +41,7 @@ public class QuestPerformer extends Performer {
 		super(intent, input, sessionAttributes);
 		this.modus = MODE_PLAY;
 		setIntentID(intent);
-		determineQuestByIntent();
+
 	}
 
 	public QuestPerformer(Intent intent, HandlerInput input, Map<String, Object> sessionAttributes, Level level,
@@ -50,7 +50,7 @@ public class QuestPerformer extends Performer {
 		this.modus = MODE_TRAINING;
 		this.level = level;
 		this.maxTurn = maxTurn;
-		determineQuestByLevel();
+
 		setIntentID(intent);
 
 	}
@@ -153,8 +153,9 @@ public class QuestPerformer extends Performer {
 	}
 
 	public Optional<Response> performContextHelp() {
-		logger.debug("give help");
 		String explanation = quest.getExplanation();
+		logger.debug("give help: " + explanation);
+
 		// Create the Simple card content.
 
 		return input.getResponseBuilder().withSpeech(explanation).withShouldEndSession(false).build();
@@ -163,7 +164,10 @@ public class QuestPerformer extends Performer {
 
 	Optional<Response> performTurn(Boolean isAnswerCorrect) {
 		logger.debug("perform turn...");
-
+		if (modus == MODE_PLAY)
+			determineQuestByIntent();
+		else
+			determineQuestByLevel();
 		String speechText = (isAnswerCorrect == null) ? quest.getQuestion()
 				: getAnswerString(isAnswerCorrect) + ". " + quest.getQuestion();
 		setQuestInSession();
@@ -174,7 +178,6 @@ public class QuestPerformer extends Performer {
 				.withShouldEndSession(false).build();
 
 	}
-
 
 	private void determineQuestByLevel() {
 		quest = Level.getQuest(level);
