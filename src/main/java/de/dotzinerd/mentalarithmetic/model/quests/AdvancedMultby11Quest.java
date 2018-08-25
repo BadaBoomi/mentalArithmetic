@@ -38,7 +38,7 @@ public class AdvancedMultby11Quest extends Quest {
 	@Override
 	public String getExplanation() {
 		// TODO Auto-generated method stub
-		return null;
+		return "fehlt noch";
 	}
 
 	@Override

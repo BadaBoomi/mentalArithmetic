@@ -24,7 +24,7 @@ public class SimpleTwoDigitSquareQuest extends Quest {
 	@Override
 	public String getExplanation() {
 		// TODO Auto-generated method stub
-		return null;
+		return "fehlt auch noch";
 	}
 
 	@Override
