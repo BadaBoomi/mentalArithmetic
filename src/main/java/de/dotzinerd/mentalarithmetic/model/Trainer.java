@@ -40,7 +40,8 @@ public class Trainer extends Performer {
 			setState(TrainingState.STATE_CHECK_TRAINED_ABILITY);
 			return input.getResponseBuilder().withShouldEndSession(false).withSpeech(quest.getTrainByAlexa()).build();
 		case STATE_CHECK_TRAINED_ABILITY:
-
+			QuestPerformer questPerformer = new QuestPerformer(this.intent, input, sessionAttributes, level, 3);
+			questPerformer.performQuestIntent();
 		case STATE_EXPLAIN_TRAINING_BY_ALEXA:
 			break;
 		default:

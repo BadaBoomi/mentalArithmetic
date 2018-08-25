@@ -24,21 +24,32 @@ import de.dotzinerd.mentalarithmetic.model.quests.SimpleTwoDigitSquareQuest;
 public class QuestPerformer extends Performer {
 	private static final String REPROMPT_SPEECH = "ich warte" + Audios.AUDIO_WAITINGLOOP;
 	static final Logger logger = LogManager.getLogger(QuestPerformer.class);
-	protected static String EXPECTED_ANSWER = "EXPECTED_ANSWER";
-	protected static String CURRENT_QUESTION = "CURRENT_QUESTION";
 	protected static String CURRENT_TURN = "TURN";
 	protected static String SLOT_USER_RESPONSE = "SLOT_NUMBER";
 	protected static String MAX_TURN = "MAX_TURN";
 	protected static String START_TIME_INTENT = "START_TIME_INTENT";
-	protected static String EXPLANATION = "EXPLANATION";
 	Level level = null;
 	Quest quest = null;
+	final int MODE_PLAY = 0;
+	final int MODE_TRAINING = 1;
+	int modus = MODE_PLAY;
+	int maxTurn = 5;
 
 	IntentId intentID;
 
 	public QuestPerformer(Intent intent, HandlerInput input, Map<String, Object> sessionAttributes) {
 		super(intent, input, sessionAttributes);
+		this.modus = MODE_PLAY;
+		setIntentID(intent);
 
+	}
+
+	public QuestPerformer(Intent intent, HandlerInput input, Map<String, Object> sessionAttributes, Level level,
+			int maxTurn) {
+		super(intent, input, sessionAttributes);
+		this.modus = MODE_TRAINING;
+		this.level = level;
+		this.maxTurn = maxTurn;
 		setIntentID(intent);
 
 	}
@@ -52,7 +63,7 @@ public class QuestPerformer extends Performer {
 	}
 
 	Integer getMaxTurn() {
-		return 3;
+		return maxTurn;
 	};
 
 	String getAnswerString(boolean isAnswerCorrect) {
@@ -76,6 +87,7 @@ public class QuestPerformer extends Performer {
 		logger.debug("state: " + state);
 		switch (state) {
 		case STATE_NEW_QUEST:
+		case STATE_NEXT_INTENT:
 			logger.debug(sessionAttributes);
 			sessionAttributes.put(MAX_TURN, getMaxTurn());
 			sessionAttributes.put(CURRENT_TURN, 1);
@@ -136,12 +148,12 @@ public class QuestPerformer extends Performer {
 
 	public Optional<Response> repeatQuestion() {
 		return input.getResponseBuilder().withShouldEndSession(false)
-				.withSpeech((String) sessionAttributes.get(CURRENT_QUESTION)).withReprompt(REPROMPT_SPEECH).build();
+				.withSpeech((String) sessionAttributes.get(quest.getQuestion())).withReprompt(REPROMPT_SPEECH).build();
 	}
 
 	public Optional<Response> performContextHelp() {
 		logger.debug("give help");
-		String explanation = (String) sessionAttributes.get(EXPLANATION);
+		String explanation = quest.getExplanation();
 		// Create the Simple card content.
 
 		return input.getResponseBuilder().withSpeech(explanation).withShouldEndSession(false).build();
@@ -150,6 +162,28 @@ public class QuestPerformer extends Performer {
 
 	Optional<Response> performTurn(Boolean isAnswerCorrect) {
 		logger.debug("perform turn...");
+		if (this.modus == MODE_PLAY) {
+			determineQuestByIntent();
+		} else {
+			determineQuestByLevel();
+		}
+
+		String speechText = (isAnswerCorrect == null) ? quest.getQuestion()
+				: getAnswerString(isAnswerCorrect) + ". " + quest.getQuestion();
+		setQuestInSession();
+
+		// Create the Simple card content.
+		logger.debug("quest, performTurn: " + speechText);
+		return input.getResponseBuilder().withSpeech(speechText).withReprompt(REPROMPT_SPEECH)
+				.withShouldEndSession(false).build();
+
+	}
+
+	private void determineQuestByLevel() {
+		quest = Level.getQuest(level);
+	}
+
+	private void determineQuestByIntent() {
 		switch (intentID) {
 		case SimpleEinmalEins:
 			level = Level.LVL_SIMPLE_MULTIPLICATION;
@@ -177,15 +211,6 @@ public class QuestPerformer extends Performer {
 		default:
 			break;
 		}
-		String speechText = (isAnswerCorrect == null) ? quest.getQuestion()
-				: getAnswerString(isAnswerCorrect) + ". " + quest.getQuestion();
-		setQuestInSession();
-
-		// Create the Simple card content.
-		logger.debug("quest, performTurn: " + speechText);
-		return input.getResponseBuilder().withSpeech(speechText).withReprompt(REPROMPT_SPEECH)
-				.withShouldEndSession(false).build();
-
 	}
 
 	private void setQuestInSession() {

@@ -1,8 +1,10 @@
 package de.dotzinerd.mentalarithmetic.model.quests;
 
+import de.dotzinerd.mentalarithmetic.model.Audios;
+
 public class SimpleMultby11Quest extends Quest {
-	int dig1;
-	int dig2;
+	Integer dig1;
+	Integer dig2;
 	Integer op1;
 
 	public SimpleMultby11Quest() {
@@ -36,20 +38,25 @@ public class SimpleMultby11Quest extends Quest {
 
 	@Override
 	public String getExplanation() {
-		// TODO Auto-generated method stub
-		return null;
+		return String.join("\n",
+				"Die Summe der beiden Ziffern, " + dig1.toString() + ", und, " + dig2.toString() + ", ist ,"
+						+ String.valueOf(dig1 + dig2),
+				"Die " + String.valueOf(dig1 + dig2)
+						+ ", stellen wir nun zwischen die beiden Ziffern unserer Ausgangszahl " + String.valueOf(op1),
+				" <break time=\"250ms\"/> ", "Damit haben wir dann unser Ergebnis, ", dig1.toString(),
+				" <break time=\"250ms\"/> ", String.valueOf(dig1 + dig2), " <break time=\"250ms\"/> ", dig2.toString(),
+				" <break time=\"250ms\"/> ", "Als Zahl ausgesprochen also, ", getAnswer());
 	}
 
 	@Override
 	public String getTrainByMaster() {
-		// TODO Auto-generated method stub
-		return null;
+		return Audios.AUDIO_LESSON_MULT_BY_11_SIMPLE;
 	}
 
 	@Override
 	public String getTrainByAlexa() {
-		// TODO Auto-generated method stub
-		return null;
+		return String.join("\n", "Ich gebe Dir noch ein Beispiel. ", getQuestion(), " <break time=\"500ms\"/> ",
+				getExplanation());
 	}
 
 	@Override
@@ -65,7 +72,7 @@ public class SimpleMultby11Quest extends Quest {
 	@Override
 	public void setId(String id) {
 		setVals(id);
-		
+
 	}
 
 }

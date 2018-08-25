@@ -13,7 +13,7 @@ public class SimpleTwoDigitSquareQuest extends Quest {
 
 	@Override
 	public String getQuestion() {
-		return "Was macht " + op + ". zum Quadrat?";
+		return "Was macht " + op + ", zum Quadrat?";
 	}
 
 	@Override
