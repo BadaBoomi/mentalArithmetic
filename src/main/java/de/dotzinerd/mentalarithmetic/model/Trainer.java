@@ -11,6 +11,7 @@ import com.amazon.ask.model.Intent;
 import com.amazon.ask.model.Response;
 
 import de.dotzinerd.mentalarithmetic.enums.Level;
+import de.dotzinerd.mentalarithmetic.enums.QuestState;
 import de.dotzinerd.mentalarithmetic.enums.TrainingState;
 import de.dotzinerd.mentalarithmetic.model.quests.Quest;
 
@@ -79,7 +80,13 @@ public class Trainer extends Performer {
 	}
 
 	private TrainingState getState() {
-		String stateName = (String) sessionAttributes.get(Constants.KEY_TRAINING_STATE);
-		return TrainingState.getStateByName(stateName);
+		if (this.sessionAttributes.containsKey(Constants.KEY_TRAINING_STATE)) {
+			String stateName = (String) sessionAttributes.get(Constants.KEY_TRAINING_STATE);
+			return TrainingState.getStateByName(stateName);
+		}
+
+		else
+			return TrainingState.UNKNOWN;
+
 	}
 }
