@@ -101,15 +101,12 @@ public class QuestManager {
 
 	public QuestState getState(Map<String, Object> sessionAttributes) {
 		logger.debug("sessionAttributes: " + sessionAttributes);
-//		if (sessionAttributes.containsKey(Constants.KEY_QUEST_STATE)) {
-//			String stateName = (String) sessionAttributes.get(Constants.KEY_QUEST_STATE);
-//			return QuestState.getStateByName(stateName);
-//		} else
-//			return QuestState.UNKNOWN;
 		if (sessionAttributes.containsKey(Constants.KEY_QUEST_STATE)) {
-			return (QuestState) sessionAttributes.get(Constants.KEY_QUEST_STATE);
+			String stateName = (String) sessionAttributes.get(Constants.KEY_QUEST_STATE);
+			return QuestState.getStateByName(stateName);
 		} else
 			return QuestState.UNKNOWN;
+		
 
 	}
 }
