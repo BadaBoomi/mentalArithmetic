@@ -82,7 +82,7 @@ public class QuestPerformer extends Performer {
 		switch (state) {
 		case STATE_NEW_QUEST:
 		case STATE_NEXT_INTENT:
-			this.quest = QuestManager.getManager().getQuestByIntent(intent, sessionAttributes);
+			this.quest = QuestManager.getManager().getNewQuestByIntent(intent, sessionAttributes);
 			logger.debug(sessionAttributes);
 			sessionAttributes.put(MAX_TURN, getMaxTurn());
 			sessionAttributes.put(CURRENT_TURN, 1);
@@ -91,7 +91,7 @@ public class QuestPerformer extends Performer {
 			response = performTurn(null);
 			break;
 		case STATE_WAIT_FOR_ANSWER:
-			this.quest = QuestManager.getManager().getQuestFromSession(sessionAttributes);
+			this.quest = QuestManager.getManager().getCurrentQuestFromSession(sessionAttributes);
 			Slot answerSlot = null;
 			logger.debug("check answer...");
 			if (intent.getSlots() != null) {
@@ -157,7 +157,7 @@ public class QuestPerformer extends Performer {
 	}
 
 	Optional<Response> performTurn(Boolean isAnswerCorrect) {
-
+		Quest nextQuest=QuestManager.getManager().getNewQuestByIntent(intent, sessionAttributes);
 		String speechText = (isAnswerCorrect == null) ? this.quest.getQuestion()
 				: getAnswerString(isAnswerCorrect) + ". " + this.quest.getQuestion();
 		setQuestInSession();

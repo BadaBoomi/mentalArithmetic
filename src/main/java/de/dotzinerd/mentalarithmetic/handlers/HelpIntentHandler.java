@@ -25,7 +25,7 @@ public class HelpIntentHandler extends AbstractIntentHandler {
 		logger.debug("repeating...");
 		switch (QuestManager.getManager().getState(sessionAttributes)) {
 		case STATE_WAIT_FOR_ANSWER:
-			Quest quest=QuestManager.getManager().getQuestFromSession(sessionAttributes);
+			Quest quest=QuestManager.getManager().getCurrentQuestFromSession(sessionAttributes);
 			logger.debug("Quest: "+ quest);
 			return input.getResponseBuilder().withShouldEndSession(false)
 					.withSpeech(quest.getExplanation()).build();

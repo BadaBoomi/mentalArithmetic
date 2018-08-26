@@ -47,7 +47,7 @@ public class QuestManager {
 
 	}
 
-	public Quest getQuestFromSession(Map<String, Object> sessionAttributes) {
+	public Quest getCurrentQuestFromSession(Map<String, Object> sessionAttributes) {
 		String id = (String) sessionAttributes.get(Constants.QUEST_ID);
 		String[] ops = id.split(";");
 		Level level = Level.getLevelByName(ops[0]);
@@ -67,7 +67,7 @@ public class QuestManager {
 		}
 	}
 
-	public Quest getQuestByIntent(Intent intent, Map<String, Object> sessionAttributes) {
+	public Quest getNewQuestByIntent(Intent intent, Map<String, Object> sessionAttributes) {
 		IntentId intentID;
 		if (!getState(sessionAttributes).equals(QuestState.STATE_NEXT_INTENT)) {
 			intentID = IntentId.getIntentIdByName((String) sessionAttributes.get(Constants.KEY_INTENT));
