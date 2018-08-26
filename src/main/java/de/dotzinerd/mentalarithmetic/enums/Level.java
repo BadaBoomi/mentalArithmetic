@@ -25,22 +25,5 @@ public enum Level {
 		return null;
 	}
 
-	public static Quest getQuest(Level level) {
-		logger.debug("getQuest for:"+level);
-		switch (level) {
-		case LVL_MULT_BY_11_SIMPLE:
-			return new SimpleMultby11Quest();
-		case LVL_MULT_BY_11_ADVANCED:
-			return new AdvancedMultby11Quest();
-		case LVL_SIMPLE_MULTIPLICATION:
-			return new SimpleMultiplicationQuest();
-		case LVL_MULT_2DIGIT_SUM_IS_10:
-			return new SimpleTwoDigitSquareQuest();
-		case LVL_2DIGIT_SQUARE:
-			return new SimpleTwoDigitSquareQuest();
-		default:
-			return new SimpleMultiplicationQuest();
-		}
-
-	}
+	
 }

@@ -13,6 +13,7 @@ import com.amazon.ask.model.Response;
 import de.dotzinerd.mentalarithmetic.enums.Level;
 import de.dotzinerd.mentalarithmetic.enums.QuestState;
 import de.dotzinerd.mentalarithmetic.enums.TrainingState;
+import de.dotzinerd.mentalarithmetic.manager.QuestManager;
 import de.dotzinerd.mentalarithmetic.model.quests.Quest;
 
 public class Trainer extends Performer {
@@ -25,7 +26,7 @@ public class Trainer extends Performer {
 	public Trainer(Intent intent, HandlerInput input, Map<String, Object> sessionAttributes, Level level) {
 		super(intent, input, sessionAttributes);
 		this.level = level;
-		this.quest = Level.getQuest(level);
+		this.quest = QuestManager.getManager().getNewQuestByLevel(level);
 
 	}
 

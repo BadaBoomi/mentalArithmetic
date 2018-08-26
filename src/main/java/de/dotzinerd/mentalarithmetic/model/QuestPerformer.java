@@ -15,6 +15,7 @@ import com.amazon.ask.model.Slot;
 import de.dotzinerd.mentalarithmetic.enums.IntentId;
 import de.dotzinerd.mentalarithmetic.enums.Level;
 import de.dotzinerd.mentalarithmetic.enums.QuestState;
+import de.dotzinerd.mentalarithmetic.manager.QuestManager;
 import de.dotzinerd.mentalarithmetic.model.quests.AdvancedMultby11Quest;
 import de.dotzinerd.mentalarithmetic.model.quests.Quest;
 import de.dotzinerd.mentalarithmetic.model.quests.SimpleMultby11Quest;
@@ -97,7 +98,7 @@ public class QuestPerformer extends Performer {
 			response = performTurn(null);
 			break;
 		case STATE_WAIT_FOR_ANSWER:
-			this.quest = getQuestFromSession();
+			this.quest = QuestManager.getManager().getQuestFromSession(sessionAttributes);
 			Slot answerSlot = null;
 			logger.debug("check answer...");
 			if (intent.getSlots() != null) {
@@ -180,7 +181,7 @@ public class QuestPerformer extends Performer {
 	}
 
 	private void determineQuestByLevel() {
-		quest = Level.getQuest(level);
+		quest = QuestManager.getManager().getNewQuestByLevel(level);
 	}
 
 	private void determineQuestByIntent() {
@@ -217,15 +218,7 @@ public class QuestPerformer extends Performer {
 		sessionAttributes.put(Constants.QUEST_ID, level.name() + ";" + quest.getId());
 	}
 
-	private Quest getQuestFromSession() {
-		String id = (String) sessionAttributes.get(Constants.QUEST_ID);
-		String[] ops = id.split(";");
-		Level level = Level.getLevelByName(ops[0]);
-		Quest quest = Level.getQuest(level);
-		quest.setId(ops[1]);
-		return quest;
-	}
-
+	
 	private void setState(QuestState state) {
 		sessionAttributes.put(Constants.KEY_QUEST_STATE, state);
 	}
