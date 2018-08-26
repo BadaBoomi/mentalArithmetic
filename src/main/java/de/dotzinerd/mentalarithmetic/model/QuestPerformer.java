@@ -174,7 +174,7 @@ public class QuestPerformer extends Performer {
 	}
 
 	private void setState(QuestState state) {
-		sessionAttributes.put(Constants.KEY_QUEST_STATE, state);
+		sessionAttributes.put(Constants.KEY_QUEST_STATE, state.name());
 	}
 
 }
