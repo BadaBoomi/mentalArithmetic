@@ -36,12 +36,12 @@ public class QuestPerformer extends Performer {
 	int modus = MODE_PLAY;
 	int maxTurn = 5;
 
-	IntentId intentID;
+//	IntentId intentID;
 
 	public QuestPerformer(Intent intent, HandlerInput input, Map<String, Object> sessionAttributes) {
 		super(intent, input, sessionAttributes);
 		this.modus = MODE_PLAY;
-		setIntentID(intent);
+//		setIntentID(intent);
 
 	}
 
@@ -52,16 +52,8 @@ public class QuestPerformer extends Performer {
 		this.level = level;
 		this.maxTurn = maxTurn;
 
-		setIntentID(intent);
+//		setIntentID(intent);
 
-	}
-
-	private void setIntentID(Intent intent) {
-		if (!getState().equals(QuestState.STATE_NEXT_INTENT)) {
-			this.intentID = IntentId.getIntentIdByName((String) sessionAttributes.get(Constants.KEY_INTENT));
-		} else {
-			this.intentID = IntentId.getIntentIdByName(intent.getName());
-		}
 	}
 
 	Integer getMaxTurn() {
@@ -81,7 +73,7 @@ public class QuestPerformer extends Performer {
 	public Optional<Response> performQuestIntent() {
 		Optional<Response> response;
 
-		QuestState state = getState();
+		QuestState state = QuestManager.getManager().getState(sessionAttributes);
 		if (state == QuestState.UNKNOWN) {
 			state = QuestState.STATE_NEW_QUEST;
 			setState(state);
@@ -90,6 +82,7 @@ public class QuestPerformer extends Performer {
 		switch (state) {
 		case STATE_NEW_QUEST:
 		case STATE_NEXT_INTENT:
+			this.quest = QuestManager.getManager().getQuestByIntent(intent, sessionAttributes);
 			logger.debug(sessionAttributes);
 			sessionAttributes.put(MAX_TURN, getMaxTurn());
 			sessionAttributes.put(CURRENT_TURN, 1);
@@ -111,7 +104,7 @@ public class QuestPerformer extends Performer {
 			}
 			boolean isAnswerCorrect = false;
 
-			isAnswerCorrect = quest.isCorrectAnswer(answerSlot.getValue());
+			isAnswerCorrect = this.quest.isCorrectAnswer(answerSlot.getValue());
 			if (!isAnswerCorrect) {
 				logger.debug("answer understood: " + answerSlot.getValue() + ", correct answer: " + quest.getAnswer());
 			}
@@ -164,13 +157,9 @@ public class QuestPerformer extends Performer {
 	}
 
 	Optional<Response> performTurn(Boolean isAnswerCorrect) {
-		logger.debug("perform turn...");
-		if (modus == MODE_PLAY)
-			determineQuestByIntent();
-		else
-			determineQuestByLevel();
-		String speechText = (isAnswerCorrect == null) ? quest.getQuestion()
-				: getAnswerString(isAnswerCorrect) + ". " + quest.getQuestion();
+
+		String speechText = (isAnswerCorrect == null) ? this.quest.getQuestion()
+				: getAnswerString(isAnswerCorrect) + ". " + this.quest.getQuestion();
 		setQuestInSession();
 
 		// Create the Simple card content.
@@ -180,56 +169,12 @@ public class QuestPerformer extends Performer {
 
 	}
 
-	private void determineQuestByLevel() {
-		quest = QuestManager.getManager().getNewQuestByLevel(level);
-	}
-
-	private void determineQuestByIntent() {
-		switch (intentID) {
-		case SimpleEinmalEins:
-			level = Level.LVL_SIMPLE_MULTIPLICATION;
-			quest = new SimpleMultiplicationQuest();
-			break;
-		case SimpleMultiplication:
-
-			int lvl = (int) (Math.random() * 3 + 1);
-			switch (lvl) {
-			case 1:
-				this.level = Level.LVL_MULT_BY_11_SIMPLE;
-				this.quest = new SimpleMultby11Quest();
-				break;
-			case 2:
-				this.level = Level.LVL_MULT_BY_11_ADVANCED;
-				this.quest = new AdvancedMultby11Quest();
-			default:
-				this.level = Level.LVL_MULT_BY_11_ADVANCED;
-				this.quest = new AdvancedMultby11Quest();
-			}
-			break;
-		case SimpleSquares:
-			this.level = Level.LVL_2DIGIT_SQUARE;
-			this.quest = new SimpleTwoDigitSquareQuest();
-		default:
-			break;
-		}
-	}
-
 	private void setQuestInSession() {
 		sessionAttributes.put(Constants.QUEST_ID, level.name() + ";" + quest.getId());
 	}
 
-	
 	private void setState(QuestState state) {
 		sessionAttributes.put(Constants.KEY_QUEST_STATE, state);
 	}
 
-	private QuestState getState() {
-		logger.debug("sessionAttributes: " + sessionAttributes);
-		if (this.sessionAttributes.containsKey(Constants.KEY_QUEST_STATE)) {
-			String stateName = (String) sessionAttributes.get(Constants.KEY_QUEST_STATE);
-			return QuestState.getStateByName(stateName);
-		} else
-			return QuestState.UNKNOWN;
-
-	}
 }
