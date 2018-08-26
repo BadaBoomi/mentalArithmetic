@@ -43,11 +43,7 @@ public abstract class AbstractIntentHandler implements RequestHandler {
 
 	}
 
-	protected QuestState getQuestState() {
-		String stateName = (String) sessionAttributes.get(Constants.KEY_QUEST_STATE);
-		return QuestState.getStateByName(stateName);
-	}
-
+	
 	protected QuestPerformer getQuestPerformer() {
 		return new QuestPerformer(intent, input, sessionAttributes);
 	}

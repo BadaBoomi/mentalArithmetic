@@ -10,6 +10,8 @@ import org.apache.logging.log4j.Logger;
 import com.amazon.ask.dispatcher.request.handler.HandlerInput;
 import com.amazon.ask.model.Response;
 
+import de.dotzinerd.mentalarithmetic.manager.QuestManager;
+
 public class RepeatIntentHandler extends AbstractIntentHandler {
 	static final Logger logger = LogManager.getLogger(RepeatIntentHandler.class);
 
@@ -20,7 +22,7 @@ public class RepeatIntentHandler extends AbstractIntentHandler {
 	public Optional<Response> handle(HandlerInput input) {
 		initialize(input);
 		logger.debug("repeating...");
-		switch (getQuestState()) {
+		switch (QuestManager.getManager().getState(sessionAttributes)) {
 		case STATE_WAIT_FOR_ANSWER:
 			return getQuestPerformer().repeatQuestion();
 		default:

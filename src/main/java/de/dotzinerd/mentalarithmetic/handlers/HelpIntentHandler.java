@@ -10,9 +10,7 @@ import org.apache.logging.log4j.Logger;
 import com.amazon.ask.dispatcher.request.handler.HandlerInput;
 import com.amazon.ask.model.Response;
 
-import de.dotzinerd.mentalarithmetic.enums.Level;
 import de.dotzinerd.mentalarithmetic.manager.QuestManager;
-import de.dotzinerd.mentalarithmetic.model.Constants;
 import de.dotzinerd.mentalarithmetic.model.quests.Quest;
 
 public class HelpIntentHandler extends AbstractIntentHandler {
@@ -25,7 +23,7 @@ public class HelpIntentHandler extends AbstractIntentHandler {
 	public Optional<Response> handle(HandlerInput input) {
 		initialize(input);
 		logger.debug("repeating...");
-		switch (getQuestState()) {
+		switch (QuestManager.getManager().getState(sessionAttributes)) {
 		case STATE_WAIT_FOR_ANSWER:
 			Quest quest=QuestManager.getManager().getQuestFromSession(sessionAttributes);
 			logger.debug("Quest: "+ quest);

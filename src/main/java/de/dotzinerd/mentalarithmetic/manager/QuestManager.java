@@ -28,7 +28,7 @@ public class QuestManager {
 		return singleton;
 	}
 
-	public  Quest getNewQuestByLevel(Level level) {
+	public Quest getNewQuestByLevel(Level level) {
 		logger.debug("getNewQuestByLevel for:" + level);
 		switch (level) {
 		case LVL_MULT_BY_11_SIMPLE:
@@ -47,7 +47,7 @@ public class QuestManager {
 
 	}
 
-	public  Quest getQuestFromSession(Map<String, Object> sessionAttributes) {
+	public Quest getQuestFromSession(Map<String, Object> sessionAttributes) {
 		String id = (String) sessionAttributes.get(Constants.QUEST_ID);
 		String[] ops = id.split(";");
 		Level level = Level.getLevelByName(ops[0]);
@@ -66,7 +66,7 @@ public class QuestManager {
 			return new SimpleMultiplicationQuest(ops[1]);
 		}
 	}
-	
+
 	public Quest getQuestByIntent(Intent intent, Map<String, Object> sessionAttributes) {
 		IntentId intentID;
 		if (!getState(sessionAttributes).equals(QuestState.STATE_NEXT_INTENT)) {
@@ -77,20 +77,20 @@ public class QuestManager {
 		switch (intentID) {
 		case SimpleEinmalEins:
 			return new SimpleMultiplicationQuest();
-		
+
 		case SimpleMultiplication:
 
 			int lvl = (int) (Math.random() * 3 + 1);
 			switch (lvl) {
 			case 1:
 				return new SimpleMultby11Quest();
-				
+
 			case 2:
 				return new AdvancedMultby11Quest();
 			default:
 				return new AdvancedMultby11Quest();
 			}
-			
+
 		case SimpleSquares:
 			return new SimpleTwoDigitSquareQuest();
 		default:
@@ -99,12 +99,15 @@ public class QuestManager {
 		return null;
 	}
 
-	
 	public QuestState getState(Map<String, Object> sessionAttributes) {
 		logger.debug("sessionAttributes: " + sessionAttributes);
+//		if (sessionAttributes.containsKey(Constants.KEY_QUEST_STATE)) {
+//			String stateName = (String) sessionAttributes.get(Constants.KEY_QUEST_STATE);
+//			return QuestState.getStateByName(stateName);
+//		} else
+//			return QuestState.UNKNOWN;
 		if (sessionAttributes.containsKey(Constants.KEY_QUEST_STATE)) {
-			String stateName = (String) sessionAttributes.get(Constants.KEY_QUEST_STATE);
-			return QuestState.getStateByName(stateName);
+			return (QuestState) sessionAttributes.get(Constants.KEY_QUEST_STATE);
 		} else
 			return QuestState.UNKNOWN;
 
