@@ -1,5 +1,6 @@
 package de.dotzinerd.mentalarithmetic.model.quests;
 
+import de.dotzinerd.mentalarithmetic.enums.Level;
 import de.dotzinerd.mentalarithmetic.model.Audios;
 
 public class SimpleTwoDigitMultSum10Quest extends Quest {
@@ -34,7 +35,7 @@ public class SimpleTwoDigitMultSum10Quest extends Quest {
 
 	@Override
 	public String getAnswer() {
-		return String.valueOf(op1*op2);
+		return String.valueOf(op1 * op2);
 	}
 
 	@Override
@@ -59,8 +60,9 @@ public class SimpleTwoDigitMultSum10Quest extends Quest {
 
 	@Override
 	public String getTrainByAlexa() {
-		// TODO Auto-generated method stub
-		return null;
+
+		return String.join("\n", "Nehmen wir zum Beispiel folgende Aufgabe: ", getQuestion(),
+				" <break time=\"250ms\"/> ", getExplanation());
 	}
 
 	@Override
@@ -76,7 +78,12 @@ public class SimpleTwoDigitMultSum10Quest extends Quest {
 	@Override
 	public void setId(String id) {
 		setVals(id);
-		
+
+	}
+
+	@Override
+	public Level getlevel() {
+		return Level.LVL_MULT_2DIGIT_SUM_IS_10;
 	}
 
 }

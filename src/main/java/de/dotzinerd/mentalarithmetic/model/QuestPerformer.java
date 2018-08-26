@@ -170,7 +170,7 @@ public class QuestPerformer extends Performer {
 	}
 
 	private void setQuestInSession() {
-		sessionAttributes.put(Constants.QUEST_ID, level.name() + ";" + quest.getId());
+		sessionAttributes.put(Constants.QUEST_ID, quest.getlevel() + ";" + quest.getId());
 	}
 
 	private void setState(QuestState state) {

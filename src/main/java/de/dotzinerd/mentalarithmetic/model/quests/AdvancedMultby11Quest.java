@@ -1,5 +1,7 @@
 package de.dotzinerd.mentalarithmetic.model.quests;
 
+import de.dotzinerd.mentalarithmetic.enums.Level;
+
 public class AdvancedMultby11Quest extends Quest {
 	int dig1;
 	int dig2;
@@ -67,6 +69,11 @@ public class AdvancedMultby11Quest extends Quest {
 	public void setId(String id) {
 		setVals(id);
 		
+	}
+
+	@Override
+	public Level getlevel() {
+		return Level.LVL_MULT_BY_11_ADVANCED;
 	}
 
 	

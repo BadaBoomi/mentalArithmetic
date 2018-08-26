@@ -1,5 +1,6 @@
 package de.dotzinerd.mentalarithmetic.model.quests;
 
+import de.dotzinerd.mentalarithmetic.enums.Level;
 import de.dotzinerd.mentalarithmetic.model.Audios;
 
 public class SimpleMultby11Quest extends Quest {
@@ -73,6 +74,11 @@ public class SimpleMultby11Quest extends Quest {
 	public void setId(String id) {
 		setVals(id);
 
+	}
+
+	@Override
+	public Level getlevel() {
+		return Level.LVL_MULT_BY_11_SIMPLE;
 	}
 
 }

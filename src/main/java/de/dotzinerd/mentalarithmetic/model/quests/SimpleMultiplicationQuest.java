@@ -1,5 +1,7 @@
 package de.dotzinerd.mentalarithmetic.model.quests;
 
+import de.dotzinerd.mentalarithmetic.enums.Level;
+
 public class SimpleMultiplicationQuest extends Quest {
 	Integer op1, op2;
 
@@ -47,8 +49,7 @@ public class SimpleMultiplicationQuest extends Quest {
 
 	@Override
 	public String getTrainByAlexa() {
-		// TODO Auto-generated method stub
-		return null;
+		return getExplanation();
 	}
 
 	@Override
@@ -65,6 +66,11 @@ public class SimpleMultiplicationQuest extends Quest {
 	public void setId(String id) {
 		setVals(id);
 		
+	}
+
+	@Override
+	public Level getlevel() {
+		return Level.LVL_SIMPLE_MULTIPLICATION;
 	}
 
 }

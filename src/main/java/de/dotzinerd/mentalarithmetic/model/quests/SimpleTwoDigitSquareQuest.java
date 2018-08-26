@@ -1,5 +1,7 @@
 package de.dotzinerd.mentalarithmetic.model.quests;
 
+import de.dotzinerd.mentalarithmetic.enums.Level;
+
 public class SimpleTwoDigitSquareQuest extends Quest {
 	Integer op;
 
@@ -53,6 +55,11 @@ public class SimpleTwoDigitSquareQuest extends Quest {
 	public void setId(String id) {
 		op = Integer.valueOf(id);
 		
+	}
+
+	@Override
+	public Level getlevel() {
+		return Level.LVL_2DIGIT_SQUARE;
 	}
 
 }

@@ -1,5 +1,7 @@
 package de.dotzinerd.mentalarithmetic.model.quests;
 
+import de.dotzinerd.mentalarithmetic.enums.Level;
+
 public abstract class Quest {
 	protected String id, question;
 
@@ -18,4 +20,6 @@ public abstract class Quest {
 	public abstract void setId(String id);
 
 	public abstract boolean isCorrectAnswer(String answer);
+	
+	public abstract Level getlevel();
 }
