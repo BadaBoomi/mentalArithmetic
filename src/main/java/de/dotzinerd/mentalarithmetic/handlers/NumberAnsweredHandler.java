@@ -20,7 +20,7 @@ public class NumberAnsweredHandler extends AbstractIntentHandler {
 	@Override
 	public Optional<Response> handle(HandlerInput input) {
 		initialize(input);
-		switch (QuestManager.getManager().getState(sessionAttributes)) {
+		switch (QuestManager.getManager().getQuestState(sessionAttributes)) {
 		case STATE_WAIT_FOR_ANSWER:
 			return getQuestPerformer().performQuestIntent();
 		default:

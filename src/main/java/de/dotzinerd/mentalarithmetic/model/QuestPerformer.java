@@ -73,7 +73,7 @@ public class QuestPerformer extends Performer {
 	public Optional<Response> performQuestIntent() {
 		Optional<Response> response;
 
-		QuestState state = QuestManager.getManager().getState(sessionAttributes);
+		QuestState state = QuestManager.getManager().getQuestState(sessionAttributes);
 		if (state == QuestState.UNKNOWN) {
 			state = QuestState.STATE_NEW_QUEST;
 			setState(state);

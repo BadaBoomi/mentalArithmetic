@@ -33,7 +33,7 @@ public class Trainer extends Performer {
 	public Optional<Response> performTraining() {
 		Optional<Response> response;
 
-		switch (getState()) {
+		switch (QuestManager.getManager().getTrainingState(sessionAttributes)) {
 		case STATE_EXPLAIN_TRAINING_BY_MASTER:
 		case STATE_NEW_TRAINING:
 			setState(TrainingState.STATE_GIVE_EXAMPLE);
@@ -80,14 +80,5 @@ public class Trainer extends Performer {
 		sessionAttributes.put(Constants.KEY_TRAINING_STATE, state);
 	}
 
-	private TrainingState getState() {
-		if (this.sessionAttributes.containsKey(Constants.KEY_TRAINING_STATE)) {
-			String stateName = (String) sessionAttributes.get(Constants.KEY_TRAINING_STATE);
-			return TrainingState.getStateByName(stateName);
-		}
-
-		else
-			return TrainingState.UNKNOWN;
-
-	}
+	
 }

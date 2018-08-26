@@ -10,6 +10,7 @@ import com.amazon.ask.model.Intent;
 import de.dotzinerd.mentalarithmetic.enums.IntentId;
 import de.dotzinerd.mentalarithmetic.enums.Level;
 import de.dotzinerd.mentalarithmetic.enums.QuestState;
+import de.dotzinerd.mentalarithmetic.enums.TrainingState;
 import de.dotzinerd.mentalarithmetic.model.Constants;
 import de.dotzinerd.mentalarithmetic.model.quests.AdvancedMultby11Quest;
 import de.dotzinerd.mentalarithmetic.model.quests.Quest;
@@ -69,7 +70,7 @@ public class QuestManager {
 
 	public Quest getNewQuestByIntent(Intent intent, Map<String, Object> sessionAttributes) {
 		IntentId intentID;
-		if (!getState(sessionAttributes).equals(QuestState.STATE_NEXT_INTENT)) {
+		if (!getQuestState(sessionAttributes).equals(QuestState.STATE_NEXT_INTENT)) {
 			intentID = IntentId.getIntentIdByName((String) sessionAttributes.get(Constants.KEY_INTENT));
 		} else {
 			intentID = IntentId.getIntentIdByName(intent.getName());
@@ -99,14 +100,23 @@ public class QuestManager {
 		return null;
 	}
 
-	public QuestState getState(Map<String, Object> sessionAttributes) {
+	public QuestState getQuestState(Map<String, Object> sessionAttributes) {
 		logger.debug("sessionAttributes: " + sessionAttributes);
 		if (sessionAttributes.containsKey(Constants.KEY_QUEST_STATE)) {
 			String stateName = (String) sessionAttributes.get(Constants.KEY_QUEST_STATE);
 			return QuestState.getStateByName(stateName);
 		} else
 			return QuestState.UNKNOWN;
-		
+			}
+	
+	public TrainingState getTrainingState(Map<String, Object> sessionAttributes) {
+		if (sessionAttributes.containsKey(Constants.KEY_TRAINING_STATE)) {
+			String stateName = (String) sessionAttributes.get(Constants.KEY_TRAINING_STATE);
+			return TrainingState.getStateByName(stateName);
+		}
+
+		else
+			return TrainingState.UNKNOWN;
 
 	}
 }
