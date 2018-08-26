@@ -157,7 +157,7 @@ public class QuestPerformer extends Performer {
 	}
 
 	Optional<Response> performTurn(Boolean isAnswerCorrect) {
-		Quest nextQuest=QuestManager.getManager().getNewQuestByIntent(intent, sessionAttributes);
+		this.quest =QuestManager.getManager().getNewQuestByIntent(intent, sessionAttributes);
 		String speechText = (isAnswerCorrect == null) ? this.quest.getQuestion()
 				: getAnswerString(isAnswerCorrect) + ". " + this.quest.getQuestion();
 		setQuestInSession();
