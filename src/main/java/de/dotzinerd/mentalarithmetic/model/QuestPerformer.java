@@ -157,10 +157,10 @@ public class QuestPerformer extends Performer {
 	}
 
 	Optional<Response> performTurn(Boolean isAnswerCorrect) {
-		this.quest =QuestManager.getManager().getNewQuestByIntent(intent, sessionAttributes);
-		String speechText = (isAnswerCorrect == null) ? this.quest.getQuestion()
-				: getAnswerString(isAnswerCorrect) + ". " + this.quest.getQuestion();
-		setQuestInSession();
+		Quest nextQuest =QuestManager.getManager().getNewQuestByIntent(intent, sessionAttributes);
+		String speechText = (isAnswerCorrect == null) ? nextQuest.getQuestion()
+				: getAnswerString(isAnswerCorrect) + ". " + nextQuest.getQuestion();
+		setQuestInSession(nextQuest);
 
 		// Create the Simple card content.
 		logger.debug("quest, performTurn: " + speechText);
@@ -169,7 +169,8 @@ public class QuestPerformer extends Performer {
 
 	}
 
-	private void setQuestInSession() {
+	private void setQuestInSession(Quest nextQuest) {
+		this.quest=nextQuest;
 		sessionAttributes.put(Constants.QUEST_ID, quest.getlevel() + ";" + quest.getId());
 	}
 
