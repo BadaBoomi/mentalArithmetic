@@ -19,7 +19,7 @@ public class TrainingIntentHandler extends AbstractIntentHandler {
 
 	@Override
 	public Optional<Response> handle(HandlerInput arg0) {
-
+		logger.debug("handle training intent");
 		return new Trainer(this.intent, this.input, this.sessionAttributes, Level.LVL_MULT_BY_11_SIMPLE)
 				.performTraining();
 	}

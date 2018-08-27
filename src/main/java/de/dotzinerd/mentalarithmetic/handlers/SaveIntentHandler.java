@@ -28,8 +28,10 @@ public class SaveIntentHandler extends AbstractIntentHandler {
 	public Optional<Response> handle(HandlerInput handlerInput) {
 		logger.debug("saving session...");
 		Map<String, Object> persistentAttributes = handlerInput.getAttributesManager().getPersistentAttributes();
-		persistentAttributes.put("User", sessionAttributes.get(Constants.KEY_USER));
-		handlerInput.getAttributesManager().savePersistentAttributes();
+		if (sessionAttributes.containsKey(Constants.KEY_USER)) {
+			persistentAttributes.put("User", sessionAttributes.get(Constants.KEY_USER));
+			handlerInput.getAttributesManager().savePersistentAttributes();
+		}
 		return handlerInput.getResponseBuilder().withShouldEndSession(true).withSpeech("Dann bis zum nächsten mal")
 				.build();
 	}
