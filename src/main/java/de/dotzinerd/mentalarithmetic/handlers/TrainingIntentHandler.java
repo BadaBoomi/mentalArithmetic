@@ -12,14 +12,16 @@ import de.dotzinerd.mentalarithmetic.model.Trainer;
 
 public class TrainingIntentHandler extends AbstractIntentHandler {
 
+
 	@Override
 	public boolean canHandle(HandlerInput input) {
 		return input.matches(intentName("Training"));
 	}
 
 	@Override
-	public Optional<Response> handle(HandlerInput arg0) {
+	public Optional<Response> handle(HandlerInput input) {
 		logger.debug("handle training intent");
+		initialize(input);
 		return new Trainer(this.intent, this.input, this.sessionAttributes, Level.LVL_MULT_BY_11_SIMPLE)
 				.performTraining();
 	}

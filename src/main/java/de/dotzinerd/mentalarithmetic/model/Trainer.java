@@ -25,6 +25,7 @@ public class Trainer extends Performer {
 
 	public Trainer(Intent intent, HandlerInput input, Map<String, Object> sessionAttributes, Level level) {
 		super(intent, input, sessionAttributes);
+		logger.debug("intent: "+intent+", sessionAttributes:" +sessionAttributes+", level: "+level);
 		this.level = level;
 		this.quest = QuestManager.getManager().getNewQuestByLevel(level);
 

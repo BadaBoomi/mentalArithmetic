@@ -110,6 +110,7 @@ public class QuestManager {
 			}
 	
 	public TrainingState getTrainingState(Map<String, Object> sessionAttributes) {
+		logger.debug("sessionAttributes: " + sessionAttributes);
 		if (sessionAttributes.containsKey(Constants.KEY_TRAINING_STATE)) {
 			String stateName = (String) sessionAttributes.get(Constants.KEY_TRAINING_STATE);
 			return TrainingState.getStateByName(stateName);

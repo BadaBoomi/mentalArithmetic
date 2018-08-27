@@ -22,14 +22,13 @@ public abstract class AbstractIntentHandler implements RequestHandler {
 	protected Map<String, Object> sessionAttributes;
 	protected Intent intent;
 
-	void initialize(HandlerInput input) {
+	protected void initialize(HandlerInput input) {
 		this.input = input;
 		IntentRequest intentRequest = (IntentRequest) input.getRequestEnvelope().getRequest();
 		this.intent = intentRequest.getIntent();
 		this.sessionAttributes = input.getAttributesManager().getSessionAttributes();
 		checkAndRetrievePersistedAttributes();
 		this.sessionAttributes.put("ORIGINAL_INTENT", this.intent.getName());
-
 	}
 
 	private void checkAndRetrievePersistedAttributes() {
@@ -43,7 +42,6 @@ public abstract class AbstractIntentHandler implements RequestHandler {
 
 	}
 
-	
 	protected QuestPerformer getQuestPerformer() {
 		return new QuestPerformer(intent, input, sessionAttributes);
 	}
