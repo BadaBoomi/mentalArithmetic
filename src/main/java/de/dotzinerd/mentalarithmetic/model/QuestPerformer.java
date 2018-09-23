@@ -14,6 +14,7 @@ import com.amazon.ask.model.Slot;
 
 import de.dotzinerd.mentalarithmetic.enums.IntentId;
 import de.dotzinerd.mentalarithmetic.enums.Level;
+import de.dotzinerd.mentalarithmetic.enums.PerformerState;
 import de.dotzinerd.mentalarithmetic.enums.QuestState;
 import de.dotzinerd.mentalarithmetic.manager.QuestManager;
 import de.dotzinerd.mentalarithmetic.model.quests.AdvancedMultby11Quest;
@@ -72,8 +73,8 @@ public class QuestPerformer extends Performer {
 
 	public Optional<Response> performQuestIntent() {
 		Optional<Response> response;
-
-		QuestState state = QuestManager.getManager().getQuestState(sessionAttributes);
+		sessionAttributes.put(Constants.KEY_PERFORMER, PerformerState.QUEST.name());
+		QuestState state = questManager.getQuestState();
 		if (state == QuestState.UNKNOWN) {
 			state = QuestState.STATE_NEW_QUEST;
 			setState(state);
@@ -82,7 +83,7 @@ public class QuestPerformer extends Performer {
 		switch (state) {
 		case STATE_NEW_QUEST:
 		case STATE_NEXT_INTENT:
-			this.quest = QuestManager.getManager().getNewQuestByIntent(intent, sessionAttributes);
+			this.quest = questManager.getNewQuestByIntent(intent);
 			logger.debug(sessionAttributes);
 			sessionAttributes.put(MAX_TURN, getMaxTurn());
 			sessionAttributes.put(CURRENT_TURN, 1);
@@ -91,7 +92,7 @@ public class QuestPerformer extends Performer {
 			response = performTurn(null);
 			break;
 		case STATE_WAIT_FOR_ANSWER:
-			this.quest = QuestManager.getManager().getCurrentQuestFromSession(sessionAttributes);
+			this.quest = questManager.getCurrentQuestFromSession();
 			Slot answerSlot = null;
 			logger.debug("check answer...");
 			if (intent.getSlots() != null) {
@@ -157,7 +158,7 @@ public class QuestPerformer extends Performer {
 	}
 
 	Optional<Response> performTurn(Boolean isAnswerCorrect) {
-		Quest nextQuest =QuestManager.getManager().getNewQuestByIntent(intent, sessionAttributes);
+		Quest nextQuest =questManager.getNewQuestByIntent(intent);
 		String speechText = (isAnswerCorrect == null) ? nextQuest.getQuestion()
 				: getAnswerString(isAnswerCorrect) + ". " + nextQuest.getQuestion();
 		setQuestInSession(nextQuest);

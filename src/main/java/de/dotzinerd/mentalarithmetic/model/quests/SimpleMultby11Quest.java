@@ -51,7 +51,11 @@ public class SimpleMultby11Quest extends Quest {
 
 	@Override
 	public String getTrainByMaster() {
-		return Audios.AUDIO_LESSON_MULT_BY_11_SIMPLE;
+		return Audios.AUDIO_LESSON_MULT_BY_11_SIMPLE + String.join("\n",
+				" <break time=\"500ms\"/> ",
+				"Wenn Du die Erklärung des Meisters nochmal hören willst, dann sage \"Nochmal\",",
+				" <break time=\"500ms\"/> ", 
+				"Wenn ich mit dem Beispiel weitermachen soll, dann sage \"Weiter\"");
 	}
 
 	@Override

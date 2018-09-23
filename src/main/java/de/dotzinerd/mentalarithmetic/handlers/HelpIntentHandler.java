@@ -22,9 +22,9 @@ public class HelpIntentHandler extends AbstractIntentHandler {
 
 	public Optional<Response> handle(HandlerInput input) {
 		initialize(input);
-		switch (QuestManager.getManager().getQuestState(sessionAttributes)) {
-		case STATE_WAIT_FOR_ANSWER:
-			Quest quest=QuestManager.getManager().getCurrentQuestFromSession(sessionAttributes);
+		switch (stateManager.getPerformerState()) {
+		case QUEST:
+			Quest quest=questManager.getCurrentQuestFromSession();
 			logger.debug("Quest: "+ quest);
 			return input.getResponseBuilder().withShouldEndSession(false)
 					.withSpeech(quest.getExplanation()).build();

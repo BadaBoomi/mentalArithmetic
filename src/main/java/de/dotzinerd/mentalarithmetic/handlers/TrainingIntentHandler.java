@@ -8,7 +8,7 @@ import com.amazon.ask.dispatcher.request.handler.HandlerInput;
 import com.amazon.ask.model.Response;
 
 import de.dotzinerd.mentalarithmetic.enums.Level;
-import de.dotzinerd.mentalarithmetic.model.Trainer;
+import de.dotzinerd.mentalarithmetic.model.TrainingPerformer;
 
 public class TrainingIntentHandler extends AbstractIntentHandler {
 
@@ -22,8 +22,8 @@ public class TrainingIntentHandler extends AbstractIntentHandler {
 	public Optional<Response> handle(HandlerInput input) {
 		logger.debug("handle training intent");
 		initialize(input);
-		return new Trainer(this.intent, this.input, this.sessionAttributes, Level.LVL_MULT_BY_11_SIMPLE)
-				.performTraining();
+		return new TrainingPerformer(this.intent, this.input, this.sessionAttributes)
+				.performTraining(Level.LVL_MULT_BY_11_SIMPLE);
 	}
 
 }

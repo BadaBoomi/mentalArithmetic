@@ -3,25 +3,59 @@
   <packageImport xmi:type="uml:PackageImport" xmi:id="_E1UN8JNTEeibHPajbSl4Ag">
     <importedPackage xmi:type="uml:Model" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#_0"/>
   </packageImport>
-  <packagedElement xmi:type="uml:StateMachine" xmi:id="_Ev_pEJNTEeibHPajbSl4Ag" name="Status">
-    <region xmi:type="uml:Region" xmi:id="_EwIzAJNTEeibHPajbSl4Ag" name="Region1">
-      <transition xmi:type="uml:Transition" xmi:id="_RZ0FcJmXEeiNGoQ_kYvG_A" name="Invoke_Skill" source="_5N2jUJh7EeiGVq9wceaFnw" target="_o_I5AJh7EeiGVq9wceaFnw"/>
-      <transition xmi:type="uml:Transition" xmi:id="_K__VQJmaEeiNGoQ_kYvG_A" name="CALL_QUEST &lt;xyz>" source="_o_I5AJh7EeiGVq9wceaFnw" target="_MiKFkJh8EeiGVq9wceaFnw"/>
-      <subvertex xmi:type="uml:State" xmi:id="_o_I5AJh7EeiGVq9wceaFnw" name="Introduction"/>
-      <subvertex xmi:type="uml:Pseudostate" xmi:id="_5N2jUJh7EeiGVq9wceaFnw" name="Skill inactive"/>
-      <subvertex xmi:type="uml:State" xmi:id="_MiKFkJh8EeiGVq9wceaFnw" name="PerformQuest &lt;xyz>"/>
-    </region>
-  </packagedElement>
   <packagedElement xmi:type="uml:Activity" xmi:id="_EwNrgJNTEeibHPajbSl4Ag" name="Activity2"/>
   <packagedElement xmi:type="uml:Package" xmi:id="_pomIgJNTEeibHPajbSl4Ag" name="MentalArithmetic Skill">
-    <packagedElement xmi:type="uml:UseCase" xmi:id="_vz1iwJNTEeibHPajbSl4Ag" name="Learn new mental skill"/>
-    <packagedElement xmi:type="uml:UseCase" xmi:id="_yTy-EJNTEeibHPajbSl4Ag" name="Practise dedicated mental skill"/>
+    <packagedElement xmi:type="uml:UseCase" xmi:id="_vz1iwJNTEeibHPajbSl4Ag" name="Learn new mental skill">
+      <include xmi:type="uml:Include" xmi:id="_MWxH0L8yEeiVxaj-gQn_KA" addition="_0PQlMJNTEeibHPajbSl4Ag"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:UseCase" xmi:id="_yTy-EJNTEeibHPajbSl4Ag" name="Practise dedicated mental skill">
+      <include xmi:type="uml:Include" xmi:id="_AWWC4L8yEeiVxaj-gQn_KA" addition="_4VVZ0L8xEeiVxaj-gQn_KA"/>
+    </packagedElement>
     <packagedElement xmi:type="uml:UseCase" xmi:id="_0PQlMJNTEeibHPajbSl4Ag" name="Ask for help about dedicated skill"/>
+    <packagedElement xmi:type="uml:UseCase" xmi:id="_4VVZ0L8xEeiVxaj-gQn_KA" name="Ask for help for concrete challenge"/>
   </packagedElement>
   <packagedElement xmi:type="uml:Actor" xmi:id="_t4hsoJNTEeibHPajbSl4Ag" name="Alexa User"/>
   <packagedElement xmi:type="uml:Usage" xmi:id="_FVVVUJNUEeibHPajbSl4Ag" client="_t4hsoJNTEeibHPajbSl4Ag" supplier="_vz1iwJNTEeibHPajbSl4Ag"/>
   <packagedElement xmi:type="uml:Usage" xmi:id="_GVRvYJNUEeibHPajbSl4Ag" client="_t4hsoJNTEeibHPajbSl4Ag" supplier="_yTy-EJNTEeibHPajbSl4Ag"/>
   <packagedElement xmi:type="uml:Usage" xmi:id="_HGZqUJNUEeibHPajbSl4Ag" client="_t4hsoJNTEeibHPajbSl4Ag" supplier="_0PQlMJNTEeibHPajbSl4Ag"/>
+  <packagedElement xmi:type="uml:Usage" xmi:id="_B4HXoL8yEeiVxaj-gQn_KA" client="_t4hsoJNTEeibHPajbSl4Ag" supplier="_4VVZ0L8xEeiVxaj-gQn_KA"/>
+  <packagedElement xmi:type="uml:StateMachine" xmi:id="_qC0hAL8yEeiVxaj-gQn_KA" name="States">
+    <region xmi:type="uml:Region" xmi:id="_q-ISsL8yEeiVxaj-gQn_KA" name="Region1">
+      <transition xmi:type="uml:Transition" xmi:id="_7h6PQL9MEeivA9hJemnZbw" name="SimpleEinmalEins, SimpleMultiplication, ... Intent" source="_vd0D4L9PEeivA9hJemnZbw" target="_ldCMML8zEeiVxaj-gQn_KA"/>
+      <transition xmi:type="uml:Transition" xmi:id="_uNEqML9OEeivA9hJemnZbw" source="_2GREwL8yEeiVxaj-gQn_KA" target="_ldCMML8zEeiVxaj-gQn_KA"/>
+      <transition xmi:type="uml:Transition" xmi:id="_0D_aQL9OEeivA9hJemnZbw" name="Training Intent" source="_vd0D4L9PEeivA9hJemnZbw" target="_2GREwL8yEeiVxaj-gQn_KA"/>
+      <transition xmi:type="uml:Transition" xmi:id="_GllQsL9QEeivA9hJemnZbw" name="HelpIntent" source="_2_plAL9MEeivA9hJemnZbw" target="_vd0D4L9PEeivA9hJemnZbw"/>
+      <transition xmi:type="uml:Transition" xmi:id="_N1i3UL9QEeivA9hJemnZbw" name="Training Intent" source="_2_plAL9MEeivA9hJemnZbw" target="_Xf_DsL9NEeivA9hJemnZbw"/>
+      <transition xmi:type="uml:Transition" xmi:id="_h_H0sL9QEeivA9hJemnZbw" name="SimpleEinmalEins, SimpleMultiplication, ... Intent" source="_2_plAL9MEeivA9hJemnZbw" target="_ldCMML8zEeiVxaj-gQn_KA"/>
+      <subvertex xmi:type="uml:State" xmi:id="_2GREwL8yEeiVxaj-gQn_KA" name="TrainingState">
+        <region xmi:type="uml:Region" xmi:id="_Xf49Eb9NEeivA9hJemnZbw" name="Region1">
+          <transition xmi:type="uml:Transition" xmi:id="_7SalQL9NEeivA9hJemnZbw" source="_Xf_DsL9NEeivA9hJemnZbw" target="_e_uLsL9NEeivA9hJemnZbw"/>
+          <transition xmi:type="uml:Transition" xmi:id="_8VNfAL9NEeivA9hJemnZbw" source="_e_uLsL9NEeivA9hJemnZbw" target="_kIFzsL9NEeivA9hJemnZbw"/>
+          <transition xmi:type="uml:Transition" xmi:id="_Emh08L9OEeivA9hJemnZbw" source="_kIFzsL9NEeivA9hJemnZbw" target="_CrSQQL9OEeivA9hJemnZbw"/>
+          <subvertex xmi:type="uml:Pseudostate" xmi:id="_Xf_DsL9NEeivA9hJemnZbw"/>
+          <subvertex xmi:type="uml:State" xmi:id="_e_uLsL9NEeivA9hJemnZbw" name="EXPLAIN_TRAINING_BY_MASTER"/>
+          <subvertex xmi:type="uml:State" xmi:id="_kIFzsL9NEeivA9hJemnZbw" name="GIVE_EXAMPLE"/>
+          <subvertex xmi:type="uml:FinalState" xmi:id="_CrSQQL9OEeivA9hJemnZbw"/>
+        </region>
+      </subvertex>
+      <subvertex xmi:type="uml:State" xmi:id="_ldCMML8zEeiVxaj-gQn_KA" name="QuestState">
+        <region xmi:type="uml:Region" xmi:id="_QINuQL80EeiVxaj-gQn_KA" name="Region1">
+          <transition xmi:type="uml:Transition" xmi:id="_HsoMkL81EeiVxaj-gQn_KA" name="HelpIntent" source="_QIUb8L80EeiVxaj-gQn_KA" target="__lUHML80EeiVxaj-gQn_KA"/>
+          <transition xmi:type="uml:Transition" xmi:id="_gDyNkL9JEeivA9hJemnZbw" source="_ehWKcL9JEeivA9hJemnZbw" target="_QIUb8L80EeiVxaj-gQn_KA"/>
+          <transition xmi:type="uml:Transition" xmi:id="_-ZoxsL9JEeivA9hJemnZbw" name="NumberAnswered Intent" source="_QIUb8L80EeiVxaj-gQn_KA" target="_asRWUL9JEeivA9hJemnZbw"/>
+          <transition xmi:type="uml:Transition" xmi:id="_LnItwL9KEeivA9hJemnZbw" name="[CURRENT_TURN &lt;= MAX_TURN]" source="_asRWUL9JEeivA9hJemnZbw" target="_QIUb8L80EeiVxaj-gQn_KA"/>
+          <transition xmi:type="uml:Transition" xmi:id="_19nVsL9LEeivA9hJemnZbw" name="NumberAnswered Intent" source="__lUHML80EeiVxaj-gQn_KA" target="_asRWUL9JEeivA9hJemnZbw"/>
+          <transition xmi:type="uml:Transition" xmi:id="_H0t6IL9MEeivA9hJemnZbw" name="[CURRENT_TURN &lt;= MAX_TURN]" source="__lUHML80EeiVxaj-gQn_KA" target="_QIUb8L80EeiVxaj-gQn_KA"/>
+          <subvertex xmi:type="uml:State" xmi:id="_QIUb8L80EeiVxaj-gQn_KA" name="Challenge"/>
+          <subvertex xmi:type="uml:State" xmi:id="__lUHML80EeiVxaj-gQn_KA" name="Help"/>
+          <subvertex xmi:type="uml:State" xmi:id="_asRWUL9JEeivA9hJemnZbw" name="Answer"/>
+          <subvertex xmi:type="uml:Pseudostate" xmi:id="_ehWKcL9JEeivA9hJemnZbw" name=""/>
+        </region>
+      </subvertex>
+      <subvertex xmi:type="uml:Pseudostate" xmi:id="_2_plAL9MEeivA9hJemnZbw"/>
+      <subvertex xmi:type="uml:State" xmi:id="_vd0D4L9PEeivA9hJemnZbw" name="MenueState"/>
+    </region>
+  </packagedElement>
   <profileApplication xmi:type="uml:ProfileApplication" xmi:id="_H-d38Jh8EeiGVq9wceaFnw">
     <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_H-hiUJh8EeiGVq9wceaFnw" source="http://www.eclipse.org/uml2/2.0.0/UML">
       <references xmi:type="ecore:EPackage" href="pathmap://PAPYRUS_ACTIONLANGUAGE_PROFILE/ActionLanguage-Profile.profile.uml#_Kv8EIKFXEeS_KNX0nfvIVQ"/>

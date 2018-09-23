@@ -12,7 +12,8 @@ import com.amazon.ask.model.Intent;
 import com.amazon.ask.model.IntentRequest;
 import com.amazon.ask.model.Response;
 
-import de.dotzinerd.mentalarithmetic.enums.QuestState;
+import de.dotzinerd.mentalarithmetic.manager.QuestManager;
+import de.dotzinerd.mentalarithmetic.manager.StateManager;
 import de.dotzinerd.mentalarithmetic.model.Constants;
 import de.dotzinerd.mentalarithmetic.model.QuestPerformer;
 
@@ -21,6 +22,8 @@ public abstract class AbstractIntentHandler implements RequestHandler {
 	HandlerInput input;
 	protected Map<String, Object> sessionAttributes;
 	protected Intent intent;
+	protected QuestManager questManager;
+	protected StateManager stateManager;
 
 	protected void initialize(HandlerInput input) {
 		this.input = input;
@@ -29,6 +32,9 @@ public abstract class AbstractIntentHandler implements RequestHandler {
 		this.sessionAttributes = input.getAttributesManager().getSessionAttributes();
 		checkAndRetrievePersistedAttributes();
 		this.sessionAttributes.put("ORIGINAL_INTENT", this.intent.getName());
+		this.questManager = new QuestManager(sessionAttributes);
+		this.stateManager = new StateManager(sessionAttributes);
+
 	}
 
 	private void checkAndRetrievePersistedAttributes() {

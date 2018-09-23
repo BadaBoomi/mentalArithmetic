@@ -21,13 +21,6 @@ public class PerformQuestStateHandler extends AbstractIntentHandler {
 	void initializeLocalVars(HandlerInput input) {
 		initialize(input);
 
-		logger.debug("sessionAttributes: " + this.sessionAttributes);
-
-//		if (this.sessionAttributes == null) {
-//			input.getAttributesManager().setSessionAttributes(new HashMap<String, Object>());
-//			this.sessionAttributes = input.getAttributesManager().getSessionAttributes();
-//		}
-
 		if ((String) this.sessionAttributes.get(Constants.KEY_INTENT) == null) {
 			this.sessionAttributes.put(Constants.KEY_INTENT, this.intent.getName());
 		}

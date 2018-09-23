@@ -10,7 +10,6 @@ import com.amazon.ask.model.Intent;
 import de.dotzinerd.mentalarithmetic.enums.IntentId;
 import de.dotzinerd.mentalarithmetic.enums.Level;
 import de.dotzinerd.mentalarithmetic.enums.QuestState;
-import de.dotzinerd.mentalarithmetic.enums.TrainingState;
 import de.dotzinerd.mentalarithmetic.model.Constants;
 import de.dotzinerd.mentalarithmetic.model.quests.AdvancedMultby11Quest;
 import de.dotzinerd.mentalarithmetic.model.quests.Quest;
@@ -20,13 +19,10 @@ import de.dotzinerd.mentalarithmetic.model.quests.SimpleTwoDigitSquareQuest;
 
 public class QuestManager {
 	static final Logger logger = LogManager.getLogger(QuestManager.class);
-	private static final QuestManager singleton = new QuestManager();
+	private Map<String, Object> sessionAttributes;
 
-	private QuestManager() {
-	};
-
-	public static QuestManager getManager() {
-		return singleton;
+	public QuestManager(Map<String, Object> sessionAttributes) {
+		this.sessionAttributes = sessionAttributes;
 	}
 
 	public Quest getNewQuestByLevel(Level level) {
@@ -48,7 +44,7 @@ public class QuestManager {
 
 	}
 
-	public Quest getCurrentQuestFromSession(Map<String, Object> sessionAttributes) {
+	public Quest getCurrentQuestFromSession() {
 		String id = (String) sessionAttributes.get(Constants.QUEST_ID);
 		String[] ops = id.split(";");
 		Level level = Level.getLevelByName(ops[0]);
@@ -68,9 +64,9 @@ public class QuestManager {
 		}
 	}
 
-	public Quest getNewQuestByIntent(Intent intent, Map<String, Object> sessionAttributes) {
+	public Quest getNewQuestByIntent(Intent intent) {
 		IntentId intentID;
-		if (!getQuestState(sessionAttributes).equals(QuestState.STATE_NEXT_INTENT)) {
+		if (!getQuestState().equals(QuestState.STATE_NEXT_INTENT)) {
 			intentID = IntentId.getIntentIdByName((String) sessionAttributes.get(Constants.KEY_INTENT));
 		} else {
 			intentID = IntentId.getIntentIdByName(intent.getName());
@@ -100,24 +96,12 @@ public class QuestManager {
 		return null;
 	}
 
-	public QuestState getQuestState(Map<String, Object> sessionAttributes) {
+	public QuestState getQuestState() {
 		logger.debug("sessionAttributes: " + sessionAttributes);
 		if (sessionAttributes.containsKey(Constants.KEY_QUEST_STATE)) {
 			String stateName = (String) sessionAttributes.get(Constants.KEY_QUEST_STATE);
 			return QuestState.getStateByName(stateName);
 		} else
 			return QuestState.UNKNOWN;
-			}
-	
-	public TrainingState getTrainingState(Map<String, Object> sessionAttributes) {
-		logger.debug("sessionAttributes: " + sessionAttributes);
-		if (sessionAttributes.containsKey(Constants.KEY_TRAINING_STATE)) {
-			String stateName = (String) sessionAttributes.get(Constants.KEY_TRAINING_STATE);
-			return TrainingState.getStateByName(stateName);
-		}
-
-		else
-			return TrainingState.UNKNOWN;
-
 	}
 }

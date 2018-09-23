@@ -17,5 +17,7 @@ public class Constants {
 
 	public static final String TABLE_PERSISTANT_USERDATATA="MENTAL_TRAINER_USERDATATA";
 	public static final String PERSISTANT_STATE_RETRIEVED = "PERSISTANT_STATE_RETRIEVED";
+	public static final String KEY_LEVEL = "LEVEL";
+	public static final String KEY_PERFORMER = "PERFORMING";
 
 };

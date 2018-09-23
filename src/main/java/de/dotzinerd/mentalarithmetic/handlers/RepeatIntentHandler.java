@@ -22,8 +22,8 @@ public class RepeatIntentHandler extends AbstractIntentHandler {
 	public Optional<Response> handle(HandlerInput input) {
 		initialize(input);
 		logger.debug("repeating...");
-		switch (QuestManager.getManager().getQuestState(sessionAttributes)) {
-		case STATE_WAIT_FOR_ANSWER:
+		switch (stateManager.getPerformerState()) {
+		case QUEST:
 			return getQuestPerformer().repeatQuestion();
 		default:
 			return input.getResponseBuilder().withShouldEndSession(false)
