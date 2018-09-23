@@ -24,11 +24,14 @@
       <transition xmi:type="uml:Transition" xmi:id="_7h6PQL9MEeivA9hJemnZbw" name="SimpleEinmalEins, SimpleMultiplication, ... Intent" source="_vd0D4L9PEeivA9hJemnZbw" target="_ldCMML8zEeiVxaj-gQn_KA"/>
       <transition xmi:type="uml:Transition" xmi:id="_uNEqML9OEeivA9hJemnZbw" source="_2GREwL8yEeiVxaj-gQn_KA" target="_ldCMML8zEeiVxaj-gQn_KA"/>
       <transition xmi:type="uml:Transition" xmi:id="_0D_aQL9OEeivA9hJemnZbw" name="Training Intent" source="_vd0D4L9PEeivA9hJemnZbw" target="_2GREwL8yEeiVxaj-gQn_KA"/>
-      <transition xmi:type="uml:Transition" xmi:id="_GllQsL9QEeivA9hJemnZbw" name="HelpIntent" source="_2_plAL9MEeivA9hJemnZbw" target="_vd0D4L9PEeivA9hJemnZbw"/>
       <transition xmi:type="uml:Transition" xmi:id="_N1i3UL9QEeivA9hJemnZbw" name="Training Intent" source="_2_plAL9MEeivA9hJemnZbw" target="_Xf_DsL9NEeivA9hJemnZbw"/>
       <transition xmi:type="uml:Transition" xmi:id="_h_H0sL9QEeivA9hJemnZbw" name="SimpleEinmalEins, SimpleMultiplication, ... Intent" source="_2_plAL9MEeivA9hJemnZbw" target="_ldCMML8zEeiVxaj-gQn_KA"/>
+      <transition xmi:type="uml:Transition" xmi:id="_JybKsL9REeivA9hJemnZbw" name="HelpIntent [true] / give menue" source="_vd0D4L9PEeivA9hJemnZbw" target="_vd0D4L9PEeivA9hJemnZbw"/>
+      <transition xmi:type="uml:Transition" xmi:id="_eHLdUL9REeivA9hJemnZbw" name="HelpIntent [true] / give menue" source="_2_plAL9MEeivA9hJemnZbw" target="_vd0D4L9PEeivA9hJemnZbw"/>
+      <transition xmi:type="uml:Transition" xmi:id="_3MFsQL9REeivA9hJemnZbw" name="ask for intro [true] / give intro" source="_vd0D4L9PEeivA9hJemnZbw" target="_vd0D4L9PEeivA9hJemnZbw"/>
+      <transition xmi:type="uml:Transition" xmi:id="_-1M9QL9SEeivA9hJemnZbw" name="[first time use] / give intro" source="_2_plAL9MEeivA9hJemnZbw" target="_2GREwL8yEeiVxaj-gQn_KA"/>
       <subvertex xmi:type="uml:State" xmi:id="_2GREwL8yEeiVxaj-gQn_KA" name="TrainingState">
-        <region xmi:type="uml:Region" xmi:id="_Xf49Eb9NEeivA9hJemnZbw" name="Region1">
+        <region xmi:type="uml:Region" xmi:id="_Xf49Eb9NEeivA9hJemnZbw" name="Training Substate Region">
           <transition xmi:type="uml:Transition" xmi:id="_7SalQL9NEeivA9hJemnZbw" source="_Xf_DsL9NEeivA9hJemnZbw" target="_e_uLsL9NEeivA9hJemnZbw"/>
           <transition xmi:type="uml:Transition" xmi:id="_8VNfAL9NEeivA9hJemnZbw" source="_e_uLsL9NEeivA9hJemnZbw" target="_kIFzsL9NEeivA9hJemnZbw"/>
           <transition xmi:type="uml:Transition" xmi:id="_Emh08L9OEeivA9hJemnZbw" source="_kIFzsL9NEeivA9hJemnZbw" target="_CrSQQL9OEeivA9hJemnZbw"/>
@@ -39,17 +42,20 @@
         </region>
       </subvertex>
       <subvertex xmi:type="uml:State" xmi:id="_ldCMML8zEeiVxaj-gQn_KA" name="QuestState">
-        <region xmi:type="uml:Region" xmi:id="_QINuQL80EeiVxaj-gQn_KA" name="Region1">
+        <region xmi:type="uml:Region" xmi:id="_QINuQL80EeiVxaj-gQn_KA" name="Quest Substate Region">
           <transition xmi:type="uml:Transition" xmi:id="_HsoMkL81EeiVxaj-gQn_KA" name="HelpIntent" source="_QIUb8L80EeiVxaj-gQn_KA" target="__lUHML80EeiVxaj-gQn_KA"/>
           <transition xmi:type="uml:Transition" xmi:id="_gDyNkL9JEeivA9hJemnZbw" source="_ehWKcL9JEeivA9hJemnZbw" target="_QIUb8L80EeiVxaj-gQn_KA"/>
           <transition xmi:type="uml:Transition" xmi:id="_-ZoxsL9JEeivA9hJemnZbw" name="NumberAnswered Intent" source="_QIUb8L80EeiVxaj-gQn_KA" target="_asRWUL9JEeivA9hJemnZbw"/>
-          <transition xmi:type="uml:Transition" xmi:id="_LnItwL9KEeivA9hJemnZbw" name="[CURRENT_TURN &lt;= MAX_TURN]" source="_asRWUL9JEeivA9hJemnZbw" target="_QIUb8L80EeiVxaj-gQn_KA"/>
+          <transition xmi:type="uml:Transition" xmi:id="_LnItwL9KEeivA9hJemnZbw" name="[CURRENT_TURN &lt; MAX_TURN]" kind="local" source="_asRWUL9JEeivA9hJemnZbw" target="_QIUb8L80EeiVxaj-gQn_KA"/>
           <transition xmi:type="uml:Transition" xmi:id="_19nVsL9LEeivA9hJemnZbw" name="NumberAnswered Intent" source="__lUHML80EeiVxaj-gQn_KA" target="_asRWUL9JEeivA9hJemnZbw"/>
-          <transition xmi:type="uml:Transition" xmi:id="_H0t6IL9MEeivA9hJemnZbw" name="[CURRENT_TURN &lt;= MAX_TURN]" source="__lUHML80EeiVxaj-gQn_KA" target="_QIUb8L80EeiVxaj-gQn_KA"/>
+          <transition xmi:type="uml:Transition" xmi:id="_H0t6IL9MEeivA9hJemnZbw" name="[CURRENT_TURN &lt; MAX_TURN]" source="__lUHML80EeiVxaj-gQn_KA" target="_QIUb8L80EeiVxaj-gQn_KA"/>
+          <transition xmi:type="uml:Transition" xmi:id="_6v9JsL9TEeivA9hJemnZbw" name="[CURRENT_TURN >= MAX_TURN]" source="__lUHML80EeiVxaj-gQn_KA" target="_3Z3XoL9TEeivA9hJemnZbw"/>
+          <transition xmi:type="uml:Transition" xmi:id="_QJR3sL9UEeivA9hJemnZbw" name="[CURRENT_TURN >= MAX_TURN]" source="_asRWUL9JEeivA9hJemnZbw" target="_3Z3XoL9TEeivA9hJemnZbw"/>
           <subvertex xmi:type="uml:State" xmi:id="_QIUb8L80EeiVxaj-gQn_KA" name="Challenge"/>
           <subvertex xmi:type="uml:State" xmi:id="__lUHML80EeiVxaj-gQn_KA" name="Help"/>
           <subvertex xmi:type="uml:State" xmi:id="_asRWUL9JEeivA9hJemnZbw" name="Answer"/>
           <subvertex xmi:type="uml:Pseudostate" xmi:id="_ehWKcL9JEeivA9hJemnZbw" name=""/>
+          <subvertex xmi:type="uml:FinalState" xmi:id="_3Z3XoL9TEeivA9hJemnZbw"/>
         </region>
       </subvertex>
       <subvertex xmi:type="uml:Pseudostate" xmi:id="_2_plAL9MEeivA9hJemnZbw"/>
